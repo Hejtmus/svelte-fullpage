@@ -13,7 +13,7 @@ Lightweight fullpage Svelte component,
 ## How to use
 
 1. Make Svelte page
-2. Include `import { Fullpage } from 'svelte-fullpage';` to the mentionde file.
+2. Include `import { Fullpage } from 'svelte-fullpage';` to the mentioned file.
 3. Make fullpage sections, put them into separate files and then import that files as a component. I know, it's annoying,
 but Fullpage component is dynamically rendered.
 4. Import there `FullpageSection`, then use like any other Svelte component with `Slot`. 
@@ -78,7 +78,7 @@ This props are customizable:
 
 * **class** - Standard HTML class
 * **center** - Centering content using flexbox
-* **animationDuration** - Duration of transition between this section, I don't recomend using this, becouse it changes only
+* **animationDuration** - Duration of transition between this section, I don't recommend using this, because it changes only
 animarion duration and not the time for preventing 'misscrolls', better edit it in the Fullpage component.
 
 ## License
