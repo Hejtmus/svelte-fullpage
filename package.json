@@ -1,0 +1,35 @@
+{
+  "name": "svelte-fullpage",
+  "svelte": "src/index.js",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^6.0.0",
+    "rollup": "^1.20.0",
+    "rollup-plugin-svelte": "^5.0.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "svelte": "^3.0.0"
+  },
+  "peerDependencies": {
+    "svelte": "^3.0.0"
+  },
+  "keywords": [
+    "svelte",
+    "sapper",
+    "ssr",
+    "fullpage",
+    "fullscroll",
+    "full",
+    "page",
+    "scroll"
+  ],
+  "files": [
+    "src",
+    "dist"
+  ]
+}
