@@ -5,7 +5,12 @@
 
     export { defaultClasses as class };
     export let center = false;
-    export let animationDuration = 750;
+    export let transitionIn ={
+        duration: 750,
+    };
+    export let transitionOut ={
+        duration: 750
+    };
     //export let name = '';
 
 
@@ -16,14 +21,14 @@
     }
 </script>
 
-<section transition:slide={{duration:animationDuration}} class={classes}>
+<section in:slide={transitionIn} out:slide={transitionOut} class={classes}>
     <slot>
     </slot>
 </section>
 
 <style>
     section {
-        height: 100vh;
+        height: inherit;
         position: relative;
     }
     slot {
