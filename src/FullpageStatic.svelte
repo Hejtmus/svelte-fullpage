@@ -1,6 +1,8 @@
 <script>
     let defaultClasses = '';
 
+    import {slide} from 'svelte/transition';
+
     export {defaultClasses as class};
     export let pages = [];
     export let animationDuration = 750;
@@ -9,6 +11,10 @@
     let classes = `${defaultClasses} svelte-fp-wrapper`;
     let activePage = 0;
     let recentScroll = 0;
+    let active = true;
+    let transition = {
+        duration: animationDuration
+    };
 
     const handleScroll = (event) => {
         let deltaY = event.deltaY;
@@ -24,6 +30,9 @@
             }
         }
     };
+    const toggleActive = () => {
+      active = !active;
+    };
     const scrollUp = () => {
         if (activePage > 0){
             activePage--;
@@ -32,7 +41,9 @@
     };
     const scrollDown = () => {
         if (activePage < pages.length-1){
+            toggleActive();
             activePage++;
+            toggleActive();
         }
         console.log('scroll down')
     };
@@ -52,28 +63,22 @@
             }
         }
     };
+    // TODO: mobile support, animations in-out, side indicator
 </script>
 
-<!--div class={classes} bind:scrollY={scroll} on:wheel={ (event)=>handleScroll(event) } on:keypress={ (event)=>handleKey(event) }>
-    <slot>
-    </slot>
-</div-->
-
-<!--div class={classes} on:wheel={ (event)=>handleScroll(event) } on:keypress={ (event)=>handleKey(event) }>
-    {#each pages as item}
-        <svelte:component this="{item}" />
-    {/each}
-</div-->
-
-<svelte:window on:keypress={ (event)=>handleKey(event) }/>
+<svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 <div class={classes} on:wheel={ (event)=>handleScroll(event) }>
-    <svelte:component this="{pages[activePage]}" {animationDuration} />
+    <slot />
 </div>
 
 <style>
     .svelte-fp-wrapper {
         height: 100vh;
         overflow: hidden;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
     }
 </style>
