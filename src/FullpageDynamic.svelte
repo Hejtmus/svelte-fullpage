@@ -1,17 +1,28 @@
 <script>
+    //defining variable that will hold class value, that will be passed into this component's wrapper
     let defaultClasses = '';
 
+    //importing slide animation from svelte
     import {slide} from 'svelte/transition';
 
+    //exporting classes, for passing classes into wrapper
     export {defaultClasses as class};
-    export let pages = [];
+    //exporting array with components with section <FullpageSectionDynamic />
+    export let sections = [];
+    //exporting duration of animation and scroll cooldown
     export let animationDuration = 750;
+    //exporting boolean that enables scrolling using arrows
     export let arrows = false;
 
+    //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
-    let activePage = 0;
+    //number that says, what section of array 'sections' is shown
+    let activeSection = 0;
+    //recent scroll represent last time that was scrolled, this prevents scrolling multiple pages at once
     let recentScroll = 0;
+    //setting section visible
     let active = true;
+    //defining in/out transitions
     let transitionIn = {
         duration: animationDuration,
         y: -100
@@ -20,13 +31,13 @@
         duration: animationDuration,
         y: 100
     };
-    //let transition;
 
+    //function that handles scroll and sets scroll cooldown based on animation duration
     const handleScroll = (event) => {
+        //getting direction of scroll, if negative, scroll up, if positive, scroll down
         let deltaY = event.deltaY;
         let timer = new Date().getTime();
-        //event.preventDefault();
-        console.log(`${animationDuration} < ${timer} - ${recentScroll}`);
+        //if cooldown time is up, fullpage is scrollable again
         if (animationDuration < timer-recentScroll) {
             recentScroll = timer;
             if (deltaY < 0) {
@@ -36,28 +47,33 @@
             }
         }
     };
+    //function that toggles visibility of active section
     const toggleActive = () => {
       active = !active;
     };
+    //function that makes scroll up effect
     const scrollUp = async () => {
-        if (activePage > 0){
+        // TODO: somehow fix animation
+        if (activeSection > 0){
             disappearDown();
-            activePage--;
+            activeSection--;
             appearUp();
         }
         console.log('scroll up')
     };
+    //function that makes scroll down effect
     const scrollDown = async () => {
-        if (activePage < pages.length-1){
+        // TODO: somehow fix animation
+        if (activeSection < sections.length-1){
             disappearUp();
-            activePage++;
+            activeSection++;
             appearDown();
         }
         console.log('scroll down')
     };
+    //function that handles arrow event
     const handleKey = (event) => {
         if (arrows) {
-            console.log(event);
             switch (event.key) {
                 case 'ArrowDown':
                     scrollDown();
@@ -65,12 +81,10 @@
                 case 'ArrowUp':
                     scrollUp();
                     break;
-                default:
-                    console.log(event.key);
-                    break;
             }
         }
     };
+    //functions that make visible section with specific animation
     const appearUp = () => {
         transitionIn = {
             duration: animationDuration,
@@ -85,6 +99,7 @@
         };
         active = true;
     };
+    //functions that make invisible section with specific animation
     const disappearUp = () => {
         transitionOut = {
             duration: animationDuration,
@@ -99,19 +114,8 @@
         };
         active = false;
     };
-    // TODO: mobile support, animations in-out, side indicator
+    // TODO: mobile support, animations in-out
 </script>
-
-<!--div class={classes} bind:scrollY={scroll} on:wheel={ (event)=>handleScroll(event) } on:keypress={ (event)=>handleKey(event) }>
-    <slot>
-    </slot>
-</div-->
-
-<!--div class={classes} on:wheel={ (event)=>handleScroll(event) } on:keypress={ (event)=>handleKey(event) }>
-    {#each pages as item}
-        <svelte:component this="{item}" />
-    {/each}
-</div-->
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
@@ -119,7 +123,7 @@
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
         {#if active}
-            <svelte:component this="{pages[activePage]}" bind:transitionIn bind:transitionOut />
+            <svelte:component this="{sections[activeSection]}" bind:transitionIn bind:transitionOut />
         {/if}
         <div class="svelte-fp-debug">
             <button on:click={appearUp}>appearUp</button>
@@ -129,9 +133,9 @@
         </div>
         <div class="svelte-fp-indicator">
             <ul class="svelte-fp-indicator-list">
-                {#each pages as page,index}
+                {#each sections as page,index}
                     <li class="svelte-fp-indicator-list-item">
-                        <button class="svelte-fp-indicator-list-item-btn {activePage === index ? 'svelte-fp-active':''}" on:click={ ()=>activePage=index }></button>
+                        <button class="svelte-fp-indicator-list-item-btn {activeSection === index ? 'svelte-fp-active':''}" on:click={ ()=>activeSection=index }></button>
                     </li>
                 {/each}
             </ul>
@@ -159,7 +163,6 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 0;
         bottom: 0;
     }
     .svelte-fp-indicator {

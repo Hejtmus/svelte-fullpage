@@ -4,6 +4,8 @@
     let defaultClasses = '';
 
     export { defaultClasses as class };
+    export let sectionId;
+    export let activeSection;
     export let center = false;
     export let transition ={
         duration: 750
@@ -16,12 +18,15 @@
     if (center) {
         classes = `${classes} svelte-fp-flexbox-center`
     }
+
 </script>
 
-<section transition:slide={transition} class={classes} hidden>
-    <slot>
-    </slot>
-</section>
+{#if sectionId === activeSection}
+    <section transition:slide={transition} class={classes}>
+        <slot>
+        </slot>
+    </section>
+{/if}
 
 <style>
     section {

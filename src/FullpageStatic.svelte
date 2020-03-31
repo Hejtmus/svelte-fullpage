@@ -1,17 +1,27 @@
 <script>
+    //defining variable that will hold class value, that will be passed into this component's wrapper
     let defaultClasses = '';
 
+    //importing slide animation from svelte
     import {slide} from 'svelte/transition';
 
+    //exporting classes, for passing classes into wrapper
     export {defaultClasses as class};
-    export let pages = [];
+    //number that hold which section is active
+    export let activeSection = 0;
+    //array with names of section, the most important about this array is that it's hold fullpage's length
+    export let sections = [];
+    //exporting duration of animation and scroll cooldown
     export let animationDuration = 750;
+    //exporting boolean that enables scrolling using arrows
     export let arrows = false;
 
+    //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
-    let activePage = 0;
     let recentScroll = 0;
+    //setting section visible
     let active = true;
+    //defining transition
     let transition = {
         duration: animationDuration
     };
@@ -34,15 +44,15 @@
       active = !active;
     };
     const scrollUp = () => {
-        if (activePage > 0){
-            activePage--;
+        if (activeSection > 0){
+            activeSection--;
         }
         console.log('scroll up')
     };
     const scrollDown = () => {
-        if (activePage < pages.length-1){
+        if (activeSection < sections.length-1){
             toggleActive();
-            activePage++;
+            activeSection++;
             toggleActive();
         }
         console.log('scroll down')
@@ -57,9 +67,6 @@
                 case 'ArrowUp':
                     scrollUp();
                     break;
-                default:
-                    console.log(event.key);
-                    break;
             }
         }
     };
@@ -69,7 +76,21 @@
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 <div class={classes} on:wheel={ (event)=>handleScroll(event) }>
-    <slot />
+    <div class="svelte-fp-container">
+        <!-- First slide-up if active true, else slide-up -->
+        {#if active}
+            <slot />
+        {/if}
+        <div class="svelte-fp-indicator">
+            <ul class="svelte-fp-indicator-list">
+                {#each sections as page,index}
+                    <li class="svelte-fp-indicator-list-item">
+                        <button class="svelte-fp-indicator-list-item-btn {activeSection === index ? 'svelte-fp-active':''}" on:click={ ()=>activeSection=index }></button>
+                    </li>
+                {/each}
+            </ul>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -80,5 +101,46 @@
         right: 0;
         top: 0;
         bottom: 0;
+    }
+    .svelte-fp-container {
+        height: inherit;
+        width: inherit;
+        position: relative;
+    }
+    .svelte-fp-indicator {
+        height: inherit;
+        width: 5rem;
+        overflow: hidden;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .svelte-fp-indicator-list {
+        margin: 1rem;
+        padding: 1rem;
+        list-style-type: none;
+    }
+    .svelte-fp-indicator-list-item {
+        margin: 1rem;
+        padding: 0;
+    }
+    .svelte-fp-indicator-list-item-btn {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.5rem;
+        border: solid 1px #767676;
+        background-color: transparent;
+    }
+    .svelte-fp-active {
+        background-color: #767676;
+    }
+    @media only screen and (max-width: 600px){
+        .svelte-fp-indicator {
+            display: none;
+        }
     }
 </style>
