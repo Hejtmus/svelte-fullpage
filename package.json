@@ -1,9 +1,14 @@
 {
   "name": "svelte-fullpage",
+  "version": "0.1.1",
+  "license": "MIT",
+  "author": {
+    "name": "Filip Holčík",
+    "email": "filip.holcik.official@gmail.com"
+  },
   "svelte": "src/index.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
-  "license": "MIT",
   "scripts": {
     "build": "rollup -c",
     "prepublishOnly": "npm run build"
