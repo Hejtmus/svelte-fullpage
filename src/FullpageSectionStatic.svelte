@@ -1,6 +1,8 @@
 <script>
     import {slide} from 'svelte/transition';
 
+    //<FullpageSectionStatic bind:activeSection sectionId="id"></FullpageSectionStatic>
+
     let defaultClasses = '';
 
     export { defaultClasses as class };
@@ -10,8 +12,7 @@
     export let transition = {
         duration: 750
     };
-    //export let name = '';
-
+    sectionId = parseInt(sectionId);
 
     let classes = `${defaultClasses} svelte-fp-section`;
 

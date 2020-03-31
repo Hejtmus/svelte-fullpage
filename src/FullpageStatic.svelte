@@ -21,10 +21,6 @@
     let recentScroll = 0;
     //setting section visible
     let active = true;
-    //defining transition
-    let transition = {
-        duration: animationDuration
-    };
 
     //function that handles scroll and sets scroll cooldown based on animation duration
     const handleScroll = (event) => {
@@ -51,7 +47,6 @@
         if (activeSection > 0){
             activeSection--;
         }
-        console.log('scroll up')
     };
     //function that makes scroll down effect
     const scrollDown = async () => {
@@ -59,7 +54,6 @@
         if (activeSection < sections.length-1){
             activeSection++;
         }
-        console.log('scroll down')
     };
     //function that handles arrow event
     const handleKey = (event) => {
@@ -74,7 +68,7 @@
             }
         }
     };
-    // TODO: mobile support, animations in-out
+    // TODO: mobile support
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
@@ -82,9 +76,7 @@
 <div class={classes} on:wheel={ (event)=>handleScroll(event) }>
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
-        {#if active}
-            <slot />
-        {/if}
+        <slot />
         <div class="svelte-fp-indicator">
             <ul class="svelte-fp-indicator-list">
                 {#each sections as page,index}

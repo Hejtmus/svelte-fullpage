@@ -59,7 +59,6 @@
             activeSection--;
             appearUp();
         }
-        console.log('scroll up')
     };
     //function that makes scroll down effect
     const scrollDown = async () => {
@@ -69,7 +68,6 @@
             activeSection++;
             appearDown();
         }
-        console.log('scroll down')
     };
     //function that handles arrow event
     const handleKey = (event) => {
