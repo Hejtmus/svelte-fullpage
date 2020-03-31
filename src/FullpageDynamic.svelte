@@ -59,10 +59,10 @@
         if (arrows) {
             console.log(event);
             switch (event.key) {
-                case 38:
+                case 'ArrowDown':
                     scrollDown();
                     break;
-                case 40:
+                case 'ArrowUp':
                     scrollUp();
                     break;
                 default:
