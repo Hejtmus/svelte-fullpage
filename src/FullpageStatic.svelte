@@ -3,7 +3,7 @@
     let defaultClasses = '';
 
     //importing slide animation from svelte
-    import {slide} from 'svelte/transition';
+    //import {slide} from 'svelte/transition';
 
     //exporting classes, for passing classes into wrapper
     export {defaultClasses as class};
@@ -26,11 +26,12 @@
         duration: animationDuration
     };
 
+    //function that handles scroll and sets scroll cooldown based on animation duration
     const handleScroll = (event) => {
+        //getting direction of scroll, if negative, scroll up, if positive, scroll down
         let deltaY = event.deltaY;
         let timer = new Date().getTime();
-        //event.preventDefault();
-        console.log(`${animationDuration} < ${timer} - ${recentScroll}`);
+        //if cooldown time is up, fullpage is scrollable again
         if (animationDuration < timer-recentScroll) {
             recentScroll = timer;
             if (deltaY < 0) {
@@ -40,26 +41,29 @@
             }
         }
     };
+    //function that toggles visibility of active section
     const toggleActive = () => {
-      active = !active;
+        active = !active;
     };
-    const scrollUp = () => {
+    //function that makes scroll up effect
+    const scrollUp = async () => {
+        // TODO: somehow fix animation
         if (activeSection > 0){
             activeSection--;
         }
         console.log('scroll up')
     };
-    const scrollDown = () => {
+    //function that makes scroll down effect
+    const scrollDown = async () => {
+        // TODO: somehow fix animation
         if (activeSection < sections.length-1){
-            toggleActive();
             activeSection++;
-            toggleActive();
         }
         console.log('scroll down')
     };
+    //function that handles arrow event
     const handleKey = (event) => {
         if (arrows) {
-            console.log(event);
             switch (event.key) {
                 case 'ArrowDown':
                     scrollDown();
@@ -70,7 +74,7 @@
             }
         }
     };
-    // TODO: mobile support, animations in-out, side indicator
+    // TODO: mobile support, animations in-out
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>

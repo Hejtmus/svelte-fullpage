@@ -7,7 +7,7 @@
     export let sectionId;
     export let activeSection;
     export let center = false;
-    export let transition ={
+    export let transition = {
         duration: 750
     };
     //export let name = '';
