@@ -19,6 +19,7 @@
     export let drag = false;
 
     let dragStartPosition;
+    let touchStartPosition;
 
     //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
@@ -83,7 +84,7 @@
     const handleDragEnd = (event) => {
         if (drag) {
             const dragEndPosition = event.screenY;
-            console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
+            //console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
             if (dragStartPosition - dragEndPosition > 100) {
                 scrollDown();
             } else if (dragStartPosition - dragEndPosition < -100) {
@@ -92,13 +93,35 @@
         }
         //event.preventDefault();
     };
-    // TODO: mobile support
+    //function that handles touch event
+    const handleTouchStart = (event) => {
+        //event.preventDefault();
+        console.log(event.touches);
+        touchStartPosition = event.touches[0].screenY;
+        console.log(touchStartPosition)
+    };
+    const handleTouchEnd = (event) => {
+        //event.preventDefault();
+        console.log(event);
+        let timer = new Date().getTime();
+        const touchEndPosition = event.touches[0].screenY;
+        if (animationDuration < timer-recentScroll) {
+            if (touchStartPosition - touchEndPosition > 100) {
+                scrollDown();
+                recentScroll = timer;
+            } else if (touchStartPosition - touchEndPosition < -100) {
+                scrollUp();
+                recentScroll = timer;
+            }
+        }
+    };
+    // TODO: slide
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 
-<div class={classes} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouch(event) } on:touchend={ (event)=>handleTouch(event) }
+<div class={classes} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }
         on:drag={ ()=>{return false} } on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }>
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
