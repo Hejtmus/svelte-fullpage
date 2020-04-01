@@ -7,6 +7,7 @@
 
     //exporting classes, for passing classes into wrapper
     export {defaultClasses as class};
+    export let style;
     //number that hold which section is active
     export let activeSection = 0;
     //array with names of section, the most important about this array is that it's hold fullpage's length
@@ -121,7 +122,7 @@
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 
-<div class={classes} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }
+<div class={classes} style={style} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }
         on:drag={ ()=>{return false} } on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }>
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
