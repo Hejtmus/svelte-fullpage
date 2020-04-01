@@ -2,7 +2,9 @@
 
 ***In development***
 
-Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. Tested on Svelte and Sapper.
+Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. There is also support for
+mobile devices. Tested on Svelte and Sapper. Note that this component is in development, expect bugs, if you notice some, 
+please report them to this component's GitHub repo to the 'Issues' section.
 
 ## Instalation
 
@@ -12,119 +14,78 @@ Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure S
 
 ## Versions of this component
 
-There are 2 versions of fullpage component included, static and dynamic, static si statically rendered and dynamic 
-dynamically, kinda obvious. For developer using this component means that he has choice. In this ***module*** version, I
-recommend using static component.
-
-### Difference between static and dynamic component version
-
-There is not much difference, but major difference between them is if you use static component version can put 
-`<FullpageSectionStatic>` into same file as `<FullpageStatic>`, using dynamic component version you must put 
-`<FullpageDynamic>` and `<FullpageSectionDynamic>` into separate file.
-
-It seems like maintaining dynamic version is completely pointless, but in the future dynamic version may get extra features.
-
-For 100% experience use static component version, because in this ***module*** version, `<FullpageDynamic>`
-has confusing animations and is not that easy (as you maybe think) to fix it.
+In previous ***module version*** (0.1.1) there were 2 versions of component, static and dynamic, but it turned out that dynamic
+version is redundant and overall worse than static, so it is no longer part of this module. This component is meant to be
+lightweight so bundle size must be as small as possible.
 
 ## How to use
 
 ### Static version
 
 1. Make Svelte page
-2. Include `import { FullpageStatic, FullpageSectionStatic } from 'svelte-fullpage';` into mentioned file.
-3. Make fullpage sections and put them into `<FullpageStatic>`.
-4. Define new array that will contain all names of all sections and insert it into Fullpage component, example
-`<FullpageStatic sections={myFullpageSectionNames}`.
+2. Include `import { Fullpage, FullpageSection, FullpageSlide } from 'svelte-fullpage';` into mentioned file.
+3. Make fullpage sections and put them into `<Fullpage>`, if you need slides, make them too and put them into some `<FullpageSection>`.
+4. Define new arrays that will contain all names of all sections and slides, insert them into Fullpage or FullpageSection
+component, example `<Fullpage sections={myFullpageSectionsNames}` or `<FullpageSlide slides={myFullpageSlidesNames}`.
 5. You can check if everything is working, if you use Sapper, don't forget to make this component SSR, just include
-it like this `import FullpageStatic from 'svelte-fullpage/src/FullpageStatic.svelte'` and section as well 
-`import FullpageSectionStatic from 'svelte-fullpage/src/FullpageSectionStatic.svelte'`.
+it like this `import Fullpage from 'svelte-fullpage/src/Fullpage.svelte'` and section as well 
+`import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'` also slides 
+`import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte'`.
 
-### Dynamic version
-
-1. Make Svelte page
-2. Include `import { FullpageDynamic } from 'svelte-fullpage';` to the mentioned file, for 100% experience use static
-component version, because in this module version, `<FullpageDynamic>` has confusing animations.
-3. Make fullpage sections, put them into separate files and then import that files as a component. I know, it's annoying.
-4. Define new array that will contain all sections and insert it into Fullpage component, example
-`<FullpageDynamic sections={myFullpageSections}`.
-5. You can check if everything is working, if you use Sapper, don't forget to make this component SSR, just include
-it like this `import FullpageDynamic from 'svelte-fullpage/src/FullpageDynamic.svelte'` and sections as well 
-`import FullpageSectionDynamic from 'svelte-fullpage/src/FullpageSectionDynamic.svelte'`.
 
 ### Something copyable
-
-#### Static version
-
-##### Only file
 
 ```html
 <script>
     import { 
-        FullpageStatic,
-        FullpageSectionStatic
+        Fullpage,
+        FullpageSection,
+        FullpageSlide
     } from 'svelte-fullpage';
 
+    //Include all titles of your sections, this is also used as number that indicate count of sections
     const sections = [
         'Home',
         'History',
         'Present',
         'Future'
     ];
-    let activeSection;
-</script>
-
-<FullpageStatic bind:activeSction {sections}>
-    <FullpageSectionStaatic sectionId="0" bind:activeSction>
-        ...Your markup here
-    </FullpageSectionStaatic>
-    <FullpageSectionStaatic sectionId="1" bind:activeSction>
-        ...Your markup here
-    </FullpageSectionStaatic>
-    <FullpageSectionStaatic sectionId="2" bind:activeSction>
-        ...Your markup here
-    </FullpageSectionStaatic>
-    <FullpageSectionStaatic sectionId="3" bind:activeSction>
-        ...Your markup here
-    </FullpageSectionStaatic>
-</FullpageStatic>
-
-```
-
-#### Dynamic version
-
-##### File with wrapper
-
-```html
-<script>
-    import { FullpageDynamic } from 'svelte-fullpage';
-
-    import myFullpageSection1 from './FpSection1.svelte'
-    import myFullpageSection2 from './FpSection2.svelte'
-    import myFullpageSection3 from './FpSection3.svelte'
-    import myFullpageSection4 from './FpSection4.svelte'
-
-    const sections = [
-        myFullpageSection1,
-        myFullpageSection2,
-        myFullpageSection3,
-        myFullpageSection4
+    //Have to set to 0 (or section you wish to display as default), otherwise section will not display
+    let activeSection = 0;
+    
+    //Same mechanics as in sections
+    const slides = [
+        '1982-1993',
+        '1993-2006',
+        '2006-present'
     ];
+    //Also has to be 0 or specific id of slide
+    let activeSlide = 0;
 </script>
 
-<FullpageDynamic {sections} />
-```
+<Fullpage bind:activeSction {sections} arrows>
+    <FullpageSection sectionId="0" bind:activeSction center>
+        ...Your markup here
+    </FullpageSection>
+    <FullpageSection sectionId="1" bind:activeSction bind:activeSlide {slides} arrows>
+        <FullpageSlide slideId="0" bind:activeSlide>
+            ...Your markup here
+        </FullpageSlide>
+        <FullpageSlide slideId="1" bind:activeSlide>
+            ...Your markup here
+        </FullpageSlide>
+        <FullpageSlide slideId="2" bind:activeSlide>
+            ...Your markup here
+        </FullpageSlide>
+    </FullpageSection>
+    <FullpageSection sectionId="2" bind:activeSction>
+        ...Your markup here
+    </FullpageSection>
+    <FullpageSection sectionId="3" bind:activeSction>
+        ...Your markup here
+    </FullpageSection>
+</Fullpage>
 
-##### File with sections
-
-```html
-<script>
-    import { FullpageSectionDynamic } from 'svelte-fullpage';
-</script>
-
-<FullpageSectionDynamic>
-    ...Your markup here
-</FullpageSectionDynamic>
 ```
 
 ### Tweaks
@@ -133,28 +94,44 @@ So, there are options for customizing your fullpage component.
 
 #### Fullpage
 
-This props are customizable:
+These props are customizable:
 
-* **class** - Standard HTML class
-* **sections** - Array containing FullpageSection components/names
-* **activeSection** - Number that points set visibility of sections ****Only static component version***
-* **animationDuration** - Duration of transition between sections
-* **arrows** - Adds support for scrolling using arrows
+* **class** - `string` - Standard HTML class
+* **style** - `string` - Standard HTML style
+* **sections** - `array` - Array containing FullpageSection components/names
+* **activeSection** - `number` - Number that points set visibility of sections.
+* **transitionDuration** - `number` - Duration of transition between sections
+* **arrows** - `boolean` - Adds support for scrolling using arrows
+* **drag** - `boolean` - Allows scrolling using mouse drag
 
 #### FullpageSection
 
-This props are customizable:
+These props are customizable:
 
-* **class** - Standard HTML class
-* **activeSection** - Number that tells section if is visible ****Only static component version***
-* **center** - Centering content using flexbox
-* **transition** - Transition between this sections, I don't recommend using this, because if you change duration, it changes only
-animation duration and not the time for preventing 'misscrolls', better edit it in the Fullpage component, but you can
-adjust other parameters like: "y, x, etc...". 
+* **class** - `string` - Standard HTML class
+* **sectionId** - `number/string` - Id of section, feel free to enter there string, component will parse it to the number
+* **activeSection** - `number` - Number that tells section if is visible
+* **slides** - `array` - Array containing FullpageSlide components/names, if there are some
+* **activeSlide** - `string` - Number that tells slide if is visible
+* **center** - `boolean` - Centering content using flexbox
+* **arrows** - `boolean` - Adds support for sliding using arrows
+* **select** - `boolean` - Enables highlighting
+* **transitionDuration** - `number` - Duration of transition between slides, if you want to edit it, edit it here rather than in 
+transition prop, because this alters cooldown between transitions.
+* **transition** - `object` - Options for transitionOut between this sections
 
-****Transition prop is editable only in static component version, dynamic version uses for this instead 2 props, 
-transitionIn and transitionOut. These animations are Svelte animations, you can change only options, not type of
+****These transitions are Svelte transitions, you can change only options, not type of
 animation, because I hard-coded it there :D, may change in future .***
+
+#### FullpageSlide
+
+These props are customizable:
+
+* **slideId** - `number/string` - Id of slide, same as section id, but this for slide, obviously
+* **activeSlide** - `string` - Number that tells slide if is visible
+* **center** - `number` - Centering content using flexbox
+* **transitionIn** - `object` - Options for transitionIn between this slides
+* **transitionOut** - `object` - Options for transitionOut between this slides
 
 ## License
 
