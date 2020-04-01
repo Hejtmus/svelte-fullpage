@@ -20,6 +20,7 @@
         classes = `${classes} svelte-fp-flexbox-center`
     }
 
+
 </script>
 
 {#if sectionId === activeSection}

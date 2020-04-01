@@ -74,24 +74,27 @@
     };
     //function that handles drag start event
     const handleDragStart = (event) => {
-        dragStartPosition = event.screenY;
+        if (drag) {
+            dragStartPosition = event.screenY;
+        }
         //event.preventDefault();
-        return false;
     };
     //function that handles drag end event
     const handleDragEnd = (event) => {
-        event.preventDefault();
-         const dragEndPosition = event.screenY;
-        console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
-        if (dragStartPosition - dragEndPosition > 100) {
-            scrollDown();
-        } else if (dragStartPosition - dragEndPosition < -100) {
-            scrollUp()
+        if (drag) {
+            const dragEndPosition = event.screenY;
+            console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
+            if (dragStartPosition - dragEndPosition > 100) {
+                scrollDown();
+            } else if (dragStartPosition - dragEndPosition < -100) {
+                scrollUp()
+            }
         }
+        //event.preventDefault();
     };
     //function that handles touch event
     const handleTouch = (event) => {
-        event.preventDefault();
+        //event.preventDefault();
         console.log(event);
     /*
             switch (event.key) {
@@ -110,8 +113,9 @@
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
-<div class={classes} on:wheel={ (event)=>handleScroll(event) } on:touchmove={ (event)=>handleTouch(event) }
-        draggable={drag} on:dragstart={ (event)=>handleDragStart(event) } on:dragend={ (event)=>handleDragEnd(event) }>
+
+<div class={classes} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouch(event) } on:touchend={ (event)=>handleTouch(event) }
+        on:drag={ ()=>{return false} } on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }>
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
         <slot />
