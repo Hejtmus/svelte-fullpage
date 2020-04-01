@@ -97,13 +97,10 @@
     //function that handles touch event
     const handleTouchStart = (event) => {
         //event.preventDefault();
-        console.log(event.touches);
         touchStartPosition = event.touches[0].screenY;
-        console.log(touchStartPosition)
     };
     const handleTouchEnd = (event) => {
         //event.preventDefault();
-        console.log(event);
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenY;
         if (transitionDuration < timer-recentScroll) {
