@@ -7,14 +7,20 @@
 
     //exporting classes, for passing classes into wrapper
     export {defaultClasses as class};
+    export let style;
     //number that hold which section is active
     export let activeSection = 0;
     //array with names of section, the most important about this array is that it's hold fullpage's length
     export let sections = [];
     //exporting duration of animation and scroll cooldown
-    export let animationDuration = 750;
+    export let transitionDuration = 500;
     //exporting boolean that enables scrolling using arrows
     export let arrows = false;
+    //exporting boolean that enables scrolling using drag
+    export let drag = false;
+
+    let dragStartPosition;
+    let touchStartPosition;
 
     //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
@@ -28,7 +34,7 @@
         let deltaY = event.deltaY;
         let timer = new Date().getTime();
         //if cooldown time is up, fullpage is scrollable again
-        if (animationDuration < timer-recentScroll) {
+        if (transitionDuration < timer-recentScroll) {
             recentScroll = timer;
             if (deltaY < 0) {
                 scrollUp()
@@ -68,12 +74,53 @@
             }
         }
     };
-    // TODO: mobile support
+    //function that handles drag start event
+    const handleDragStart = (event) => {
+        if (drag) {
+            dragStartPosition = event.screenY;
+        }
+        //event.preventDefault();
+    };
+    //function that handles drag end event
+    const handleDragEnd = (event) => {
+        if (drag) {
+            const dragEndPosition = event.screenY;
+            //console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
+            if (dragStartPosition - dragEndPosition > 100) {
+                scrollDown();
+            } else if (dragStartPosition - dragEndPosition < -100) {
+                scrollUp()
+            }
+        }
+        //event.preventDefault();
+    };
+    //function that handles touch event
+    const handleTouchStart = (event) => {
+        //event.preventDefault();
+        touchStartPosition = event.touches[0].screenY;
+    };
+    const handleTouchEnd = (event) => {
+        //event.preventDefault();
+        let timer = new Date().getTime();
+        const touchEndPosition = event.touches[0].screenY;
+        if (transitionDuration < timer-recentScroll) {
+            if (touchStartPosition - touchEndPosition > 100) {
+                scrollDown();
+                recentScroll = timer;
+            } else if (touchStartPosition - touchEndPosition < -100) {
+                scrollUp();
+                recentScroll = timer;
+            }
+        }
+    };
+    // TODO: slide
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
-<div class={classes} on:wheel={ (event)=>handleScroll(event) }>
+
+<div class={classes} style={style} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }
+        on:drag={ ()=>{return false} } on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }>
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
         <slot />
