@@ -15,6 +15,10 @@
     export let animationDuration = 750;
     //exporting boolean that enables scrolling using arrows
     export let arrows = false;
+    //exporting boolean that enables scrolling using drag
+    export let drag = false;
+
+    let dragStartPosition;
 
     //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
@@ -68,12 +72,46 @@
             }
         }
     };
+    //function that handles drag start event
+    const handleDragStart = (event) => {
+        dragStartPosition = event.screenY;
+        //event.preventDefault();
+        return false;
+    };
+    //function that handles drag end event
+    const handleDragEnd = (event) => {
+        event.preventDefault();
+         const dragEndPosition = event.screenY;
+        console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
+        if (dragStartPosition - dragEndPosition > 100) {
+            scrollDown();
+        } else if (dragStartPosition - dragEndPosition < -100) {
+            scrollUp()
+        }
+    };
+    //function that handles touch event
+    const handleTouch = (event) => {
+        event.preventDefault();
+        console.log(event);
+    /*
+            switch (event.key) {
+                case 'ArrowDown':
+                    scrollDown();
+                    break;
+                case 'ArrowUp':
+                    scrollUp();
+                    break;
+            }
+
+  */
+    };
     // TODO: mobile support
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
-<div class={classes} on:wheel={ (event)=>handleScroll(event) }>
+<div class={classes} on:wheel={ (event)=>handleScroll(event) } on:touchmove={ (event)=>handleTouch(event) }
+        draggable={drag} on:dragstart={ (event)=>handleDragStart(event) } on:dragend={ (event)=>handleDragEnd(event) }>
     <div class="svelte-fp-container">
         <!-- First slide-up if active true, else slide-up -->
         <slot />
