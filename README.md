@@ -2,6 +2,8 @@
 
 ***In development***
 
+**5.5kb gZipped'
+
 Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. There is also support for
 mobile devices. Tested on Svelte and Sapper. Note that this component is in development, expect bugs, if you notice some, 
 please report them to this component's GitHub repo to the 'Issues' section.
