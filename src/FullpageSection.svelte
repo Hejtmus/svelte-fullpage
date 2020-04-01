@@ -9,6 +9,7 @@
     export let sectionId;
     export let activeSection;
     export let center = false;
+    export let select = false;
     export let transition = {
         duration: 750
     };
@@ -19,11 +20,20 @@
     if (center) {
         classes = `${classes} svelte-fp-flexbox-center`
     }
+    if (!select) {
+        classes = `${classes} svelte-fp-unselectable`
+    }
+
+    const handleSelect = () => {
+        if (!select) {
+            return false;
+        }
+    };
 
 </script>
 
 {#if sectionId === activeSection}
-    <section transition:slide={transition} class={classes}>
+    <section transition:slide={transition} class={classes} on:selectstart={handleSelect}>
         <slot>
         </slot>
     </section>
@@ -41,5 +51,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .svelte-fp-unselectable {
+        user-select: none;
     }
 </style>
