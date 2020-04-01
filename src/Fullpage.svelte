@@ -92,22 +92,6 @@
         }
         //event.preventDefault();
     };
-    //function that handles touch event
-    const handleTouch = (event) => {
-        //event.preventDefault();
-        console.log(event);
-    /*
-            switch (event.key) {
-                case 'ArrowDown':
-                    scrollDown();
-                    break;
-                case 'ArrowUp':
-                    scrollUp();
-                    break;
-            }
-
-  */
-    };
     // TODO: mobile support
 </script>
 
