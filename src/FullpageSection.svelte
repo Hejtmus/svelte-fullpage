@@ -81,13 +81,10 @@
     //function that handles touch event
     const handleTouchStart = (event) => {
         //event.preventDefault();
-        console.log(event.touches);
         touchStartPosition = event.touches[0].screenX;
-        console.log(touchStartPosition)
     };
     const handleTouchEnd = (event) => {
         //event.preventDefault();
-        console.log(event);
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenX;
         if (transitionDuration < timer-recentSlide) {
@@ -101,14 +98,14 @@
         }
     };
 
-
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 {#if sectionId === activeSection}
     <section transition:slide={transition} class={classes} on:selectstart={handleSelect}
-             on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }>
+             on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }
+            on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }>
         <div class="svelte-fp-container svelte-fp-flexbox-expand" class:svelte-fp-flexbox-center={center}>
             <slot>
             </slot>
