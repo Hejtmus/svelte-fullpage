@@ -1,10 +1,14 @@
 <script>
-    import {slide} from 'svelte/transition'
+    import {fly} from 'svelte/transition'
 
     export let slideId;
     export let activeSlide;
     export let center = false;
-    export let transition = {
+    export let transitionIn = {
+        duration: 250,
+        x: -200
+    };
+    export let transitionOut = {
         duration: 250,
         x: 200
     };
@@ -13,7 +17,7 @@
 </script>
 
 {#if slideId === activeSlide}
-    <div class="svelte-fp-content" transition:slide={transition} class:svelte-fp-flexbox-center={center}>
+    <div class="svelte-fp-content" in:fly={transitionIn} out:fly={transitionOut} class:svelte-fp-flexbox-center={center}>
         <slot>
         </slot>
     </div>

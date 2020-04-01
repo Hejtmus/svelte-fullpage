@@ -13,7 +13,7 @@
     //array with names of section, the most important about this array is that it's hold fullpage's length
     export let sections = [];
     //exporting duration of animation and scroll cooldown
-    export let animationDuration = 750;
+    export let transitionDuration = 500;
     //exporting boolean that enables scrolling using arrows
     export let arrows = false;
     //exporting boolean that enables scrolling using drag
@@ -34,7 +34,7 @@
         let deltaY = event.deltaY;
         let timer = new Date().getTime();
         //if cooldown time is up, fullpage is scrollable again
-        if (animationDuration < timer-recentScroll) {
+        if (transitionDuration < timer-recentScroll) {
             recentScroll = timer;
             if (deltaY < 0) {
                 scrollUp()
@@ -106,7 +106,7 @@
         console.log(event);
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenY;
-        if (animationDuration < timer-recentScroll) {
+        if (transitionDuration < timer-recentScroll) {
             if (touchStartPosition - touchEndPosition > 100) {
                 scrollDown();
                 recentScroll = timer;
