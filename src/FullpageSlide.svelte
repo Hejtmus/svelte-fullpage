@@ -1,6 +1,9 @@
 <script>
     import {fly} from 'svelte/transition'
 
+    let defaultClasses = '';
+    export { defaultClasses as class };
+    export let style = '';
     export let slideId;
     export let activeSlide;
     export let center = false;
@@ -17,7 +20,7 @@
 </script>
 
 {#if slideId === activeSlide}
-    <div class="svelte-fp-content" in:fly={transitionIn} out:fly={transitionOut} class:svelte-fp-flexbox-center={center}>
+    <div class={`${defaultClasses} svelte-fp-content`} style={style} in:fly={transitionIn} out:fly={transitionOut} class:svelte-fp-flexbox-center={center}>
         <slot>
         </slot>
     </div>
