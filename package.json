@@ -7,6 +7,7 @@
     "email": "filip.holcik.official@gmail.com"
   },
   "repository": "https://github.com/Hejtmus/svelte-fullpage",
+  "homepage": "https://hejtmus.github.io/svelte-fullpage/",
   "svelte": "src/index.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
