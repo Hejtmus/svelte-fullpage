@@ -39,11 +39,16 @@ it like this `import Fullpage from 'svelte-fullpage/src/Fullpage.svelte'` and se
 
 ```html
 <script>
+    //Svelte import
     import { 
         Fullpage,
         FullpageSection,
         FullpageSlide
     } from 'svelte-fullpage';
+    //Sapper import
+	import Fullpage from 'svelte-fullpage/src/Fullpage.svelte';
+	import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'
+	import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte';
 
     //Include all titles of your sections, this is also used as number that indicate count of sections
     const sections = [
@@ -65,11 +70,11 @@ it like this `import Fullpage from 'svelte-fullpage/src/Fullpage.svelte'` and se
     let activeSlide = 0;
 </script>
 
-<Fullpage bind:activeSction {sections} arrows>
-    <FullpageSection sectionId="0" bind:activeSction center>
+<Fullpage bind:activeSection {sections} arrows>
+    <FullpageSection sectionId="0" bind:activeSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection sectionId="1" bind:activeSction bind:activeSlide {slides} arrows>
+    <FullpageSection sectionId="1" bind:activeSection bind:activeSlide {slides} arrows>
         <FullpageSlide slideId="0" bind:activeSlide>
             ...Your markup here
         </FullpageSlide>
@@ -80,10 +85,10 @@ it like this `import Fullpage from 'svelte-fullpage/src/Fullpage.svelte'` and se
             ...Your markup here
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection sectionId="2" bind:activeSction>
+    <FullpageSection sectionId="2" bind:activeSection>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection sectionId="3" bind:activeSction>
+    <FullpageSection sectionId="3" bind:activeSection>
         ...Your markup here
     </FullpageSection>
 </Fullpage>
@@ -111,6 +116,7 @@ These props are customizable:
 These props are customizable:
 
 * **class** - `string` - Standard HTML class
+* **style** - `string` - Standard HTML style
 * **sectionId** - `number/string` - Id of section, feel free to enter there string, component will parse it to the number
 * **activeSection** - `number` - Number that tells section if is visible
 * **slides** - `array` - Array containing FullpageSlide components/names, if there are some
@@ -129,6 +135,8 @@ animation, because I hard-coded it there :D, may change in future .***
 
 These props are customizable:
 
+* **class** - `string` - Standard HTML class
+* **style** - `string` - Standard HTML style
 * **slideId** - `number/string` - Id of slide, same as section id, but this for slide, obviously
 * **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `number` - Centering content using flexbox
