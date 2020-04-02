@@ -182,7 +182,16 @@
     }
     @media only screen and (max-width: 600px){
         .svelte-fp-indicator {
-            display: none;
+            width: 2rem;
+        }
+        .svelte-fp-indicator-list {
+            margin: 0.3rem;
+            padding: 0.3rem;
+        }
+        .svelte-fp-indicator-list-item-btn {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 0.25rem;
         }
     }
 </style>
