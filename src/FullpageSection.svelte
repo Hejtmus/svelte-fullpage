@@ -6,6 +6,7 @@
     let defaultClasses = '';
 
     export { defaultClasses as class };
+    export let style = '';
     export let sectionId;
     export let activeSection;
     export let slides = [];
@@ -103,7 +104,7 @@
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 {#if sectionId === activeSection}
-    <section transition:slide={transition} class={classes} on:selectstart={handleSelect}
+    <section transition:slide={transition} class={classes} style={style} on:selectstart={handleSelect}
              on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }
             on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }>
         <div class="svelte-fp-container svelte-fp-flexbox-expand" class:svelte-fp-flexbox-center={center}>
