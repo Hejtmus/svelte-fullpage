@@ -17,6 +17,27 @@
     };
     slideId = parseInt(slideId);
 
+    const makePositive = (num) => {
+        let negative = false;
+        if (num < 0) {
+            negative = true;
+            num = -num;
+        }
+        return {num, negative};
+    };
+
+    $: {
+        const state = makePositive(activeSlide);
+        if (state.negative) {
+            transitionIn.x = 200;
+            transitionOut.x = -200;
+        } else {
+            transitionIn.x = -200;
+            transitionOut.x = 200;
+        }
+        activeSlide = state.num;
+        console.log(activeSlide)
+    }
 </script>
 
 {#if slideId === activeSlide}
