@@ -8,12 +8,12 @@
     export let activeSlide;
     export let center = false;
     export let transitionIn = {
-        duration: 250,
-        x: -200
+        duration: 500,
+        x: -2000
     };
     export let transitionOut = {
-        duration: 250,
-        x: 200
+        duration: 500,
+        x: 2000
     };
     slideId = parseInt(slideId);
 
@@ -29,11 +29,11 @@
     $: {
         const state = makePositive(activeSlide);
         if (state.negative) {
-            transitionIn.x = 200;
-            transitionOut.x = -200;
+            transitionIn.x = 2000;
+            transitionOut.x = -2000;
         } else {
-            transitionIn.x = -200;
-            transitionOut.x = 200;
+            transitionIn.x = -2000;
+            transitionOut.x = 2000;
         }
         activeSlide = state.num;
     }
