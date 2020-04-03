@@ -1,7 +1,6 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
-import builtins from 'rollup-plugin-node-builtins';
-import { terser } from 'rollup-plugin-terser';
+import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json';
 import gzipPlugin from 'rollup-plugin-gzip';
 
@@ -18,9 +17,8 @@ export default {
 	],
 	plugins: [
 		terser(),
-		builtins(),
 		svelte(),
-		resolve({preferBuiltins: true}),
+		resolve(),
 		gzipPlugin()
 	]
 };
