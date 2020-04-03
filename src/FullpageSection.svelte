@@ -20,6 +20,7 @@
     };
     sectionId = parseInt(sectionId);
 
+    let activeSlideIndicator = activeSlide;
     let dragStartPosition;
     let touchStartPosition;
     let recentSlide = 0;
@@ -30,6 +31,18 @@
         classes = `${classes} svelte-fp-unselectable`
     }
 
+    const makePositive = (num) => {
+        //console.log(num);
+        let negative = false;
+        if (num < 0) {
+            negative = true;
+            num = -num;
+        }
+        //console.log(num);
+        //console.log(negative);
+        return {num, negative};
+    };
+
     const handleSelect = () => {
         if (!select) {
             return false;
@@ -37,18 +50,39 @@
     };
 
     const slideRight = () => {
-        if (activeSlide < slides.length-1){
-            activeSlide++;
+       console.log(activeSlide);
+        const active = makePositive(activeSlide);
+        console.log(active);
+        if (active.num < slides.length-1){
+            activeSlideIndicator = active.num+1;
+            activeSlide = -(activeSlideIndicator);
         } else {
             activeSlide = 0;
+            activeSlideIndicator = activeSlide;
         }
+        console.log('slideRight');
+        console.log(activeSlide)
     };
 
     const slideLeft = () => {
-        if (activeSlide > 0) {
-            activeSlide--;
+        const active = makePositive(activeSlide);
+        if (active.num > 0) {
+            activeSlide = active.num-1;
         } else {
             activeSlide = slides.length-1;
+        }
+        activeSlideIndicator = activeSlide;
+    };
+
+    const toSlide = (slideId) => {
+        if (slideId > activeSlideIndicator) {
+            while (slideId > activeSlideIndicator) {
+                slideRight()
+            }
+        } else {
+            while (slideId < activeSlideIndicator) {
+                slideLeft()
+            }
         }
     };
 
@@ -98,7 +132,6 @@
             }
         }
     };
-
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
@@ -116,7 +149,7 @@
                 <ul class="svelte-fp-indicator-list-horizontal">
                     {#each slides as page,index}
                         <li class="svelte-fp-indicator-list-item">
-                            <button class="svelte-fp-indicator-list-item-btn {activeSlide === index ? 'svelte-fp-active':''}" on:click={ ()=>activeSlide=index }></button>
+                            <button class="svelte-fp-indicator-list-item-btn {activeSlideIndicator === index ? 'svelte-fp-active':''}" on:click={ ()=>toSlide(index) }></button>
                         </li>
                     {/each}
                 </ul>
