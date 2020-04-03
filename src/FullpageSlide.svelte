@@ -36,7 +36,6 @@
             transitionOut.x = 200;
         }
         activeSlide = state.num;
-        console.log(activeSlide)
     }
 </script>
 

@@ -50,9 +50,7 @@
     };
 
     const slideRight = () => {
-       console.log(activeSlide);
         const active = makePositive(activeSlide);
-        console.log(active);
         if (active.num < slides.length-1){
             activeSlideIndicator = active.num+1;
             activeSlide = -(activeSlideIndicator);
@@ -60,8 +58,6 @@
             activeSlide = 0;
             activeSlideIndicator = activeSlide;
         }
-        console.log('slideRight');
-        console.log(activeSlide)
     };
 
     const slideLeft = () => {
