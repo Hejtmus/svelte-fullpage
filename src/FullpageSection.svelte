@@ -15,6 +15,8 @@
     export let arrows = false;
     export let select = false;
     export let transitionDuration = 500;
+    export let dragThreshold = 100;
+    export let touchThreshold = 75;
     export let transition = {
         duration: transitionDuration
     };
@@ -103,9 +105,9 @@
     //function that handles drag end event
     const handleDragEnd = (event) => {
         const dragEndPosition = event.screenX;
-        if (dragStartPosition - dragEndPosition > 100) {
+        if (dragStartPosition - dragEndPosition > dragThreshold) {
             slideRight();
-        } else if (dragStartPosition - dragEndPosition < -100) {
+        } else if (dragStartPosition - dragEndPosition < -dragThreshold) {
             slideLeft()
         }
     };
@@ -119,10 +121,10 @@
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenX;
         if (transitionDuration < timer-recentSlide) {
-            if (touchStartPosition - touchEndPosition > 100) {
+            if (touchStartPosition - touchEndPosition > touchThreshold) {
                 slideRight();
                 recentSlide = timer;
-            } else if (touchStartPosition - touchEndPosition < -100) {
+            } else if (touchStartPosition - touchEndPosition < -touchThreshold) {
                 slideLeft();
                 recentSlide = timer;
             }

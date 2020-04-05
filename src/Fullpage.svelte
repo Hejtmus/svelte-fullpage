@@ -18,6 +18,8 @@
     export let arrows = false;
     //exporting boolean that enables scrolling using drag
     export let drag = false;
+    export let dragThreshold = 100;
+    export let touchThreshold = 75;
 
     let dragStartPosition;
     let touchStartPosition;
@@ -86,9 +88,9 @@
         if (drag) {
             const dragEndPosition = event.screenY;
             //console.log(`Start:${dragStartPosition}, End:${dragEndPosition}, vertical difference:${dragStartPosition-dragEndPosition}`);
-            if (dragStartPosition - dragEndPosition > 100) {
+            if (dragStartPosition - dragEndPosition > dragThreshold) {
                 scrollDown();
-            } else if (dragStartPosition - dragEndPosition < -100) {
+            } else if (dragStartPosition - dragEndPosition < -dragThreshold) {
                 scrollUp()
             }
         }
@@ -104,16 +106,15 @@
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenY;
         if (transitionDuration < timer-recentScroll) {
-            if (touchStartPosition - touchEndPosition > 100) {
+            if (touchStartPosition - touchEndPosition > dragThreshold) {
                 scrollDown();
                 recentScroll = timer;
-            } else if (touchStartPosition - touchEndPosition < -100) {
+            } else if (touchStartPosition - touchEndPosition < -dragThreshold) {
                 scrollUp();
                 recentScroll = timer;
             }
         }
     };
-    // TODO: slide
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
