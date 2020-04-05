@@ -106,10 +106,10 @@
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenY;
         if (transitionDuration < timer-recentScroll) {
-            if (touchStartPosition - touchEndPosition > dragThreshold) {
+            if (touchStartPosition - touchEndPosition > touchThreshold) {
                 scrollDown();
                 recentScroll = timer;
-            } else if (touchStartPosition - touchEndPosition < -dragThreshold) {
+            } else if (touchStartPosition - touchEndPosition < -touchThreshold) {
                 scrollUp();
                 recentScroll = timer;
             }
