@@ -127,6 +127,8 @@ These props are customizable:
 * **transitionDuration** - `number` - Duration of transition between slides, if you want to edit it, edit it here rather than in 
 transition prop, because this alters cooldown between transitions.
 * **transition** - `object` - Options for transitionOut between this sections
+* **dragThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is drag detected on page
+* **touchThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is touch detected on page
 
 ****These transitions are Svelte transitions, you can change only options, not type of
 animation, because I hard-coded it there :D, may change in future .***
@@ -142,6 +144,8 @@ These props are customizable:
 * **center** - `number` - Centering content using flexbox
 * **transitionIn** - `object` - Options for transitionIn between this slides
 * **transitionOut** - `object` - Options for transitionOut between this slides
+* **dragThreshold** - `number` - Number in pixels, that says, when to switch to another slide, if is drag detected on section
+* **touchThreshold** - `number` - Number in pixels, that says, when to switch to another slide, if is touch detected on section
 
 ## License
 

@@ -1,5 +1,6 @@
 .github
 .gitignore
 docs
+node_modules
 dist/index.js.gz
 dist/index.mjs.gz
