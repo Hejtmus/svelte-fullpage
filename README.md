@@ -34,6 +34,7 @@ it like this `import Fullpage from 'svelte-fullpage/src/Fullpage.svelte'` and se
 `import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'` also slides 
 `import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte'`.
 
+NOTE - Fullpage component is positioned **absolute**, it is recommended to put it into element with position **relative**.
 
 ### Something copyable
 
