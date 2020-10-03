@@ -1,6 +1,6 @@
 {
   "name": "svelte-fullpage",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "license": "MIT",
   "author": {
     "name": "Filip Holčík",
@@ -13,9 +13,9 @@
   "main": "dist/index.js",
   "scripts": {
     "release": "rollup -c --environment BUILD:false",
-    "build": "rm -rf ./dist/index.js.gz ./dist/index.mjs.gz;rollup -c",
+    "build": "rm ./dist/index.js.gz ./dist/index.mjs.gz;rollup -c",
     "prepublishOnly": "npm run build",
-    "publish": "npm run prepublishOnly;npm publish"
+    "publish": "npm publish"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^6.0.0",
