@@ -12,8 +12,10 @@
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rollup -c",
-    "prepublishOnly": "npm run build"
+    "release": "rollup -c --environment BUILD:false",
+    "build": "rm -rf ./dist/index.js.gz ./dist/index.mjs.gz;rollup -c",
+    "prepublishOnly": "npm run build",
+    "publish": "npm run prepublishOnly;npm publish"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^6.0.0",
