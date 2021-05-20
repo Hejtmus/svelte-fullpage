@@ -13,7 +13,7 @@
   "main": "dist/index.js",
   "scripts": {
     "release": "rollup -c --environment BUILD:false",
-    "build": "rm ./dist/index.js.gz ./dist/index.mjs.gz && rollup -c",
+    "build": "rimraf ./dist/index.js.gz ./dist/index.mjs.gz && rollup -c",
     "prepublishOnly": "npm run build",
     "publish": "npm publish"
   },
