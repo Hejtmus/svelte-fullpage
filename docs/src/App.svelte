@@ -41,7 +41,7 @@
 			<Row>
 				<Col>
 					<h1>
-						Svelte Fullpagewa
+						Svelte Fullpage
 					</h1>
 					<p>
 						This page is made using svelte-fullpage component, try to scroll, drag with mouse or swipe
