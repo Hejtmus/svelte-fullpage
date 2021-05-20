@@ -3,7 +3,7 @@
 		Fullpage,
 	 	FullpageSection,
 		FullpageSlide
-	} from '../../dist';
+	} from '../../src';
 
 	import {
 		Container,
