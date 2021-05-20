@@ -17,7 +17,6 @@
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
     "svelte": "^3.0.0",
-    "svelte-fullpage": "^0.2.5",
     "sveltestrap": "^3.3.3"
   },
   "dependencies": {
