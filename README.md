@@ -111,6 +111,7 @@ These props are customizable:
 * **transitionDuration** - `number` - Duration of transition between sections
 * **arrows** - `boolean` - Adds support for scrolling using arrows
 * **drag** - `boolean` - Allows scrolling using mouse drag
+* **pullDownToRefresh** - `boolean` - Enables pull down to refresh effect on chrome mobile, default `false`.
 
 #### FullpageSection
 
