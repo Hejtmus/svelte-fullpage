@@ -20,6 +20,7 @@
     export let drag = false;
     export let dragThreshold = 100;
     export let touchThreshold = 75;
+    export let pullDownToRefresh = false;
 
     let dragStartPosition;
     let touchStartPosition;
@@ -118,6 +119,7 @@
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
+<svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/>
 
 
 <div class={classes} style={style} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }
@@ -197,5 +199,8 @@
             height: 0.5rem;
             border-radius: 0.25rem;
         }
+    }
+    .svelte-fp-disable-pull-refresh {
+        overscroll-behavior: contain;
     }
 </style>

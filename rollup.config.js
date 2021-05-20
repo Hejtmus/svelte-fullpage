@@ -9,8 +9,6 @@ const dev = process.env.BUILD;
 
 if (dev) gzip = gzipPlugin;
 
-
-
 const name = pkg.name
 	.replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
 	.replace(/^\w/, m => m.toUpperCase())
