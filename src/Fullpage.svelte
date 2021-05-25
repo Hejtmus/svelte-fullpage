@@ -150,8 +150,6 @@
         }
         console.log(sections)
     }
-
-    console.log($$props.$$slots.default[0])
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
