@@ -1,5 +1,6 @@
 <script>
     import {slide} from 'svelte/transition';
+    import {getContext, onMount} from "svelte";
 
     //<FullpageSectionStatic bind:activeSection sectionId="id"></FullpageSectionStatic>
 
@@ -7,8 +8,8 @@
 
     export { defaultClasses as class };
     export let style = '';
-    export let sectionId;
-    export let activeSection;
+    let sectionId;
+    const { getId, activeSectionStore} = getContext('section');
     export let slides = [];
     export let activeSlide = false;
     export let center = false;
@@ -130,11 +131,14 @@
             }
         }
     };
+    onMount(()=>{
+        sectionId = getId()
+    })
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
-{#if sectionId === activeSection}
+{#if sectionId === $activeSectionStore}
     <section transition:slide={transition} class={classes} style={style} on:selectstart={handleSelect}
              on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }
             on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }>

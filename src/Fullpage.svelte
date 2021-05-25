@@ -1,5 +1,7 @@
 <script>
     import Indicator from './Indicator/index.svelte';
+    import {onMount, setContext} from "svelte";
+    import {writable} from "svelte/store";
     //defining variable that will hold class value, that will be passed into this component's wrapper
     let defaultClasses = '';
 
@@ -11,8 +13,11 @@
     export let style = '';
     //number that hold which section is active
     export let activeSection = 0;
-    //array with names of section, the most important about this array is that it's hold fullpage's length
-    export let sections = [];
+    const activeSectionStore = writable(activeSection)
+    let sectionCount = 0;
+    //array with names of section, the most important about this array is that it's hold fullpage's length TODO: make relevant
+    export let sectionTitles = false;
+    let sections = [];
     //exporting duration of animation and scroll cooldown
     export let transitionDuration = 500;
     //exporting boolean that enables scrolling using arrows
@@ -33,6 +38,15 @@
     let recentScroll = 0;
     //setting section visible
     let active = true;
+
+    // Passing data about section visibility to all sections
+    setContext('section', {
+        activeSectionStore,
+        getId: ()=>{
+            sectionCount++;
+            return sectionCount-1;
+        }
+    })
 
     //function that handles scroll and sets scroll cooldown based on animation duration
     const handleScroll = (event) => {
@@ -63,7 +77,7 @@
     //function that makes scroll down effect
     const scrollDown = async () => {
         // TODO: somehow fix animation
-        if (activeSection < sections.length-1){
+        if (activeSection < sectionCount){
             activeSection++;
         }
     };
@@ -120,11 +134,24 @@
         }
     };
 
-    $: if (fullpageContent && !sections) {
-        for (let i = 0; fullpageContent.children.length < i; i++) {
-            sections[i] = `Section ${i+1}`;
+
+    // Everytime active session updates, also this store gets new value and then all sections that subscribe
+    $: activeSectionStore.set(activeSection)
+
+    $: if (sectionTitles) sections = sectionTitles;
+
+    $: if (fullpageContent && !sectionTitles) {
+        console.log(fullpageContent.children.length)
+        for (let i = 0; sectionCount > i; i++) {
+            sections = [
+                ...sections,
+                `Section ${i+1}`
+            ];
         }
+        console.log(sections)
     }
+
+    console.log($$props.$$slots.default[0])
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
