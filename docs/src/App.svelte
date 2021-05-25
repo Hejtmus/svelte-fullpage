@@ -35,8 +35,8 @@
 	<title>Svelte-fullpage</title>
 </svelte:head>
 
-<Fullpage bind:activeSection {sections} arrows drag>
-	<FullpageSection sectionId="0" bind:activeSection center>
+<Fullpage bind:activeSection arrows drag>
+	<FullpageSection center>
 		<Container class="text-center">
 			<Row>
 				<Col>
@@ -51,7 +51,7 @@
 			</Row>
 		</Container>
 	</FullpageSection>
-	<FullpageSection sectionId="1" bind:activeSection bind:activeSlide {slides} class="bg-info" arrows>
+	<FullpageSection bind:activeSlide {slides} class="bg-info" arrows>
 		<FullpageSlide slideId="0" bind:activeSlide center>
 			<Container class="text-center">
 				<Row>
@@ -92,10 +92,10 @@
 			</Container>
 		</FullpageSlide>
 	</FullpageSection>
-	<FullpageSection sectionId="2" bind:activeSection center>
+	<FullpageSection center>
 		<embed src="https://github.com/Hejtmus/svelte-fullpage#svelte-fullpage" csp="https://github.com" class="w-100 h-100">
 	</FullpageSection>
-	<FullpageSection sectionId="3" bind:activeSection class="bg-warning" center>
+	<FullpageSection class="bg-warning" center>
 		<Container class="text-center">
 			<Row>
 				<Col>
