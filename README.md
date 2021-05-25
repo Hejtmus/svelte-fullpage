@@ -67,15 +67,13 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
         '1993-2006',
         '2006-present'
     ];
-    //Also has to be 0 or specific id of slide
-    let activeSlide = 0;
 </script>
 
-<Fullpage bind:activeSection {sections} arrows>
-    <FullpageSection sectionId="0" bind:activeSection center>
+<Fullpage {sections} arrows>
+    <FullpageSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection sectionId="1" bind:activeSection bind:activeSlide {slides} arrows>
+    <FullpageSection bind:activeSlide {slides} arrows>
         <FullpageSlide slideId="0" bind:activeSlide>
             ...Your markup here
         </FullpageSlide>
@@ -86,10 +84,10 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
             ...Your markup here
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection sectionId="2" bind:activeSection>
+    <FullpageSection>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection sectionId="3" bind:activeSection>
+    <FullpageSection>
         ...Your markup here
     </FullpageSection>
 </Fullpage>
@@ -119,8 +117,6 @@ These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **sectionId** - `number/string` - Id of section, feel free to enter there string, component will parse it to the number
-* **activeSection** - `number` - Number that tells section if is visible
 * **slides** - `array` - Array containing FullpageSlide components/names, if there are some
 * **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `boolean` - Centering content using flexbox
