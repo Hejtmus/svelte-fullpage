@@ -35,13 +35,13 @@
 	<title>Svelte-fullpage</title>
 </svelte:head>
 
-<Fullpage bind:activeSection {sections} arrows drag>
-	<FullpageSection sectionId="0" bind:activeSection center>
+<Fullpage bind:activeSection arrows drag>
+	<FullpageSection center>
 		<Container class="text-center">
 			<Row>
 				<Col>
 					<h1>
-						Svelte Fullpagewa
+						Svelte Fullpage
 					</h1>
 					<p>
 						This page is made using svelte-fullpage component, try to scroll, drag with mouse or swipe
@@ -51,8 +51,8 @@
 			</Row>
 		</Container>
 	</FullpageSection>
-	<FullpageSection sectionId="1" bind:activeSection bind:activeSlide {slides} class="bg-info" arrows>
-		<FullpageSlide slideId="0" bind:activeSlide center>
+	<FullpageSection {slides} class="bg-info" arrows>
+		<FullpageSlide center>
 			<Container class="text-center">
 				<Row>
 					<Col>
@@ -65,7 +65,7 @@
 				</Row>
 			</Container>
 		</FullpageSlide>
-		<FullpageSlide slideId="1" bind:activeSlide class="bg-danger" center>
+		<FullpageSlide class="bg-danger" center>
 			<Container class="text-center">
 				<Row>
 					<Col>
@@ -77,7 +77,7 @@
 				</Row>
 			</Container>
 		</FullpageSlide>
-		<FullpageSlide slideId="2" bind:activeSlide class="bg-success" center>
+		<FullpageSlide class="bg-success" center>
 			<Container class="text-center">
 				<Row>
 					<Col>
@@ -92,10 +92,10 @@
 			</Container>
 		</FullpageSlide>
 	</FullpageSection>
-	<FullpageSection sectionId="2" bind:activeSection center>
+	<FullpageSection center>
 		<embed src="https://github.com/Hejtmus/svelte-fullpage#svelte-fullpage" csp="https://github.com" class="w-100 h-100">
 	</FullpageSection>
-	<FullpageSection sectionId="3" bind:activeSection class="bg-warning" center>
+	<FullpageSection class="bg-warning" center>
 		<Container class="text-center">
 			<Row>
 				<Col>

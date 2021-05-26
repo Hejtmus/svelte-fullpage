@@ -1,6 +1,8 @@
 # Svelte-fullpage
 
-***In development***
+Pure Svelte fullpage component
+
+***This component is actively maintained***
 
 *5.5kB gZipped, unzipped 14.9kB*
 
@@ -13,12 +15,6 @@ please report them to this component's GitHub repo to the 'Issues' section.
 > ```bash
 > npm i svelte-fullpage --save-dev
 > ```
-
-## Versions of this component
-
-In previous ***module version*** (0.1.1) there were 2 versions of component, static and dynamic, but it turned out that dynamic
-version is redundant and overall worse than static, so it is no longer part of this module. This component is meant to be
-lightweight so bundle size must be as small as possible.
 
 ## How to use
 
@@ -51,15 +47,13 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
 	import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'
 	import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte';
 
-    //Include all titles of your sections, this is also used as number that indicate count of sections
+    //Optional, include all titles of your sections, this is also used as number that indicate count of sections
     const sections = [
         'Home',
         'History',
         'Present',
         'Future'
     ];
-    //Have to set to 0 (or section you wish to display as default), otherwise section will not display
-    let activeSection = 0;
     
     //Same mechanics as in sections
     const slides = [
@@ -67,34 +61,34 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
         '1993-2006',
         '2006-present'
     ];
-    //Also has to be 0 or specific id of slide
-    let activeSlide = 0;
 </script>
 
-<Fullpage bind:activeSection {sections} arrows>
-    <FullpageSection sectionId="0" bind:activeSection center>
+<Fullpage {sections} arrows>
+    <FullpageSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection sectionId="1" bind:activeSection bind:activeSlide {slides} arrows>
-        <FullpageSlide slideId="0" bind:activeSlide>
+    <FullpageSection {slides} arrows>
+        <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
-        <FullpageSlide slideId="1" bind:activeSlide>
+        <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
-        <FullpageSlide slideId="2" bind:activeSlide>
+        <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection sectionId="2" bind:activeSection>
+    <FullpageSection>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection sectionId="3" bind:activeSection>
+    <FullpageSection>
         ...Your markup here
     </FullpageSection>
 </Fullpage>
 
 ```
+
+If you are not sure how to use this component, take a look at [demo site code](https://github.com/Hejtmus/svelte-fullpage/blob/master/docs/src/App.svelte)
 
 ### Tweaks
 
@@ -119,8 +113,6 @@ These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **sectionId** - `number/string` - Id of section, feel free to enter there string, component will parse it to the number
-* **activeSection** - `number` - Number that tells section if is visible
 * **slides** - `array` - Array containing FullpageSlide components/names, if there are some
 * **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `boolean` - Centering content using flexbox
@@ -132,22 +124,15 @@ transition prop, because this alters cooldown between transitions.
 * **dragThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is drag detected on page
 * **touchThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is touch detected on page
 
-****These transitions are Svelte transitions, you can change only options, not type of
-animation, because I hard-coded it there :D, may change in future .***
-
 #### FullpageSlide
 
 These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **slideId** - `number/string` - Id of slide, same as section id, but this for slide, obviously
-* **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `number` - Centering content using flexbox
 * **transitionIn** - `object` - Options for transitionIn between this slides
 * **transitionOut** - `object` - Options for transitionOut between this slides
-* **dragThreshold** - `number` - Number in pixels, that says, when to switch to another slide, if is drag detected on section
-* **touchThreshold** - `number` - Number in pixels, that says, when to switch to another slide, if is touch detected on section
 
 ## License
 

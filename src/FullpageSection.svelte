@@ -1,5 +1,7 @@
 <script>
     import {slide} from 'svelte/transition';
+    import {getContext, onMount, setContext} from "svelte";
+    import { writable } from "svelte/store";
 
     //<FullpageSectionStatic bind:activeSection sectionId="id"></FullpageSectionStatic>
 
@@ -7,10 +9,11 @@
 
     export { defaultClasses as class };
     export let style = '';
-    export let sectionId;
-    export let activeSection;
+    let sectionId;
+    const { getId, activeSectionStore} = getContext('section');
     export let slides = [];
-    export let activeSlide = false;
+    export let activeSlide = 0;
+    const activeSlideStore = writable(activeSlide);
     export let center = false;
     export let arrows = false;
     export let select = false;
@@ -21,17 +24,27 @@
         duration: transitionDuration
     };
     sectionId = parseInt(sectionId);
+    let visible;
 
     let activeSlideIndicator = activeSlide;
     let dragStartPosition;
     let touchStartPosition;
     let recentSlide = 0;
+    let slideCount = 0;
 
     let classes = `${defaultClasses} svelte-fp-section svelte-fp-flexbox-center`;
 
     if (!select) {
         classes = `${classes} svelte-fp-unselectable`
     }
+
+    setContext('slide', {
+        activeSlideStore,
+        getId: ()=>{
+            slideCount++;
+            return slideCount-1;
+        }
+    })
 
     const makePositive = (num) => {
         //console.log(num);
@@ -52,24 +65,24 @@
     };
 
     const slideRight = () => {
-        const active = makePositive(activeSlide);
+        const active = makePositive($activeSlideStore);
         if (active.num < slides.length-1){
             activeSlideIndicator = active.num+1;
-            activeSlide = -(activeSlideIndicator);
+            activeSlideStore.set(-(activeSlideIndicator));
         } else {
-            activeSlide = 0;
-            activeSlideIndicator = activeSlide;
+            activeSlideStore.set(0)
+            activeSlideIndicator = $activeSlideStore;
         }
     };
 
     const slideLeft = () => {
-        const active = makePositive(activeSlide);
+        const active = makePositive($activeSlideStore);
         if (active.num > 0) {
-            activeSlide = active.num-1;
+            activeSlideStore.set(active.num-1);
         } else {
-            activeSlide = slides.length-1;
+            activeSlideStore.set(slides.length-1);
         }
-        activeSlideIndicator = activeSlide;
+        activeSlideIndicator = $activeSlideStore;
     };
 
     const toSlide = (slideId) => {
@@ -130,11 +143,23 @@
             }
         }
     };
+
+    $: visible = (sectionId === $activeSectionStore);
+
+    $: activeSlideStore.set(activeSlide)
+
+    onMount(()=>{
+        sectionId = getId()
+    })
+    // Everytime section disappears, slide count resets, this prevents slides from getting wrong ID
+    $: if (!visible) {
+        slideCount = 0;
+    }
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
-{#if sectionId === activeSection}
+{#if visible}
     <section transition:slide={transition} class={classes} style={style} on:selectstart={handleSelect}
              on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }
             on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }>
