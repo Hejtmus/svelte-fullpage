@@ -1368,15 +1368,15 @@ var app = (function () {
     	let div2_class_value;
     	let current;
     	let dispose;
-    	const default_slot_template = /*$$slots*/ ctx[29].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[28], null);
+    	const default_slot_template = /*$$slots*/ ctx[30].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[29], null);
 
     	function indicator_activeSection_binding(value) {
-    		/*indicator_activeSection_binding*/ ctx[32].call(null, value);
+    		/*indicator_activeSection_binding*/ ctx[33].call(null, value);
     	}
 
     	function indicator_sections_binding(value) {
-    		/*indicator_sections_binding*/ ctx[33].call(null, value);
+    		/*indicator_sections_binding*/ ctx[34].call(null, value);
     	}
 
     	let indicator_props = {};
@@ -1403,12 +1403,12 @@ var app = (function () {
     			t1 = space();
     			create_component(indicator.$$.fragment);
     			attr_dev(div0, "class", "svelte-fp-container svelte-ng9shq");
-    			add_location(div0, file$2, 161, 8, 5709);
+    			add_location(div0, file$2, 158, 8, 5615);
     			attr_dev(div1, "class", "svelte-fp-container svelte-ng9shq");
-    			add_location(div1, file$2, 160, 4, 5667);
-    			attr_dev(div2, "class", div2_class_value = "" + (null_to_empty(/*classes*/ ctx[4]) + " svelte-ng9shq"));
+    			add_location(div1, file$2, 157, 4, 5573);
+    			attr_dev(div2, "class", div2_class_value = "" + (null_to_empty(/*classes*/ ctx[5]) + " svelte-ng9shq"));
     			attr_dev(div2, "style", /*style*/ ctx[1]);
-    			add_location(div2, file$2, 158, 0, 5353);
+    			add_location(div2, file$2, 155, 0, 5259);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1423,26 +1423,26 @@ var app = (function () {
     				default_slot.m(div0, null);
     			}
 
-    			/*div0_binding*/ ctx[31](div0);
+    			/*div0_binding*/ ctx[32](div0);
     			append_dev(div1, t1);
     			mount_component(indicator, div1, null);
     			current = true;
     			if (remount) run_all(dispose);
 
     			dispose = [
-    				listen_dev(window, "keydown", /*keydown_handler*/ ctx[30], false, false, false),
-    				listen_dev(div2, "wheel", /*wheel_handler*/ ctx[34], false, false, false),
-    				listen_dev(div2, "touchstart", /*touchstart_handler*/ ctx[35], false, false, false),
-    				listen_dev(div2, "touchmove", /*touchmove_handler*/ ctx[36], false, false, false),
+    				listen_dev(window, "keydown", /*keydown_handler*/ ctx[31], false, false, false),
+    				listen_dev(div2, "wheel", /*wheel_handler*/ ctx[35], false, false, false),
+    				listen_dev(div2, "touchstart", /*touchstart_handler*/ ctx[36], false, false, false),
+    				listen_dev(div2, "touchmove", /*touchmove_handler*/ ctx[37], false, false, false),
     				listen_dev(div2, "drag", drag_handler, false, false, false),
-    				listen_dev(div2, "mousedown", /*mousedown_handler*/ ctx[37], false, false, false),
-    				listen_dev(div2, "mouseup", /*mouseup_handler*/ ctx[38], false, false, false)
+    				listen_dev(div2, "mousedown", /*mousedown_handler*/ ctx[38], false, false, false),
+    				listen_dev(div2, "mouseup", /*mouseup_handler*/ ctx[39], false, false, false)
     			];
     		},
     		p: function update(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty[0] & /*$$scope*/ 268435456) {
-    					default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[28], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[28], dirty, null));
+    				if (default_slot.p && dirty[0] & /*$$scope*/ 536870912) {
+    					default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[29], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[29], dirty, null));
     				}
     			}
 
@@ -1481,7 +1481,7 @@ var app = (function () {
     			if (detaching) detach_dev(t0);
     			if (detaching) detach_dev(div2);
     			if (default_slot) default_slot.d(detaching);
-    			/*div0_binding*/ ctx[31](null);
+    			/*div0_binding*/ ctx[32](null);
     			destroy_component(indicator);
     			run_all(dispose);
     		}
@@ -1503,10 +1503,13 @@ var app = (function () {
     };
 
     function instance$2($$self, $$props, $$invalidate) {
+    	let $activeSectionStore;
     	let { class: defaultClasses = "" } = $$props;
     	let { style = "" } = $$props;
     	let { activeSection = 0 } = $$props;
     	const activeSectionStore = writable(activeSection);
+    	validate_store(activeSectionStore, "activeSectionStore");
+    	component_subscribe($$self, activeSectionStore, value => $$invalidate(25, $activeSectionStore = value));
     	let sectionCount = 0;
     	let { sectionTitles = false } = $$props;
     	let sections = [];
@@ -1532,7 +1535,7 @@ var app = (function () {
     	setContext("section", {
     		activeSectionStore,
     		getId: () => {
-    			$$invalidate(19, sectionCount++, sectionCount);
+    			$$invalidate(20, sectionCount++, sectionCount);
     			return sectionCount - 1;
     		}
     	});
@@ -1563,16 +1566,14 @@ var app = (function () {
 
     	//function that makes scroll up effect
     	const scrollUp = async () => {
-    		// TODO: somehow fix animation
-    		if (activeSection > 0) {
+    		if ($activeSectionStore > 0) {
     			$$invalidate(0, activeSection--, activeSection);
     		}
     	};
 
     	//function that makes scroll down effect
     	const scrollDown = async () => {
-    		// TODO: somehow fix animation
-    		if (activeSection < sectionCount) {
+    		if ($activeSectionStore < sectionCount - 1) {
     			$$invalidate(0, activeSection++, activeSection);
     		}
     	};
@@ -1669,7 +1670,7 @@ var app = (function () {
 
     	function indicator_sections_binding(value) {
     		sections = value;
-    		((($$invalidate(2, sections), $$invalidate(12, sectionTitles)), $$invalidate(3, fullpageContent)), $$invalidate(19, sectionCount));
+    		((($$invalidate(2, sections), $$invalidate(13, sectionTitles)), $$invalidate(3, fullpageContent)), $$invalidate(20, sectionCount));
     	}
 
     	const wheel_handler = event => handleScroll(event);
@@ -1679,17 +1680,17 @@ var app = (function () {
     	const mouseup_handler = event => handleDragEnd(event);
 
     	$$self.$set = $$props => {
-    		if ("class" in $$props) $$invalidate(11, defaultClasses = $$props.class);
+    		if ("class" in $$props) $$invalidate(12, defaultClasses = $$props.class);
     		if ("style" in $$props) $$invalidate(1, style = $$props.style);
     		if ("activeSection" in $$props) $$invalidate(0, activeSection = $$props.activeSection);
-    		if ("sectionTitles" in $$props) $$invalidate(12, sectionTitles = $$props.sectionTitles);
-    		if ("transitionDuration" in $$props) $$invalidate(13, transitionDuration = $$props.transitionDuration);
-    		if ("arrows" in $$props) $$invalidate(14, arrows = $$props.arrows);
-    		if ("drag" in $$props) $$invalidate(15, drag = $$props.drag);
-    		if ("dragThreshold" in $$props) $$invalidate(16, dragThreshold = $$props.dragThreshold);
-    		if ("touchThreshold" in $$props) $$invalidate(17, touchThreshold = $$props.touchThreshold);
-    		if ("pullDownToRefresh" in $$props) $$invalidate(18, pullDownToRefresh = $$props.pullDownToRefresh);
-    		if ("$$scope" in $$props) $$invalidate(28, $$scope = $$props.$$scope);
+    		if ("sectionTitles" in $$props) $$invalidate(13, sectionTitles = $$props.sectionTitles);
+    		if ("transitionDuration" in $$props) $$invalidate(14, transitionDuration = $$props.transitionDuration);
+    		if ("arrows" in $$props) $$invalidate(15, arrows = $$props.arrows);
+    		if ("drag" in $$props) $$invalidate(16, drag = $$props.drag);
+    		if ("dragThreshold" in $$props) $$invalidate(17, dragThreshold = $$props.dragThreshold);
+    		if ("touchThreshold" in $$props) $$invalidate(18, touchThreshold = $$props.touchThreshold);
+    		if ("pullDownToRefresh" in $$props) $$invalidate(19, pullDownToRefresh = $$props.pullDownToRefresh);
+    		if ("$$scope" in $$props) $$invalidate(29, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
@@ -1724,26 +1725,27 @@ var app = (function () {
     		handleDragStart,
     		handleDragEnd,
     		handleTouchStart,
-    		handleTouchEnd
+    		handleTouchEnd,
+    		$activeSectionStore
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("defaultClasses" in $$props) $$invalidate(11, defaultClasses = $$props.defaultClasses);
+    		if ("defaultClasses" in $$props) $$invalidate(12, defaultClasses = $$props.defaultClasses);
     		if ("style" in $$props) $$invalidate(1, style = $$props.style);
     		if ("activeSection" in $$props) $$invalidate(0, activeSection = $$props.activeSection);
-    		if ("sectionCount" in $$props) $$invalidate(19, sectionCount = $$props.sectionCount);
-    		if ("sectionTitles" in $$props) $$invalidate(12, sectionTitles = $$props.sectionTitles);
+    		if ("sectionCount" in $$props) $$invalidate(20, sectionCount = $$props.sectionCount);
+    		if ("sectionTitles" in $$props) $$invalidate(13, sectionTitles = $$props.sectionTitles);
     		if ("sections" in $$props) $$invalidate(2, sections = $$props.sections);
-    		if ("transitionDuration" in $$props) $$invalidate(13, transitionDuration = $$props.transitionDuration);
-    		if ("arrows" in $$props) $$invalidate(14, arrows = $$props.arrows);
-    		if ("drag" in $$props) $$invalidate(15, drag = $$props.drag);
-    		if ("dragThreshold" in $$props) $$invalidate(16, dragThreshold = $$props.dragThreshold);
-    		if ("touchThreshold" in $$props) $$invalidate(17, touchThreshold = $$props.touchThreshold);
-    		if ("pullDownToRefresh" in $$props) $$invalidate(18, pullDownToRefresh = $$props.pullDownToRefresh);
+    		if ("transitionDuration" in $$props) $$invalidate(14, transitionDuration = $$props.transitionDuration);
+    		if ("arrows" in $$props) $$invalidate(15, arrows = $$props.arrows);
+    		if ("drag" in $$props) $$invalidate(16, drag = $$props.drag);
+    		if ("dragThreshold" in $$props) $$invalidate(17, dragThreshold = $$props.dragThreshold);
+    		if ("touchThreshold" in $$props) $$invalidate(18, touchThreshold = $$props.touchThreshold);
+    		if ("pullDownToRefresh" in $$props) $$invalidate(19, pullDownToRefresh = $$props.pullDownToRefresh);
     		if ("fullpageContent" in $$props) $$invalidate(3, fullpageContent = $$props.fullpageContent);
     		if ("dragStartPosition" in $$props) dragStartPosition = $$props.dragStartPosition;
     		if ("touchStartPosition" in $$props) touchStartPosition = $$props.touchStartPosition;
-    		if ("classes" in $$props) $$invalidate(4, classes = $$props.classes);
+    		if ("classes" in $$props) $$invalidate(5, classes = $$props.classes);
     		if ("recentScroll" in $$props) recentScroll = $$props.recentScroll;
     		if ("active" in $$props) active = $$props.active;
     	};
@@ -1758,19 +1760,17 @@ var app = (function () {
     			 activeSectionStore.set(activeSection);
     		}
 
-    		if ($$self.$$.dirty[0] & /*sectionTitles*/ 4096) {
+    		if ($$self.$$.dirty[0] & /*sectionTitles*/ 8192) {
     			 if (sectionTitles) $$invalidate(2, sections = sectionTitles);
     		}
 
-    		if ($$self.$$.dirty[0] & /*fullpageContent, sectionTitles, sectionCount, sections*/ 528396) {
+    		if ($$self.$$.dirty[0] & /*fullpageContent, sectionTitles, sectionCount, sections*/ 1056780) {
     			 if (fullpageContent && !sectionTitles) {
     				console.log(fullpageContent.children.length);
 
     				for (let i = 0; sectionCount > i; i++) {
     					$$invalidate(2, sections = [...sections, `Section ${i + 1}`]);
     				}
-
-    				console.log(sections);
     			}
     		}
     	};
@@ -1780,6 +1780,7 @@ var app = (function () {
     		style,
     		sections,
     		fullpageContent,
+    		activeSectionStore,
     		classes,
     		handleScroll,
     		handleKey,
@@ -1800,7 +1801,7 @@ var app = (function () {
     		touchStartPosition,
     		recentScroll,
     		active,
-    		activeSectionStore,
+    		$activeSectionStore,
     		toggleActive,
     		scrollUp,
     		scrollDown,
@@ -1829,16 +1830,16 @@ var app = (function () {
     			create_fragment$2,
     			safe_not_equal,
     			{
-    				class: 11,
+    				class: 12,
     				style: 1,
     				activeSection: 0,
-    				sectionTitles: 12,
-    				transitionDuration: 13,
-    				arrows: 14,
-    				drag: 15,
-    				dragThreshold: 16,
-    				touchThreshold: 17,
-    				pullDownToRefresh: 18
+    				sectionTitles: 13,
+    				transitionDuration: 14,
+    				arrows: 15,
+    				drag: 16,
+    				dragThreshold: 17,
+    				touchThreshold: 18,
+    				pullDownToRefresh: 19
     			},
     			[-1, -1]
     		);
@@ -1982,12 +1983,12 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[38] = list[i];
-    	child_ctx[40] = i;
+    	child_ctx[42] = list[i];
+    	child_ctx[44] = i;
     	return child_ctx;
     }
 
-    // (141:0) {#if sectionId === $activeSectionStore}
+    // (162:0) {#if visible}
     function create_if_block$1(ctx) {
     	let section;
     	let div;
@@ -1996,8 +1997,8 @@ var app = (function () {
     	let section_transition;
     	let current;
     	let dispose;
-    	const default_slot_template = /*$$slots*/ ctx[31].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[30], null);
+    	const default_slot_template = /*$$slots*/ ctx[35].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[34], null);
     	const default_slot_or_fallback = default_slot || fallback_block(ctx);
     	let if_block = /*slides*/ ctx[1][0] && create_if_block_1(ctx);
 
@@ -2010,10 +2011,10 @@ var app = (function () {
     			if (if_block) if_block.c();
     			attr_dev(div, "class", "svelte-fp-container svelte-fp-flexbox-expand svelte-l4liqa");
     			toggle_class(div, "svelte-fp-flexbox-center", /*center*/ ctx[2]);
-    			add_location(div, file$3, 144, 8, 4384);
+    			add_location(div, file$3, 165, 8, 4960);
     			attr_dev(section, "class", section_class_value = "" + (null_to_empty(/*classes*/ ctx[6]) + " svelte-l4liqa"));
     			attr_dev(section, "style", /*style*/ ctx[0]);
-    			add_location(section, file$3, 141, 4, 4058);
+    			add_location(section, file$3, 162, 4, 4634);
     		},
     		m: function mount(target, anchor, remount) {
     			insert_dev(target, section, anchor);
@@ -2030,16 +2031,16 @@ var app = (function () {
 
     			dispose = [
     				listen_dev(section, "selectstart", /*handleSelect*/ ctx[9], false, false, false),
-    				listen_dev(section, "mousedown", /*mousedown_handler*/ ctx[34], false, false, false),
-    				listen_dev(section, "mouseup", /*mouseup_handler*/ ctx[35], false, false, false),
-    				listen_dev(section, "touchstart", /*touchstart_handler*/ ctx[36], false, false, false),
-    				listen_dev(section, "touchmove", /*touchmove_handler*/ ctx[37], false, false, false)
+    				listen_dev(section, "mousedown", /*mousedown_handler*/ ctx[38], false, false, false),
+    				listen_dev(section, "mouseup", /*mouseup_handler*/ ctx[39], false, false, false),
+    				listen_dev(section, "touchstart", /*touchstart_handler*/ ctx[40], false, false, false),
+    				listen_dev(section, "touchmove", /*touchmove_handler*/ ctx[41], false, false, false)
     			];
     		},
     		p: function update(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty[0] & /*$$scope*/ 1073741824) {
-    					default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[30], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[30], dirty, null));
+    				if (default_slot.p && dirty[1] & /*$$scope*/ 8) {
+    					default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[34], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[34], dirty, null));
     				}
     			}
 
@@ -2098,14 +2099,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(141:0) {#if sectionId === $activeSectionStore}",
+    		source: "(162:0) {#if visible}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (146:18)              
+    // (167:18)              
     function fallback_block(ctx) {
     	const block = { c: noop, m: noop, d: noop };
 
@@ -2113,14 +2114,14 @@ var app = (function () {
     		block,
     		id: fallback_block.name,
     		type: "fallback",
-    		source: "(146:18)              ",
+    		source: "(167:18)              ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (149:8) {#if slides[0]}
+    // (170:8) {#if slides[0]}
     function create_if_block_1(ctx) {
     	let div;
     	let ul;
@@ -2142,9 +2143,9 @@ var app = (function () {
     			}
 
     			attr_dev(ul, "class", "svelte-fp-indicator-list-horizontal svelte-l4liqa");
-    			add_location(ul, file$3, 150, 16, 4634);
+    			add_location(ul, file$3, 171, 16, 5210);
     			attr_dev(div, "class", "svelte-fp-indicator-horizontal svelte-l4liqa");
-    			add_location(div, file$3, 149, 12, 4573);
+    			add_location(div, file$3, 170, 12, 5149);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2189,14 +2190,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(149:8) {#if slides[0]}",
+    		source: "(170:8) {#if slides[0]}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (152:20) {#each slides as page,index}
+    // (173:20) {#each slides as page,index}
     function create_each_block$1(ctx) {
     	let li;
     	let button;
@@ -2205,7 +2206,7 @@ var app = (function () {
     	let dispose;
 
     	function click_handler(...args) {
-    		return /*click_handler*/ ctx[33](/*index*/ ctx[40], ...args);
+    		return /*click_handler*/ ctx[37](/*index*/ ctx[44], ...args);
     	}
 
     	const block = {
@@ -2214,13 +2215,13 @@ var app = (function () {
     			button = element("button");
     			t = space();
 
-    			attr_dev(button, "class", button_class_value = "svelte-fp-indicator-list-item-btn " + (/*activeSlideIndicator*/ ctx[5] === /*index*/ ctx[40]
+    			attr_dev(button, "class", button_class_value = "svelte-fp-indicator-list-item-btn " + (/*activeSlideIndicator*/ ctx[5] === /*index*/ ctx[44]
     			? "svelte-fp-active"
     			: "") + " svelte-l4liqa");
 
-    			add_location(button, file$3, 153, 28, 4827);
+    			add_location(button, file$3, 174, 28, 5403);
     			attr_dev(li, "class", "svelte-fp-indicator-list-item svelte-l4liqa");
-    			add_location(li, file$3, 152, 24, 4756);
+    			add_location(li, file$3, 173, 24, 5332);
     		},
     		m: function mount(target, anchor, remount) {
     			insert_dev(target, li, anchor);
@@ -2232,7 +2233,7 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty[0] & /*activeSlideIndicator*/ 32 && button_class_value !== (button_class_value = "svelte-fp-indicator-list-item-btn " + (/*activeSlideIndicator*/ ctx[5] === /*index*/ ctx[40]
+    			if (dirty[0] & /*activeSlideIndicator*/ 32 && button_class_value !== (button_class_value = "svelte-fp-indicator-list-item-btn " + (/*activeSlideIndicator*/ ctx[5] === /*index*/ ctx[44]
     			? "svelte-fp-active"
     			: "") + " svelte-l4liqa")) {
     				attr_dev(button, "class", button_class_value);
@@ -2248,7 +2249,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(152:20) {#each slides as page,index}",
+    		source: "(173:20) {#each slides as page,index}",
     		ctx
     	});
 
@@ -2259,7 +2260,7 @@ var app = (function () {
     	let if_block_anchor;
     	let current;
     	let dispose;
-    	let if_block = /*sectionId*/ ctx[4] === /*$activeSectionStore*/ ctx[7] && create_if_block$1(ctx);
+    	let if_block = /*visible*/ ctx[4] && create_if_block$1(ctx);
 
     	const block = {
     		c: function create() {
@@ -2274,10 +2275,10 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
     			current = true;
     			if (remount) dispose();
-    			dispose = listen_dev(window, "keydown", /*keydown_handler*/ ctx[32], false, false, false);
+    			dispose = listen_dev(window, "keydown", /*keydown_handler*/ ctx[36], false, false, false);
     		},
     		p: function update(ctx, dirty) {
-    			if (/*sectionId*/ ctx[4] === /*$activeSectionStore*/ ctx[7]) {
+    			if (/*visible*/ ctx[4]) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     					transition_in(if_block, 1);
@@ -2325,15 +2326,19 @@ var app = (function () {
     }
 
     function instance$3($$self, $$props, $$invalidate) {
+    	let $activeSlideStore;
     	let $activeSectionStore;
     	let { class: defaultClasses = "" } = $$props;
     	let { style = "" } = $$props;
     	let sectionId;
     	const { getId, activeSectionStore } = getContext("section");
     	validate_store(activeSectionStore, "activeSectionStore");
-    	component_subscribe($$self, activeSectionStore, value => $$invalidate(7, $activeSectionStore = value));
+    	component_subscribe($$self, activeSectionStore, value => $$invalidate(29, $activeSectionStore = value));
     	let { slides = [] } = $$props;
-    	let { activeSlide = false } = $$props;
+    	let { activeSlide = 0 } = $$props;
+    	const activeSlideStore = writable(activeSlide);
+    	validate_store(activeSlideStore, "activeSlideStore");
+    	component_subscribe($$self, activeSlideStore, value => $$invalidate(28, $activeSlideStore = value));
     	let { center = false } = $$props;
     	let { arrows = false } = $$props;
     	let { select = false } = $$props;
@@ -2342,15 +2347,25 @@ var app = (function () {
     	let { touchThreshold = 75 } = $$props;
     	let { transition = { duration: transitionDuration } } = $$props;
     	sectionId = parseInt(sectionId);
+    	let visible;
     	let activeSlideIndicator = activeSlide;
     	let dragStartPosition;
     	let touchStartPosition;
     	let recentSlide = 0;
+    	let slideCount = 0;
     	let classes = `${defaultClasses} svelte-fp-section svelte-fp-flexbox-center`;
 
     	if (!select) {
     		classes = `${classes} svelte-fp-unselectable`;
     	}
+
+    	setContext("slide", {
+    		activeSlideStore,
+    		getId: () => {
+    			slideCount++;
+    			return slideCount - 1;
+    		}
+    	});
 
     	const makePositive = num => {
     		//console.log(num);
@@ -2373,27 +2388,27 @@ var app = (function () {
     	};
 
     	const slideRight = () => {
-    		const active = makePositive(activeSlide);
+    		const active = makePositive($activeSlideStore);
 
     		if (active.num < slides.length - 1) {
     			$$invalidate(5, activeSlideIndicator = active.num + 1);
-    			$$invalidate(16, activeSlide = -activeSlideIndicator);
+    			activeSlideStore.set(-activeSlideIndicator);
     		} else {
-    			$$invalidate(16, activeSlide = 0);
-    			$$invalidate(5, activeSlideIndicator = activeSlide);
+    			activeSlideStore.set(0);
+    			$$invalidate(5, activeSlideIndicator = $activeSlideStore);
     		}
     	};
 
     	const slideLeft = () => {
-    		const active = makePositive(activeSlide);
+    		const active = makePositive($activeSlideStore);
 
     		if (active.num > 0) {
-    			$$invalidate(16, activeSlide = active.num - 1);
+    			activeSlideStore.set(active.num - 1);
     		} else {
-    			$$invalidate(16, activeSlide = slides.length - 1);
+    			activeSlideStore.set(slides.length - 1);
     		}
 
-    		$$invalidate(5, activeSlideIndicator = activeSlide);
+    		$$invalidate(5, activeSlideIndicator = $activeSlideStore);
     	};
 
     	const toSlide = slideId => {
@@ -2462,7 +2477,7 @@ var app = (function () {
     	};
 
     	onMount(() => {
-    		$$invalidate(4, sectionId = getId());
+    		$$invalidate(23, sectionId = getId());
     	});
 
     	const writable_props = [
@@ -2493,10 +2508,10 @@ var app = (function () {
     	const touchmove_handler = event => handleTouchEnd(event);
 
     	$$self.$set = $$props => {
-    		if ("class" in $$props) $$invalidate(17, defaultClasses = $$props.class);
+    		if ("class" in $$props) $$invalidate(16, defaultClasses = $$props.class);
     		if ("style" in $$props) $$invalidate(0, style = $$props.style);
     		if ("slides" in $$props) $$invalidate(1, slides = $$props.slides);
-    		if ("activeSlide" in $$props) $$invalidate(16, activeSlide = $$props.activeSlide);
+    		if ("activeSlide" in $$props) $$invalidate(17, activeSlide = $$props.activeSlide);
     		if ("center" in $$props) $$invalidate(2, center = $$props.center);
     		if ("arrows" in $$props) $$invalidate(18, arrows = $$props.arrows);
     		if ("select" in $$props) $$invalidate(19, select = $$props.select);
@@ -2504,13 +2519,15 @@ var app = (function () {
     		if ("dragThreshold" in $$props) $$invalidate(21, dragThreshold = $$props.dragThreshold);
     		if ("touchThreshold" in $$props) $$invalidate(22, touchThreshold = $$props.touchThreshold);
     		if ("transition" in $$props) $$invalidate(3, transition = $$props.transition);
-    		if ("$$scope" in $$props) $$invalidate(30, $$scope = $$props.$$scope);
+    		if ("$$scope" in $$props) $$invalidate(34, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
     		slide,
     		getContext,
     		onMount,
+    		setContext,
+    		writable,
     		defaultClasses,
     		style,
     		sectionId,
@@ -2518,6 +2535,7 @@ var app = (function () {
     		activeSectionStore,
     		slides,
     		activeSlide,
+    		activeSlideStore,
     		center,
     		arrows,
     		select,
@@ -2525,10 +2543,12 @@ var app = (function () {
     		dragThreshold,
     		touchThreshold,
     		transition,
+    		visible,
     		activeSlideIndicator,
     		dragStartPosition,
     		touchStartPosition,
     		recentSlide,
+    		slideCount,
     		classes,
     		makePositive,
     		handleSelect,
@@ -2540,15 +2560,16 @@ var app = (function () {
     		handleDragEnd,
     		handleTouchStart,
     		handleTouchEnd,
+    		$activeSlideStore,
     		$activeSectionStore
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("defaultClasses" in $$props) $$invalidate(17, defaultClasses = $$props.defaultClasses);
+    		if ("defaultClasses" in $$props) $$invalidate(16, defaultClasses = $$props.defaultClasses);
     		if ("style" in $$props) $$invalidate(0, style = $$props.style);
-    		if ("sectionId" in $$props) $$invalidate(4, sectionId = $$props.sectionId);
+    		if ("sectionId" in $$props) $$invalidate(23, sectionId = $$props.sectionId);
     		if ("slides" in $$props) $$invalidate(1, slides = $$props.slides);
-    		if ("activeSlide" in $$props) $$invalidate(16, activeSlide = $$props.activeSlide);
+    		if ("activeSlide" in $$props) $$invalidate(17, activeSlide = $$props.activeSlide);
     		if ("center" in $$props) $$invalidate(2, center = $$props.center);
     		if ("arrows" in $$props) $$invalidate(18, arrows = $$props.arrows);
     		if ("select" in $$props) $$invalidate(19, select = $$props.select);
@@ -2556,10 +2577,12 @@ var app = (function () {
     		if ("dragThreshold" in $$props) $$invalidate(21, dragThreshold = $$props.dragThreshold);
     		if ("touchThreshold" in $$props) $$invalidate(22, touchThreshold = $$props.touchThreshold);
     		if ("transition" in $$props) $$invalidate(3, transition = $$props.transition);
+    		if ("visible" in $$props) $$invalidate(4, visible = $$props.visible);
     		if ("activeSlideIndicator" in $$props) $$invalidate(5, activeSlideIndicator = $$props.activeSlideIndicator);
     		if ("dragStartPosition" in $$props) dragStartPosition = $$props.dragStartPosition;
     		if ("touchStartPosition" in $$props) touchStartPosition = $$props.touchStartPosition;
     		if ("recentSlide" in $$props) recentSlide = $$props.recentSlide;
+    		if ("slideCount" in $$props) slideCount = $$props.slideCount;
     		if ("classes" in $$props) $$invalidate(6, classes = $$props.classes);
     	};
 
@@ -2567,16 +2590,33 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty[0] & /*sectionId, $activeSectionStore*/ 545259520) {
+    			 $$invalidate(4, visible = sectionId === $activeSectionStore);
+    		}
+
+    		if ($$self.$$.dirty[0] & /*activeSlide*/ 131072) {
+    			 activeSlideStore.set(activeSlide);
+    		}
+
+    		if ($$self.$$.dirty[0] & /*visible*/ 16) {
+    			// Everytime section disappears, slide count resets, this prevents slides from getting wrong ID
+    			 if (!visible) {
+    				slideCount = 0;
+    			}
+    		}
+    	};
+
     	return [
     		style,
     		slides,
     		center,
     		transition,
-    		sectionId,
+    		visible,
     		activeSlideIndicator,
     		classes,
-    		$activeSectionStore,
     		activeSectionStore,
+    		activeSlideStore,
     		handleSelect,
     		toSlide,
     		handleKey,
@@ -2584,16 +2624,20 @@ var app = (function () {
     		handleDragEnd,
     		handleTouchStart,
     		handleTouchEnd,
-    		activeSlide,
     		defaultClasses,
+    		activeSlide,
     		arrows,
     		select,
     		transitionDuration,
     		dragThreshold,
     		touchThreshold,
+    		sectionId,
     		dragStartPosition,
     		touchStartPosition,
     		recentSlide,
+    		slideCount,
+    		$activeSlideStore,
+    		$activeSectionStore,
     		getId,
     		makePositive,
     		slideRight,
@@ -2620,10 +2664,10 @@ var app = (function () {
     			create_fragment$3,
     			safe_not_equal,
     			{
-    				class: 17,
+    				class: 16,
     				style: 0,
     				slides: 1,
-    				activeSlide: 16,
+    				activeSlide: 17,
     				center: 2,
     				arrows: 18,
     				select: 19,
@@ -2735,25 +2779,25 @@ var app = (function () {
     /* home/filip/Programming/OpenSource/svelte/svelte-fullpage/src/FullpageSlide.svelte generated by Svelte v3.20.1 */
     const file$4 = "home/filip/Programming/OpenSource/svelte/svelte-fullpage/src/FullpageSlide.svelte";
 
-    // (42:0) {#if slideId === activeSlide}
+    // (53:0) {#if slideId === activeSlide}
     function create_if_block$2(ctx) {
     	let div;
     	let div_class_value;
     	let div_intro;
     	let div_outro;
     	let current;
-    	const default_slot_template = /*$$slots*/ ctx[9].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[8], null);
+    	const default_slot_template = /*$$slots*/ ctx[14].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[13], null);
     	const default_slot_or_fallback = default_slot || fallback_block$1(ctx);
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			if (default_slot_or_fallback) default_slot_or_fallback.c();
-    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(`${/*defaultClasses*/ ctx[4]} svelte-fp-content`) + " svelte-1jzpibp"));
-    			attr_dev(div, "style", /*style*/ ctx[5]);
-    			toggle_class(div, "svelte-fp-flexbox-center", /*center*/ ctx[6]);
-    			add_location(div, file$4, 42, 4, 958);
+    			attr_dev(div, "class", div_class_value = "" + (null_to_empty(`${/*defaultClasses*/ ctx[2]} svelte-fp-content`) + " svelte-1jzpibp"));
+    			attr_dev(div, "style", /*style*/ ctx[3]);
+    			toggle_class(div, "svelte-fp-flexbox-center", /*center*/ ctx[4]);
+    			add_location(div, file$4, 53, 4, 1253);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2766,21 +2810,21 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 256) {
-    					default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[8], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[8], dirty, null));
+    				if (default_slot.p && dirty & /*$$scope*/ 8192) {
+    					default_slot.p(get_slot_context(default_slot_template, ctx, /*$$scope*/ ctx[13], null), get_slot_changes(default_slot_template, /*$$scope*/ ctx[13], dirty, null));
     				}
     			}
 
-    			if (!current || dirty & /*defaultClasses*/ 16 && div_class_value !== (div_class_value = "" + (null_to_empty(`${/*defaultClasses*/ ctx[4]} svelte-fp-content`) + " svelte-1jzpibp"))) {
+    			if (!current || dirty & /*defaultClasses*/ 4 && div_class_value !== (div_class_value = "" + (null_to_empty(`${/*defaultClasses*/ ctx[2]} svelte-fp-content`) + " svelte-1jzpibp"))) {
     				attr_dev(div, "class", div_class_value);
     			}
 
-    			if (!current || dirty & /*style*/ 32) {
-    				attr_dev(div, "style", /*style*/ ctx[5]);
+    			if (!current || dirty & /*style*/ 8) {
+    				attr_dev(div, "style", /*style*/ ctx[3]);
     			}
 
-    			if (dirty & /*defaultClasses, center*/ 80) {
-    				toggle_class(div, "svelte-fp-flexbox-center", /*center*/ ctx[6]);
+    			if (dirty & /*defaultClasses, center*/ 20) {
+    				toggle_class(div, "svelte-fp-flexbox-center", /*center*/ ctx[4]);
     			}
     		},
     		i: function intro(local) {
@@ -2789,7 +2833,7 @@ var app = (function () {
 
     			add_render_callback(() => {
     				if (div_outro) div_outro.end(1);
-    				if (!div_intro) div_intro = create_in_transition(div, fly, /*transitionIn*/ ctx[2]);
+    				if (!div_intro) div_intro = create_in_transition(div, fly, /*transitionIn*/ ctx[0]);
     				div_intro.start();
     			});
 
@@ -2798,7 +2842,7 @@ var app = (function () {
     		o: function outro(local) {
     			transition_out(default_slot_or_fallback, local);
     			if (div_intro) div_intro.invalidate();
-    			div_outro = create_out_transition(div, fly, /*transitionOut*/ ctx[3]);
+    			div_outro = create_out_transition(div, fly, /*transitionOut*/ ctx[1]);
     			current = false;
     		},
     		d: function destroy(detaching) {
@@ -2812,14 +2856,14 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(42:0) {#if slideId === activeSlide}",
+    		source: "(53:0) {#if slideId === activeSlide}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:14)          
+    // (55:14)          
     function fallback_block$1(ctx) {
     	const block = { c: noop, m: noop, d: noop };
 
@@ -2827,7 +2871,7 @@ var app = (function () {
     		block,
     		id: fallback_block$1.name,
     		type: "fallback",
-    		source: "(44:14)          ",
+    		source: "(55:14)          ",
     		ctx
     	});
 
@@ -2837,7 +2881,7 @@ var app = (function () {
     function create_fragment$4(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*slideId*/ ctx[0] === /*activeSlide*/ ctx[1] && create_if_block$2(ctx);
+    	let if_block = /*slideId*/ ctx[5] === /*activeSlide*/ ctx[6] && create_if_block$2(ctx);
 
     	const block = {
     		c: function create() {
@@ -2853,7 +2897,7 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*slideId*/ ctx[0] === /*activeSlide*/ ctx[1]) {
+    			if (/*slideId*/ ctx[5] === /*activeSlide*/ ctx[6]) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     					transition_in(if_block, 1);
@@ -2900,14 +2944,18 @@ var app = (function () {
     }
 
     function instance$4($$self, $$props, $$invalidate) {
+    	let $activeSlideStore;
     	let { class: defaultClasses = "" } = $$props;
     	let { style = "" } = $$props;
-    	let { slideId } = $$props;
-    	let { activeSlide } = $$props;
+    	let slideId = 0;
+    	let activeSlide = 0;
+    	const { activeSlideStore, getId } = getContext("slide");
+    	validate_store(activeSlideStore, "activeSlideStore");
+    	component_subscribe($$self, activeSlideStore, value => $$invalidate(9, $activeSlideStore = value));
     	let { center = false } = $$props;
+    	let visible;
     	let { transitionIn = { duration: 500, x: -2000 } } = $$props;
     	let { transitionOut = { duration: 500, x: 2000 } } = $$props;
-    	slideId = parseInt(slideId);
 
     	const makePositive = num => {
     		let negative = false;
@@ -2920,15 +2968,25 @@ var app = (function () {
     		return { num, negative };
     	};
 
-    	const writable_props = [
-    		"class",
-    		"style",
-    		"slideId",
-    		"activeSlide",
-    		"center",
-    		"transitionIn",
-    		"transitionOut"
-    	];
+    	const correctAnimation = active => {
+    		const state = makePositive(active);
+
+    		if (state.negative) {
+    			$$invalidate(0, transitionIn.x = 2000, transitionIn);
+    			$$invalidate(1, transitionOut.x = -2000, transitionOut);
+    		} else {
+    			$$invalidate(0, transitionIn.x = -2000, transitionIn);
+    			$$invalidate(1, transitionOut.x = 2000, transitionOut);
+    		}
+
+    		$$invalidate(6, activeSlide = state.num);
+    	};
+
+    	onMount(() => {
+    		$$invalidate(5, slideId = getId());
+    	});
+
+    	const writable_props = ["class", "style", "center", "transitionIn", "transitionOut"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<FullpageSlide> was created with unknown prop '${key}'`);
@@ -2938,36 +2996,42 @@ var app = (function () {
     	validate_slots("FullpageSlide", $$slots, ['default']);
 
     	$$self.$set = $$props => {
-    		if ("class" in $$props) $$invalidate(4, defaultClasses = $$props.class);
-    		if ("style" in $$props) $$invalidate(5, style = $$props.style);
-    		if ("slideId" in $$props) $$invalidate(0, slideId = $$props.slideId);
-    		if ("activeSlide" in $$props) $$invalidate(1, activeSlide = $$props.activeSlide);
-    		if ("center" in $$props) $$invalidate(6, center = $$props.center);
-    		if ("transitionIn" in $$props) $$invalidate(2, transitionIn = $$props.transitionIn);
-    		if ("transitionOut" in $$props) $$invalidate(3, transitionOut = $$props.transitionOut);
-    		if ("$$scope" in $$props) $$invalidate(8, $$scope = $$props.$$scope);
+    		if ("class" in $$props) $$invalidate(2, defaultClasses = $$props.class);
+    		if ("style" in $$props) $$invalidate(3, style = $$props.style);
+    		if ("center" in $$props) $$invalidate(4, center = $$props.center);
+    		if ("transitionIn" in $$props) $$invalidate(0, transitionIn = $$props.transitionIn);
+    		if ("transitionOut" in $$props) $$invalidate(1, transitionOut = $$props.transitionOut);
+    		if ("$$scope" in $$props) $$invalidate(13, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
     		fly,
+    		getContext,
+    		onMount,
     		defaultClasses,
     		style,
     		slideId,
     		activeSlide,
+    		activeSlideStore,
+    		getId,
     		center,
+    		visible,
     		transitionIn,
     		transitionOut,
-    		makePositive
+    		makePositive,
+    		correctAnimation,
+    		$activeSlideStore
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("defaultClasses" in $$props) $$invalidate(4, defaultClasses = $$props.defaultClasses);
-    		if ("style" in $$props) $$invalidate(5, style = $$props.style);
-    		if ("slideId" in $$props) $$invalidate(0, slideId = $$props.slideId);
-    		if ("activeSlide" in $$props) $$invalidate(1, activeSlide = $$props.activeSlide);
-    		if ("center" in $$props) $$invalidate(6, center = $$props.center);
-    		if ("transitionIn" in $$props) $$invalidate(2, transitionIn = $$props.transitionIn);
-    		if ("transitionOut" in $$props) $$invalidate(3, transitionOut = $$props.transitionOut);
+    		if ("defaultClasses" in $$props) $$invalidate(2, defaultClasses = $$props.defaultClasses);
+    		if ("style" in $$props) $$invalidate(3, style = $$props.style);
+    		if ("slideId" in $$props) $$invalidate(5, slideId = $$props.slideId);
+    		if ("activeSlide" in $$props) $$invalidate(6, activeSlide = $$props.activeSlide);
+    		if ("center" in $$props) $$invalidate(4, center = $$props.center);
+    		if ("visible" in $$props) visible = $$props.visible;
+    		if ("transitionIn" in $$props) $$invalidate(0, transitionIn = $$props.transitionIn);
+    		if ("transitionOut" in $$props) $$invalidate(1, transitionOut = $$props.transitionOut);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -2975,32 +3039,33 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*activeSlide*/ 2) {
-    			 {
-    				const state = makePositive(activeSlide);
+    		if ($$self.$$.dirty & /*slideId, activeSlide*/ 96) {
+    			 visible = slideId === activeSlide;
+    		}
 
-    				if (state.negative) {
-    					$$invalidate(2, transitionIn.x = 2000, transitionIn);
-    					$$invalidate(3, transitionOut.x = -2000, transitionOut);
-    				} else {
-    					$$invalidate(2, transitionIn.x = -2000, transitionIn);
-    					$$invalidate(3, transitionOut.x = 2000, transitionOut);
-    				}
+    		if ($$self.$$.dirty & /*activeSlide*/ 64) {
+    			 activeSlideStore.set(activeSlide);
+    		}
 
-    				$$invalidate(1, activeSlide = state.num);
-    			}
+    		if ($$self.$$.dirty & /*$activeSlideStore*/ 512) {
+    			 correctAnimation($activeSlideStore);
     		}
     	};
 
     	return [
-    		slideId,
-    		activeSlide,
     		transitionIn,
     		transitionOut,
     		defaultClasses,
     		style,
     		center,
+    		slideId,
+    		activeSlide,
+    		activeSlideStore,
+    		visible,
+    		$activeSlideStore,
+    		getId,
     		makePositive,
+    		correctAnimation,
     		$$scope,
     		$$slots
     	];
@@ -3011,13 +3076,11 @@ var app = (function () {
     		super(options);
 
     		init(this, options, instance$4, create_fragment$4, safe_not_equal, {
-    			class: 4,
-    			style: 5,
-    			slideId: 0,
-    			activeSlide: 1,
-    			center: 6,
-    			transitionIn: 2,
-    			transitionOut: 3
+    			class: 2,
+    			style: 3,
+    			center: 4,
+    			transitionIn: 0,
+    			transitionOut: 1
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -3026,17 +3089,6 @@ var app = (function () {
     			options,
     			id: create_fragment$4.name
     		});
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-
-    		if (/*slideId*/ ctx[0] === undefined && !("slideId" in props)) {
-    			console.warn("<FullpageSlide> was created without expected prop 'slideId'");
-    		}
-
-    		if (/*activeSlide*/ ctx[1] === undefined && !("activeSlide" in props)) {
-    			console.warn("<FullpageSlide> was created without expected prop 'activeSlide'");
-    		}
     	}
 
     	get class() {
@@ -3052,22 +3104,6 @@ var app = (function () {
     	}
 
     	set style(value) {
-    		throw new Error("<FullpageSlide>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get slideId() {
-    		throw new Error("<FullpageSlide>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set slideId(value) {
-    		throw new Error("<FullpageSlide>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get activeSlide() {
-    		throw new Error("<FullpageSlide>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set activeSlide(value) {
     		throw new Error("<FullpageSlide>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
@@ -3750,7 +3786,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const col_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				col_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3804,7 +3840,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const row_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				row_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3859,7 +3895,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const container_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				container_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3903,8 +3939,8 @@ var app = (function () {
     			t1 = space();
     			p = element("p");
     			p.textContent = "There is also component for slides as you can see.\n\t\t\t\t\t\t\tTry to drag/swipe right or left, also you can use arrows.";
-    			add_location(h1, file$8, 58, 6, 1256);
-    			add_location(p, file$8, 59, 6, 1278);
+    			add_location(h1, file$8, 58, 6, 1210);
+    			add_location(p, file$8, 59, 6, 1232);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -3952,7 +3988,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const col_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				col_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4006,7 +4042,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const row_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				row_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4037,7 +4073,7 @@ var app = (function () {
     	return block;
     }
 
-    // (55:2) <FullpageSlide slideId="0" bind:activeSlide center>
+    // (55:2) <FullpageSlide center>
     function create_default_slot_15(ctx) {
     	let current;
 
@@ -4061,7 +4097,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const container_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				container_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4085,7 +4121,7 @@ var app = (function () {
     		block,
     		id: create_default_slot_15.name,
     		type: "slot",
-    		source: "(55:2) <FullpageSlide slideId=\\\"0\\\" bind:activeSlide center>",
+    		source: "(55:2) <FullpageSlide center>",
     		ctx
     	});
 
@@ -4105,8 +4141,8 @@ var app = (function () {
     			t1 = space();
     			p = element("p");
     			p.textContent = "You can style every individual slide, notice background change.";
-    			add_location(h1, file$8, 71, 6, 1608);
-    			add_location(p, file$8, 72, 6, 1637);
+    			add_location(h1, file$8, 71, 6, 1533);
+    			add_location(p, file$8, 72, 6, 1562);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4154,7 +4190,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const col_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				col_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4208,7 +4244,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const row_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				row_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4239,7 +4275,7 @@ var app = (function () {
     	return block;
     }
 
-    // (68:2) <FullpageSlide slideId="1" bind:activeSlide class="bg-danger" center>
+    // (68:2) <FullpageSlide class="bg-danger" center>
     function create_default_slot_11(ctx) {
     	let current;
 
@@ -4263,7 +4299,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const container_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				container_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4287,7 +4323,7 @@ var app = (function () {
     		block,
     		id: create_default_slot_11.name,
     		type: "slot",
-    		source: "(68:2) <FullpageSlide slideId=\\\"1\\\" bind:activeSlide class=\\\"bg-danger\\\" center>",
+    		source: "(68:2) <FullpageSlide class=\\\"bg-danger\\\" center>",
     		ctx
     	});
 
@@ -4307,8 +4343,8 @@ var app = (function () {
     			t1 = space();
     			p = element("p");
     			p.textContent = "svelte-fullpage supports also embeds and iframes, scroll down to see example, you will see\n\t\t\t\t\t\t\tpage but loaded using embed. Scrolling on embaded page is enabled, but also fulpage\n\t\t\t\t\t\t\tscrolling is still working, try to scroll hovering over fullpage section indicator (grey dots).";
-    			add_location(h1, file$8, 83, 6, 1916);
-    			add_location(p, file$8, 84, 6, 1938);
+    			add_location(h1, file$8, 83, 6, 1812);
+    			add_location(p, file$8, 84, 6, 1834);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4356,7 +4392,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const col_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				col_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4410,7 +4446,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const row_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				row_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4441,7 +4477,7 @@ var app = (function () {
     	return block;
     }
 
-    // (80:2) <FullpageSlide slideId="2" bind:activeSlide class="bg-success" center>
+    // (80:2) <FullpageSlide class="bg-success" center>
     function create_default_slot_7(ctx) {
     	let current;
 
@@ -4465,7 +4501,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const container_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				container_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4489,89 +4525,47 @@ var app = (function () {
     		block,
     		id: create_default_slot_7.name,
     		type: "slot",
-    		source: "(80:2) <FullpageSlide slideId=\\\"2\\\" bind:activeSlide class=\\\"bg-success\\\" center>",
+    		source: "(80:2) <FullpageSlide class=\\\"bg-success\\\" center>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (54:1) <FullpageSection bind:activeSlide {slides} class="bg-info" arrows>
+    // (54:1) <FullpageSection {slides} class="bg-info" arrows>
     function create_default_slot_6(ctx) {
-    	let updating_activeSlide;
     	let t0;
-    	let updating_activeSlide_1;
     	let t1;
-    	let updating_activeSlide_2;
     	let current;
 
-    	function fullpageslide0_activeSlide_binding(value) {
-    		/*fullpageslide0_activeSlide_binding*/ ctx[4].call(null, value);
-    	}
-
-    	let fullpageslide0_props = {
-    		slideId: "0",
-    		center: true,
-    		$$slots: { default: [create_default_slot_15] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*activeSlide*/ ctx[1] !== void 0) {
-    		fullpageslide0_props.activeSlide = /*activeSlide*/ ctx[1];
-    	}
-
     	const fullpageslide0 = new FullpageSlide({
-    			props: fullpageslide0_props,
+    			props: {
+    				center: true,
+    				$$slots: { default: [create_default_slot_15] },
+    				$$scope: { ctx }
+    			},
     			$$inline: true
     		});
-
-    	binding_callbacks.push(() => bind(fullpageslide0, "activeSlide", fullpageslide0_activeSlide_binding));
-
-    	function fullpageslide1_activeSlide_binding(value) {
-    		/*fullpageslide1_activeSlide_binding*/ ctx[5].call(null, value);
-    	}
-
-    	let fullpageslide1_props = {
-    		slideId: "1",
-    		class: "bg-danger",
-    		center: true,
-    		$$slots: { default: [create_default_slot_11] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*activeSlide*/ ctx[1] !== void 0) {
-    		fullpageslide1_props.activeSlide = /*activeSlide*/ ctx[1];
-    	}
 
     	const fullpageslide1 = new FullpageSlide({
-    			props: fullpageslide1_props,
+    			props: {
+    				class: "bg-danger",
+    				center: true,
+    				$$slots: { default: [create_default_slot_11] },
+    				$$scope: { ctx }
+    			},
     			$$inline: true
     		});
-
-    	binding_callbacks.push(() => bind(fullpageslide1, "activeSlide", fullpageslide1_activeSlide_binding));
-
-    	function fullpageslide2_activeSlide_binding(value) {
-    		/*fullpageslide2_activeSlide_binding*/ ctx[6].call(null, value);
-    	}
-
-    	let fullpageslide2_props = {
-    		slideId: "2",
-    		class: "bg-success",
-    		center: true,
-    		$$slots: { default: [create_default_slot_7] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*activeSlide*/ ctx[1] !== void 0) {
-    		fullpageslide2_props.activeSlide = /*activeSlide*/ ctx[1];
-    	}
 
     	const fullpageslide2 = new FullpageSlide({
-    			props: fullpageslide2_props,
+    			props: {
+    				class: "bg-success",
+    				center: true,
+    				$$slots: { default: [create_default_slot_7] },
+    				$$scope: { ctx }
+    			},
     			$$inline: true
     		});
-
-    	binding_callbacks.push(() => bind(fullpageslide2, "activeSlide", fullpageslide2_activeSlide_binding));
 
     	const block = {
     		c: function create() {
@@ -4592,40 +4586,22 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const fullpageslide0_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpageslide0_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_activeSlide && dirty & /*activeSlide*/ 2) {
-    				updating_activeSlide = true;
-    				fullpageslide0_changes.activeSlide = /*activeSlide*/ ctx[1];
-    				add_flush_callback(() => updating_activeSlide = false);
     			}
 
     			fullpageslide0.$set(fullpageslide0_changes);
     			const fullpageslide1_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpageslide1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_activeSlide_1 && dirty & /*activeSlide*/ 2) {
-    				updating_activeSlide_1 = true;
-    				fullpageslide1_changes.activeSlide = /*activeSlide*/ ctx[1];
-    				add_flush_callback(() => updating_activeSlide_1 = false);
     			}
 
     			fullpageslide1.$set(fullpageslide1_changes);
     			const fullpageslide2_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpageslide2_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_activeSlide_2 && dirty & /*activeSlide*/ 2) {
-    				updating_activeSlide_2 = true;
-    				fullpageslide2_changes.activeSlide = /*activeSlide*/ ctx[1];
-    				add_flush_callback(() => updating_activeSlide_2 = false);
     			}
 
     			fullpageslide2.$set(fullpageslide2_changes);
@@ -4656,7 +4632,7 @@ var app = (function () {
     		block,
     		id: create_default_slot_6.name,
     		type: "slot",
-    		source: "(54:1) <FullpageSection bind:activeSlide {slides} class=\\\"bg-info\\\" arrows>",
+    		source: "(54:1) <FullpageSection {slides} class=\\\"bg-info\\\" arrows>",
     		ctx
     	});
 
@@ -4674,7 +4650,7 @@ var app = (function () {
     			if (embed.src !== (embed_src_value = "https://github.com/Hejtmus/svelte-fullpage#svelte-fullpage")) attr_dev(embed, "src", embed_src_value);
     			attr_dev(embed, "csp", "https://github.com");
     			attr_dev(embed, "class", "w-100 h-100");
-    			add_location(embed, file$8, 95, 2, 2351);
+    			add_location(embed, file$8, 95, 2, 2247);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, embed, anchor);
@@ -4708,8 +4684,8 @@ var app = (function () {
     			t1 = space();
     			p = element("p");
     			p.textContent = "This component is in development and is far from being ideal, as you noticed (maybe), there\n\t\t\t\t\t\tis problem with slide animation. Currently I'm the only contributor of this project, feel free\n\t\t\t\t\t\tto fork it and make pull request.";
-    			add_location(h1, file$8, 101, 5, 2592);
-    			add_location(p, file$8, 102, 5, 2631);
+    			add_location(h1, file$8, 101, 5, 2488);
+    			add_location(p, file$8, 102, 5, 2527);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -4757,7 +4733,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const col_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				col_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4811,7 +4787,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const row_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				row_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4866,7 +4842,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const container_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				container_changes.$$scope = { dirty, ctx };
     			}
 
@@ -4900,7 +4876,6 @@ var app = (function () {
     // (38:0) <Fullpage bind:activeSection arrows drag>
     function create_default_slot(ctx) {
     	let t0;
-    	let updating_activeSlide;
     	let t1;
     	let t2;
     	let current;
@@ -4914,28 +4889,16 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	function fullpagesection1_activeSlide_binding(value) {
-    		/*fullpagesection1_activeSlide_binding*/ ctx[7].call(null, value);
-    	}
-
-    	let fullpagesection1_props = {
-    		slides: /*slides*/ ctx[2],
-    		class: "bg-info",
-    		arrows: true,
-    		$$slots: { default: [create_default_slot_6] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*activeSlide*/ ctx[1] !== void 0) {
-    		fullpagesection1_props.activeSlide = /*activeSlide*/ ctx[1];
-    	}
-
     	const fullpagesection1 = new FullpageSection({
-    			props: fullpagesection1_props,
+    			props: {
+    				slides: /*slides*/ ctx[1],
+    				class: "bg-info",
+    				arrows: true,
+    				$$slots: { default: [create_default_slot_6] },
+    				$$scope: { ctx }
+    			},
     			$$inline: true
     		});
-
-    	binding_callbacks.push(() => bind(fullpagesection1, "activeSlide", fullpagesection1_activeSlide_binding));
 
     	const fullpagesection2 = new FullpageSection({
     			props: {
@@ -4979,34 +4942,28 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const fullpagesection0_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpagesection0_changes.$$scope = { dirty, ctx };
     			}
 
     			fullpagesection0.$set(fullpagesection0_changes);
     			const fullpagesection1_changes = {};
 
-    			if (dirty & /*$$scope, activeSlide*/ 514) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpagesection1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_activeSlide && dirty & /*activeSlide*/ 2) {
-    				updating_activeSlide = true;
-    				fullpagesection1_changes.activeSlide = /*activeSlide*/ ctx[1];
-    				add_flush_callback(() => updating_activeSlide = false);
     			}
 
     			fullpagesection1.$set(fullpagesection1_changes);
     			const fullpagesection2_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpagesection2_changes.$$scope = { dirty, ctx };
     			}
 
     			fullpagesection2.$set(fullpagesection2_changes);
     			const fullpagesection3_changes = {};
 
-    			if (dirty & /*$$scope*/ 512) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpagesection3_changes.$$scope = { dirty, ctx };
     			}
 
@@ -5055,7 +5012,7 @@ var app = (function () {
     	let current;
 
     	function fullpage_activeSection_binding(value) {
-    		/*fullpage_activeSection_binding*/ ctx[8].call(null, value);
+    		/*fullpage_activeSection_binding*/ ctx[4].call(null, value);
     	}
 
     	let fullpage_props = {
@@ -5089,7 +5046,7 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			const fullpage_changes = {};
 
-    			if (dirty & /*$$scope, activeSlide*/ 514) {
+    			if (dirty & /*$$scope*/ 32) {
     				fullpage_changes.$$scope = { dirty, ctx };
     			}
 
@@ -5148,26 +5105,6 @@ var app = (function () {
     	let { $$slots = {}, $$scope } = $$props;
     	validate_slots("App", $$slots, []);
 
-    	function fullpageslide0_activeSlide_binding(value) {
-    		activeSlide = value;
-    		$$invalidate(1, activeSlide);
-    	}
-
-    	function fullpageslide1_activeSlide_binding(value) {
-    		activeSlide = value;
-    		$$invalidate(1, activeSlide);
-    	}
-
-    	function fullpageslide2_activeSlide_binding(value) {
-    		activeSlide = value;
-    		$$invalidate(1, activeSlide);
-    	}
-
-    	function fullpagesection1_activeSlide_binding(value) {
-    		activeSlide = value;
-    		$$invalidate(1, activeSlide);
-    	}
-
     	function fullpage_activeSection_binding(value) {
     		activeSection = value;
     		$$invalidate(0, activeSection);
@@ -5188,24 +5125,14 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ("activeSection" in $$props) $$invalidate(0, activeSection = $$props.activeSection);
-    		if ("activeSlide" in $$props) $$invalidate(1, activeSlide = $$props.activeSlide);
+    		if ("activeSlide" in $$props) activeSlide = $$props.activeSlide;
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [
-    		activeSection,
-    		activeSlide,
-    		slides,
-    		sections,
-    		fullpageslide0_activeSlide_binding,
-    		fullpageslide1_activeSlide_binding,
-    		fullpageslide2_activeSlide_binding,
-    		fullpagesection1_activeSlide_binding,
-    		fullpage_activeSection_binding
-    	];
+    	return [activeSection, slides, sections, activeSlide, fullpage_activeSection_binding];
     }
 
     class App extends SvelteComponentDev {

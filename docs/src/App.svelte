@@ -51,8 +51,8 @@
 			</Row>
 		</Container>
 	</FullpageSection>
-	<FullpageSection bind:activeSlide {slides} class="bg-info" arrows>
-		<FullpageSlide slideId="0" bind:activeSlide center>
+	<FullpageSection {slides} class="bg-info" arrows>
+		<FullpageSlide center>
 			<Container class="text-center">
 				<Row>
 					<Col>
@@ -65,7 +65,7 @@
 				</Row>
 			</Container>
 		</FullpageSlide>
-		<FullpageSlide slideId="1" bind:activeSlide class="bg-danger" center>
+		<FullpageSlide class="bg-danger" center>
 			<Container class="text-center">
 				<Row>
 					<Col>
@@ -77,7 +77,7 @@
 				</Row>
 			</Container>
 		</FullpageSlide>
-		<FullpageSlide slideId="2" bind:activeSlide class="bg-success" center>
+		<FullpageSlide class="bg-success" center>
 			<Container class="text-center">
 				<Row>
 					<Col>

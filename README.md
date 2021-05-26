@@ -51,15 +51,13 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
 	import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'
 	import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte';
 
-    //Include all titles of your sections, this is also used as number that indicate count of sections
+    //Optional, include all titles of your sections, this is also used as number that indicate count of sections
     const sections = [
         'Home',
         'History',
         'Present',
         'Future'
     ];
-    //Have to set to 0 (or section you wish to display as default), otherwise section will not display
-    let activeSection = 0;
     
     //Same mechanics as in sections
     const slides = [
@@ -73,14 +71,14 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
     <FullpageSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection bind:activeSlide {slides} arrows>
-        <FullpageSlide slideId="0" bind:activeSlide>
+    <FullpageSection {slides} arrows>
+        <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
-        <FullpageSlide slideId="1" bind:activeSlide>
+        <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
-        <FullpageSlide slideId="2" bind:activeSlide>
+        <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
     </FullpageSection>
@@ -128,22 +126,15 @@ transition prop, because this alters cooldown between transitions.
 * **dragThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is drag detected on page
 * **touchThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is touch detected on page
 
-****These transitions are Svelte transitions, you can change only options, not type of
-animation, because I hard-coded it there :D, may change in future .***
-
 #### FullpageSlide
 
 These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **slideId** - `number/string` - Id of slide, same as section id, but this for slide, obviously
-* **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `number` - Centering content using flexbox
 * **transitionIn** - `object` - Options for transitionIn between this slides
 * **transitionOut** - `object` - Options for transitionOut between this slides
-* **dragThreshold** - `number` - Number in pixels, that says, when to switch to another slide, if is drag detected on section
-* **touchThreshold** - `number` - Number in pixels, that says, when to switch to another slide, if is touch detected on section
 
 ## License
 
