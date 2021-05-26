@@ -69,15 +69,13 @@
     };
     //function that makes scroll up effect
     const scrollUp = async () => {
-        // TODO: somehow fix animation
-        if (activeSection > 0){
+        if ($activeSectionStore > 0){
             activeSection--;
         }
     };
     //function that makes scroll down effect
     const scrollDown = async () => {
-        // TODO: somehow fix animation
-        if (activeSection < sectionCount){
+        if ($activeSectionStore < sectionCount-1){
             activeSection++;
         }
     };
@@ -148,7 +146,6 @@
                 `Section ${i+1}`
             ];
         }
-        console.log(sections)
     }
 </script>
 
