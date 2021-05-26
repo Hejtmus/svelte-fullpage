@@ -1,6 +1,8 @@
 # Svelte-fullpage
 
-***In development***
+Pure Svelte fullpage component
+
+***This component is actively maintained***
 
 *5.5kB gZipped, unzipped 14.9kB*
 
@@ -13,12 +15,6 @@ please report them to this component's GitHub repo to the 'Issues' section.
 > ```bash
 > npm i svelte-fullpage --save-dev
 > ```
-
-## Versions of this component
-
-In previous ***module version*** (0.1.1) there were 2 versions of component, static and dynamic, but it turned out that dynamic
-version is redundant and overall worse than static, so it is no longer part of this module. This component is meant to be
-lightweight so bundle size must be as small as possible.
 
 ## How to use
 
@@ -91,6 +87,8 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
 </Fullpage>
 
 ```
+
+If you are not sure how to use this component, take a look at [demo site code](https://github.com/Hejtmus/svelte-fullpage/blob/master/docs/src/App.svelte)
 
 ### Tweaks
 
