@@ -123,6 +123,7 @@
     };
     // Compare touch start and end Y coordinates, if difference exceeds threshold, scroll function is triggered
     const handleTouchEnd = (event) => {
+        // Timer is used for preventing scrolling multiple sections
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenY;
         if (transitionDuration < timer-recentScroll) {
@@ -137,7 +138,10 @@
     };
 
 
-    // Everytime active session updates, also this store gets new value and then all sections that subscribe
+    /*
+    Everytime activeSection updates, this store gets new value and then all sections that subscribe,
+    this is because user may want to control sections programmatically
+     */
     $: activeSectionStore.set(activeSection)
 
     // If user has specified sectionTitles, then sections is overridden
