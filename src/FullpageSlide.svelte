@@ -9,7 +9,6 @@
     let activeSlide = 0;
     const { activeSlideStore, getId } = getContext('slide')
     export let center = false;
-    let visible;
     export let transitionIn = {
         duration: 500,
         x: -2000
@@ -30,6 +29,7 @@
 
     const correctAnimation = (active) => {
         const state = makePositive(active);
+        // Sets animation direction based on scroll/drag/arrow direction
         if (state.negative) {
             transitionIn.x = 2000;
             transitionOut.x = -2000;
@@ -40,11 +40,13 @@
         activeSlide = state.num;
     }
 
-    $: visible = slideId === activeSlide;
+    // When activeSlide value changes, activeSlideStore value updates
     $: activeSlideStore.set(activeSlide)
 
+    // When activeSlideStore value changes, recompute transitions and change activeSlide
     $: correctAnimation($activeSlideStore)
 
+    // After DOM is ready ged slideId
     onMount(()=>{
         slideId = getId()
     })
