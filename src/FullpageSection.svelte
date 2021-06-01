@@ -3,8 +3,6 @@
     import {getContext, onMount, setContext} from "svelte";
     import { writable } from "svelte/store";
 
-    //<FullpageSectionStatic bind:activeSection sectionId="id"></FullpageSectionStatic>
-
     let defaultClasses = '';
 
     export { defaultClasses as class };
@@ -38,6 +36,7 @@
         classes = `${classes} svelte-fp-unselectable`
     }
 
+    // Passing data about slide visibility to all slides, same principle as setContext('section',{...}) in Fullpage.svelte
     setContext('slide', {
         activeSlideStore,
         getId: ()=>{
@@ -47,14 +46,11 @@
     })
 
     const makePositive = (num) => {
-        //console.log(num);
         let negative = false;
         if (num < 0) {
             negative = true;
             num = -num;
         }
-        //console.log(num);
-        //console.log(negative);
         return {num, negative};
     };
 
@@ -97,7 +93,7 @@
         }
     };
 
-    //function that handles arrow event
+    // handling arrow event
     const handleKey = (event) => {
         if (arrows) {
             switch (event.key) {
@@ -111,26 +107,28 @@
         }
     };
 
-    //function that handles drag start event
+    // memoize drag start X coordinate
     const handleDragStart = (event) => {
         dragStartPosition = event.screenX;
     };
-    //function that handles drag end event
+    // handles drag end event
     const handleDragEnd = (event) => {
         const dragEndPosition = event.screenX;
+        // Trigger scroll event after thresholds are exceeded
         if (dragStartPosition - dragEndPosition > dragThreshold) {
             slideRight();
         } else if (dragStartPosition - dragEndPosition < -dragThreshold) {
             slideLeft()
         }
     };
-    //function that handles touch event
+
+    // memoize touch start X coordinate
     const handleTouchStart = (event) => {
-        //event.preventDefault();
         touchStartPosition = event.touches[0].screenX;
     };
+    // Compare touch start and end X coordinates, if difference exceeds threshold, scroll function is triggered
     const handleTouchEnd = (event) => {
-        //event.preventDefault();
+        // Timer is used for preventing scrolling multiple slides
         let timer = new Date().getTime();
         const touchEndPosition = event.touches[0].screenX;
         if (transitionDuration < timer-recentSlide) {
@@ -144,10 +142,16 @@
         }
     };
 
+    // Recompute visible: boolean everytime one of dependencies change
     $: visible = (sectionId === $activeSectionStore);
 
+    /*
+    Everytime activeSlide updates, this store gets new value and then all slides that subscribe,
+    this is because user may want to control slides programmatically
+     */
     $: activeSlideStore.set(activeSlide)
 
+    // After DOM is ready ged sectionId
     onMount(()=>{
         sectionId = getId()
     })
