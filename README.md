@@ -2,9 +2,7 @@
 
 Pure Svelte fullpage component
 
-***This component is actively maintained***
-
-*5.5kB gZipped, unzipped 14.9kB*
+***Tested using latest svelte (3.47.0) and svelteKit (next.320)***
 
 Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. There is also support for
 mobile devices. Tested on Svelte and Sapper. Note that this component is in development, expect bugs, if you notice some, 
@@ -42,32 +40,28 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
         FullpageSection,
         FullpageSlide
     } from 'svelte-fullpage';
-    //Sapper import
-	import Fullpage from 'svelte-fullpage/src/Fullpage.svelte';
-	import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'
-	import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte';
 
-    //Optional, include all titles of your sections, this is also used as number that indicate count of sections
-    const sections = [
+    // Optional, include all titles of your sections
+    const sectionTitles = [
         'Home',
         'History',
         'Present',
         'Future'
     ];
     
-    //Same mechanics as in sections
-    const slides = [
+    // Same mechanics as in sections
+    const slideTitles = [
         '1982-1993',
         '1993-2006',
         '2006-present'
     ];
 </script>
 
-<Fullpage {sections} arrows>
+<Fullpage {sectionTitles} arrows>
     <FullpageSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection {slides} arrows>
+    <FullpageSection {slideTitles} arrows>
         <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
@@ -100,7 +94,7 @@ These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **sections** - `array` - Array containing FullpageSection components/names
+* **sectionTitles** - `array<string>` - Array containing titles of FullpageSections for section indicator
 * **activeSection** - `number` - Number that points set visibility of sections.
 * **transitionDuration** - `number` - Duration of transition between sections
 * **arrows** - `boolean` - Adds support for scrolling using arrows
@@ -113,7 +107,7 @@ These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **slides** - `array` - Array containing FullpageSlide components/names, if there are some
+* **slideTitles** - `array<string>` - Array containing titles of FullpageSlides for slide indicator
 * **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `boolean` - Centering content using flexbox
 * **arrows** - `boolean` - Adds support for sliding using arrows
