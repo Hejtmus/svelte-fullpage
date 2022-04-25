@@ -1,4 +1,5 @@
 <script>
+    import '../css/bootstrap.css';
     import {
         Fullpage,
         FullpageSection,

@@ -8,6 +8,9 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
+		paths: {
+			base: process.env.NODE_ENV === 'development' ? '' : '/svelte-fullpage',
+		},
 		prerender: {
 			default: true
 		},
