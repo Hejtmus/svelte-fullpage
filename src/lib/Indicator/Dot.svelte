@@ -1,21 +1,20 @@
 <script>
-    export let activeSection = 0;
-    export let index = 0;
-    export let name = '';
-    export let names = false;
+    import { createEventDispatcher } from "svelte";
 
-    const goto = () => {
-        activeSection = index;
+    export let activeDot = 0;
+    export let index = 0;
+    export let title = '';
+
+    const dispatch = createEventDispatcher();
+
+    const click = () => {
+        dispatch('click', index)
     }
 </script>
 
 <li class="svelte-fp-indicator-list-item">
-    {#if names}
-        <p class="svelte-fp-slide-name">
-            {name}
-        </p>
-    {/if}
-    <button class="svelte-fp-indicator-list-item-btn {activeSection === index ? 'svelte-fp-active':''}" on:click={goto}>
+    <button title={title || ''} class="svelte-fp-indicator-list-item-btn {activeDot === index ? 'svelte-fp-active':''}"
+            on:click={click}>
     </button>
 </li>
 
@@ -38,20 +37,7 @@
     .svelte-fp-active {
         background-color: #767676;
     }
-    .svelte-fp-slide-name {
-        position: absolute;
-        text-align: center;
-        border: 1px #4e555b;
-        border-radius: 3px;
-        background: rgba(78, 85, 91, 0.82);
-        padding: 2px;
-        order: 0;
-        margin: 2rem;
-        justify-self: start;
 
-    }
-    /*.svelte-fp-indicator-list-item-btn:hover + .svelte-fp-slide-name {*/
-    /*}*/
     @media only screen and (max-width: 600px){
         .svelte-fp-indicator-list-item-btn {
             width: 0.5rem;

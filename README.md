@@ -42,13 +42,9 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
         FullpageSection,
         FullpageSlide
     } from 'svelte-fullpage';
-    //Sapper import
-	import Fullpage from 'svelte-fullpage/src/Fullpage.svelte';
-	import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'
-	import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte';
 
     // Optional, include all titles of your sections
-    const sections = [
+    const sectionTitles = [
         'Home',
         'History',
         'Present',
@@ -56,18 +52,18 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
     ];
     
     // Same mechanics as in sections
-    const slides = [
+    const slidesTitles = [
         '1982-1993',
         '1993-2006',
         '2006-present'
     ];
 </script>
 
-<Fullpage {sections} arrows>
+<Fullpage {sectionTitles} arrows>
     <FullpageSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection {slides} arrows>
+    <FullpageSection {slidesTitles} arrows>
         <FullpageSlide>
             ...Your markup here
         </FullpageSlide>
@@ -100,7 +96,7 @@ These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **sections** - `array` - Array containing FullpageSection components/names
+* **sectionTitles** - `array<string>` - Array containing titles of FullpageSections for section indicator
 * **activeSection** - `number` - Number that points set visibility of sections.
 * **transitionDuration** - `number` - Duration of transition between sections
 * **arrows** - `boolean` - Adds support for scrolling using arrows
@@ -113,7 +109,7 @@ These props are customizable:
 
 * **class** - `string` - Standard HTML class
 * **style** - `string` - Standard HTML style
-* **slides** - `array` - Array containing FullpageSlide components/names, if there are some
+* **slideTitles** - `array<string>` - Array containing titles of FullpageSlides for slide indicator
 * **activeSlide** - `string` - Number that tells slide if is visible
 * **center** - `boolean` - Centering content using flexbox
 * **arrows** - `boolean` - Adds support for sliding using arrows

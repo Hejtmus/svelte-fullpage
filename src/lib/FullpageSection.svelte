@@ -10,7 +10,8 @@
     export let style = '';
     let sectionId;
     const { getId, activeSectionStore} = getContext('section');
-    export let slides = [];
+    export let slideTitles = false;
+    let slides = [];
     export let activeSlide = 0;
     const activeSlideStore = writable(activeSlide);
     export let center = false;
@@ -142,6 +143,19 @@
             }
         }
     };
+    // If user hasn't specified slideTitle, sections array will be generated with placeholder strings
+    const generateFallbackSlideTitles = (slideTitles, slideCount) => {
+        if (slideCount !== 0 && !slideTitles) {
+            slides = [];
+            for (let i = 0; slideCount > i; i++) {
+                slides = [
+                    ...slides,
+                    `Slide ${i+1}`
+                ];
+            }
+        }
+    }
+
 
     // Recompute visible: boolean everytime one of dependencies change
     $: visible = (sectionId === $activeSectionStore);
@@ -160,6 +174,11 @@
     $: if (!visible) {
         slideCount = 0;
     }
+
+    // If user has specified slideTitles, then slides is overridden
+    $: if (slideTitles) slides = slideTitles;
+
+    $: generateFallbackSlideTitles(slideTitles, slideCount);
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/>
@@ -173,7 +192,7 @@
             </slot>
         </div>
         {#if slideCount > 0}
-            <Indicator {slideCount} {slides} {activeSlideIndicator} on:toSlide={(e)=>toSlide(e.detail)}/>
+            <Indicator {slides} {activeSlideIndicator} on:toSlide={(e)=>toSlide(e.detail)}/>
         {/if}
     </section>
 {/if}
@@ -195,8 +214,5 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-    .svelte-fp-unselectable {
-        user-select: none;
     }
 </style>

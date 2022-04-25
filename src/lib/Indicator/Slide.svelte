@@ -1,23 +1,21 @@
 <script>
-    import {createEventDispatcher} from "svelte";
+    import Dot from './Dot.svelte';
+    import { createEventDispatcher } from "svelte";
 
-    export let slideCount;
     export let slides;
     export let activeSlideIndicator;
 
     const dispatch = createEventDispatcher();
 
-    const toSlide = (index) => {
-        dispatch('toSlide', index);
+    const toSlide = (event) => {
+        dispatch('toSlide', event.detail);
     }
 </script>
 
 <div class="svelte-fp-indicator-horizontal">
     <ul class="svelte-fp-indicator-list-horizontal">
-        {#each Array(slideCount) as page,index}
-            <li class="svelte-fp-indicator-list-item">
-                <button class="svelte-fp-indicator-list-item-btn {activeSlideIndicator === index ? 'svelte-fp-active':''}" on:click={ ()=>toSlide(index) }></button>
-            </li>
+        {#each slides as title, index}
+            <Dot {title} {index} bind:activeDot={activeSlideIndicator} on:click={toSlide}/>
         {/each}
     </ul>
 </div>
@@ -39,20 +37,6 @@
         margin: 1rem;
         padding: 1rem;
         list-style-type: none;
-    }
-    .svelte-fp-indicator-list-item {
-        display: inline-block;
-        margin: 1rem;
-        padding: 0;
-    }
-    .svelte-fp-indicator-list-item-btn {
-        width: 1rem;
-        height: 1rem;
-        border-radius: 0.5rem;
-        border: solid 1px #767676;
-        background-color: transparent;
-    }
-    .svelte-fp-active {
-        background-color: #767676;
+        display: flex;
     }
 </style>

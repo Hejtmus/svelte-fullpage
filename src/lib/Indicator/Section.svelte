@@ -1,14 +1,18 @@
 <script>
     import Dot from './Dot.svelte';
-    export let sections = []
+
+    export let sections;
     export let activeSection = 0;
 
+    const toSection = (event) => {
+        activeSection = event.detail;
+    }
 </script>
 
 <div class="svelte-fp-indicator">
     <ul class="svelte-fp-indicator-list">
-        {#each sections as page,index}
-            <Dot bind:activeSection {index} name={page}/>
+        {#each sections as title, index}
+            <Dot {title} {index} bind:activeDot={activeSection} on:click={toSection}/>
         {/each}
     </ul>
 </div>

@@ -12,7 +12,6 @@
     export let activeSection = 0;
     const activeSectionStore = writable(activeSection)
     let sectionCount = 0;
-    // Optional array of strings containing section titles, also count of section is calculated by length of this array
     export let sectionTitles = false;
     let sections = [];
     // duration of animation and scroll cooldown in milliseconds
@@ -136,7 +135,18 @@
             }
         }
     };
-
+    // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
+    const generateFallbackSectionTitles = (sectionTitles, sectionCount) => {
+        if (sectionCount !== 0 && !sectionTitles) {
+            sections = [];
+            for (let i = 0; sectionCount > i; i++) {
+                sections = [
+                    ...sections,
+                    `Section ${i+1}`
+                ];
+            }
+        }
+    }
 
     /*
     Everytime activeSection updates, this store gets new value and then all sections that subscribe,
@@ -147,16 +157,7 @@
     // If user has specified sectionTitles, then sections is overridden
     $: if (sectionTitles) sections = sectionTitles;
 
-    // If user hasn't specified sectionTitle, sections array will be generated with placeholder strings
-    $: if (fullpageContent && !sectionTitles) {
-        console.log(fullpageContent.children.length)
-        for (let i = 0; sectionCount > i; i++) {
-            sections = [
-                ...sections,
-                `Section ${i+1}`
-            ];
-        }
-    }
+    $: generateFallbackSectionTitles(sectionTitles, sectionCount);
 </script>
 
 <svelte:window on:keydown={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
@@ -170,7 +171,7 @@
         <div bind:this={fullpageContent} class="svelte-fp-container">
             <slot />
         </div>
-        <Indicator bind:activeSection bind:sections/>
+        <Indicator {sections} bind:activeSection/>
     </div>
 </div>
 
