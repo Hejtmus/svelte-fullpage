@@ -47,7 +47,7 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
 	import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'
 	import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte';
 
-    //Optional, include all titles of your sections, this is also used as number that indicate count of sections
+    // Optional, include all titles of your sections
     const sections = [
         'Home',
         'History',
@@ -55,7 +55,7 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
         'Future'
     ];
     
-    //Same mechanics as in sections
+    // Same mechanics as in sections
     const slides = [
         '1982-1993',
         '1993-2006',
