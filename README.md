@@ -2,9 +2,7 @@
 
 Pure Svelte fullpage component
 
-***This component is actively maintained***
-
-*5.5kB gZipped, unzipped 14.9kB*
+***Tested using latest svelte (3.47.0) and svelteKit (next.320)***
 
 Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. There is also support for
 mobile devices. Tested on Svelte and Sapper. Note that this component is in development, expect bugs, if you notice some, 
@@ -52,7 +50,7 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
     ];
     
     // Same mechanics as in sections
-    const slidesTitles = [
+    const slideTitles = [
         '1982-1993',
         '1993-2006',
         '2006-present'
@@ -63,7 +61,7 @@ NOTE - Fullpage component is positioned **absolute**, it is recommended to put i
     <FullpageSection center>
         ...Your markup here
     </FullpageSection>
-    <FullpageSection {slidesTitles} arrows>
+    <FullpageSection {slideTitles} arrows>
         <FullpageSlide>
             ...Your markup here
         </FullpageSlide>

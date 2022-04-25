@@ -6,7 +6,7 @@
     } from '$lib';
 
     // Titles for sections are optional, if they are specified, section indicator will have tooltip with section's title
-    const sections = [
+    const sectionTitles = [
         'Svelte Fullpage',
         'Features',
         'GitHub',
@@ -16,7 +16,7 @@
     let activeSection = 0;
 
     // Same mechanics as in sections titles
-    const slides = [
+    const slideTitles = [
         'slides',
         'arrows',
         'drag',
@@ -29,7 +29,7 @@
     <title>Svelte-fullpage</title>
 </svelte:head>
 
-<Fullpage bind:activeSection arrows drag>
+<Fullpage {sectionTitles} bind:activeSection arrows drag>
     <FullpageSection center>
         <div class="container text-center">
             <div class="row">
@@ -45,7 +45,7 @@
             </div>
         </div>
     </FullpageSection>
-    <FullpageSection class="bg-info" arrows>
+    <FullpageSection {slideTitles} class="bg-info" arrows>
         <FullpageSlide center>
             <div class="container text-center">
                 <div class="row">

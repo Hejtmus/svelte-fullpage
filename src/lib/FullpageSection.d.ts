@@ -1,10 +1,10 @@
 import { SvelteComponentTyped } from 'svelte';
 
 export interface FullpageSectionProps {
-    slidesTitles: Array<string>,
     class?: string,
     style?: string,
     activeSlide?: number,
+    slidesTitles: Array<string>,
     center?: boolean,
     arrows?: boolean,
     select?: boolean,
