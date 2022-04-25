@@ -92,13 +92,13 @@
             <div class="row justify-content-center pt-5 mt-5">
                 <div class="col-auto">
                     <h1>
-                        Nested fullpage
+                        Recursive fullpage
                     </h1>
                 </div>
             </div>
             <div class="row flex-grow-1 align-items-center justify-content-center">
-                <div class="col-10 h-75">
-                    <embed src="/" class="w-100 h-100 border border-dark rounded-3">
+                <div class="col-10 h-75 border border-dark rounded-3 position-relative">
+                    <svelte:self />
                 </div>
             </div>
         </div>
