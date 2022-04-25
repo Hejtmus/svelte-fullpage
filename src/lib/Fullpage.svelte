@@ -1,5 +1,5 @@
 <script>
-    import Indicator from './Indicator/index.svelte';
+    import Indicator from './Indicator/Section.svelte';
     import {onMount, setContext} from "svelte";
     import {writable} from "svelte/store";
     //defining variable that will hold class value, that will be passed into this component's wrapper

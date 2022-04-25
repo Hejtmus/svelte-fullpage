@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fullpageKit.iml" filepath="$PROJECT_DIR$/.idea/fullpageKit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/svelte-fullpage.iml" filepath="$PROJECT_DIR$/.idea/svelte-fullpage.iml" />
     </modules>
   </component>
 </project>

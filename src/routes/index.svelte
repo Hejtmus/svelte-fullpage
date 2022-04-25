@@ -5,23 +5,23 @@
         FullpageSlide
     } from '$lib';
 
-    //Include all titles of your sections, this is also used as number that indicate count of sections
+    // Titles for sections are optional, if they are specified, section indicator will have tooltip with section's title
     const sections = [
         'Svelte Fullpage',
         'Features',
         'GitHub',
         'Future'
     ];
-    //Have to set to 0 (or section you wish to display as default), otherwise section will not display
+    // Optional, for additional control od displayed section
     let activeSection = 0;
 
-    //Same mechanics as in sections
+    // Same mechanics as in sections titles
     const slides = [
         'slides',
         'arrows',
         'drag',
     ];
-    //Also has to be 0 or specific id of slide
+    // Same mechanics as in activeSection
     let activeSlide = 0;
 </script>
 
@@ -45,7 +45,7 @@
             </div>
         </div>
     </FullpageSection>
-    <FullpageSection {slides} class="bg-info" arrows>
+    <FullpageSection class="bg-info" arrows>
         <FullpageSlide center>
             <div class="container text-center">
                 <div class="row">

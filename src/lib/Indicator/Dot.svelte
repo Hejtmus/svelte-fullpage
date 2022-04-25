@@ -50,8 +50,8 @@
         justify-self: start;
 
     }
-    .svelte-fp-indicator-list-item-btn:hover + .svelte-fp-slide-name {
-    }
+    /*.svelte-fp-indicator-list-item-btn:hover + .svelte-fp-slide-name {*/
+    /*}*/
     @media only screen and (max-width: 600px){
         .svelte-fp-indicator-list-item-btn {
             width: 0.5rem;
