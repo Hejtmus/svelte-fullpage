@@ -87,8 +87,21 @@
             </div>
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection center>
-        <embed src="https://github.com/Hejtmus/svelte-fullpage#svelte-fullpage" csp="https://github.com" class="w-100 h-100">
+    <FullpageSection>
+        <div class="container w-100 h-100 d-flex flex-column">
+            <div class="row justify-content-center pt-5 mt-5">
+                <div class="col-auto">
+                    <h1>
+                        Nested fullpage
+                    </h1>
+                </div>
+            </div>
+            <div class="row flex-grow-1 align-items-center justify-content-center">
+                <div class="col-10 h-75">
+                    <embed src="/" class="w-100 h-100 border border-dark rounded-3">
+                </div>
+            </div>
+        </div>
     </FullpageSection>
     <FullpageSection class="bg-warning" center>
         <div class="container text-center">
