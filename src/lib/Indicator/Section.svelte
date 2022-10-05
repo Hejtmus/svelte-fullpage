@@ -22,7 +22,7 @@
         height: inherit;
         width: auto;
         overflow: hidden;
-        position: absolute;
+        position: fixed;
         z-index: 100;
         right: 0;
         top: 0;

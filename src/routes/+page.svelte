@@ -98,7 +98,7 @@
             </div>
             <div class="row flex-grow-1 align-items-center justify-content-center">
                 <div class="col-10 h-75 border border-dark rounded-3 position-relative">
-                    <svelte:self />
+<!--                    <svelte:self />-->
                 </div>
             </div>
         </div>

@@ -181,26 +181,24 @@
     $: generateFallbackSlideTitles(slideTitles, slideCount);
 </script>
 
-<svelte:window on:keydown={ (event)=>handleKey(event) }/>
+<!--<svelte:window on:keydown={ (event)=>handleKey(event) }/>-->
 
-{#if visible}
-    <section transition:slide={transition} class={classes} style={style} on:selectstart={handleSelect}
-             on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }
-            on:touchstart={ (event)=>handleTouchStart(event) } on:touchmove={ (event)=>handleTouchEnd(event) }>
-        <div class="svelte-fp-container svelte-fp-flexbox-expand" class:svelte-fp-flexbox-center={center}>
-            <slot>
-            </slot>
-        </div>
-        {#if slideCount > 0}
-            <Indicator {slides} {activeSlideIndicator} on:toSlide={(e)=>toSlide(e.detail)}/>
-        {/if}
-    </section>
-{/if}
+<section class={classes} style={style} >
+    <div class="svelte-fp-container svelte-fp-flexbox-expand" class:svelte-fp-flexbox-center={center}>
+        <slot>
+        </slot>
+    </div>
+    {#if slideCount > 0}
+        <Indicator {slides} {activeSlideIndicator} on:toSlide={(e)=>toSlide(e.detail)}/>
+    {/if}
+</section>
 
 <style>
     section {
         height: inherit;
         position: relative;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
     }
     .svelte-fp-flexbox-expand {
         flex: 1;

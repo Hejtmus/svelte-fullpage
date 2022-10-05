@@ -28,9 +28,6 @@
     export let touchThreshold = 75;
     export let pullDownToRefresh = false;
 
-    // Placeholder for content of slot
-    let fullpageContent;
-
     // Auxiliary variables that make possible drag and scroll feature
     let dragStartPosition;
     let touchStartPosition;
@@ -140,6 +137,7 @@
         if (sectionCount !== 0 && !sectionTitles) {
             sections = [];
             for (let i = 0; sectionCount > i; i++) {
+                console.log(sections)
                 sections = [
                     ...sections,
                     `Section ${i+1}`
@@ -160,15 +158,13 @@
     $: generateFallbackSectionTitles(sectionTitles, sectionCount);
 </script>
 
-<svelte:window on:keydown={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
-<svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
+<!--<svelte:window on:keydown={ (event)=>handleKey(event) }/> &lt;!&ndash; Necessity when listening to window events &ndash;&gt;-->
+<!--<svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> &lt;!&ndash; disables slideDownToRefresh feature &ndash;&gt;-->
 
 
-<div class={classes} style={style} on:wheel={ (event)=>handleScroll(event) } on:touchstart={ (event)=>handleTouchStart(event) }
-     on:touchmove={ (event)=>handleTouchEnd(event) } on:drag={ ()=>{return false} }
-     on:mousedown={ (event)=>handleDragStart(event) } on:mouseup={ (event)=>handleDragEnd(event) }>
+<div class={classes} style={style} on:mousewheel|preventDefault>
     <div class="svelte-fp-container">
-        <div bind:this={fullpageContent} class="svelte-fp-container">
+        <div class="svelte-fp-container">
             <slot />
         </div>
         <Indicator {sections} bind:activeSection/>
@@ -177,6 +173,7 @@
 
 <style>
     .svelte-fp-wrapper {
+        overflow-y: scroll;
         position: absolute;
         top: 0;
         left: 0;
@@ -184,7 +181,11 @@
         bottom: 0;
         height: 100%;
         width: 100%;
-        overflow: hidden;
+        scroll-snap-type: y mandatory;
+    }
+    .svelte-fp-wrapper::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
     }
     .svelte-fp-container {
         height: inherit;
