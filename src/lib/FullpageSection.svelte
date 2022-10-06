@@ -1,6 +1,5 @@
 <script>
     import Indicator from './Indicator/Slide.svelte';
-    import {slide} from 'svelte/transition';
     import {getContext, onMount, setContext} from "svelte";
     import { writable } from "svelte/store";
 
@@ -183,7 +182,7 @@
 
 <!--<svelte:window on:keydown={ (event)=>handleKey(event) }/>-->
 
-<section class={classes} style={style} >
+<section class={classes} style={style} class:slidable={slideCount !== 0}>
     <div class="svelte-fp-container svelte-fp-flexbox-expand" class:svelte-fp-flexbox-center={center}>
         <slot>
         </slot>
@@ -199,6 +198,15 @@
         position: relative;
         scroll-snap-align: center;
         scroll-snap-stop: always;
+    }
+    .slidable {
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+    }
+    .slidable::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
     }
     .svelte-fp-flexbox-expand {
         flex: 1;

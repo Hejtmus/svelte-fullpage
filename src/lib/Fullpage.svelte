@@ -1,6 +1,6 @@
 <script>
     import Indicator from './Indicator/Section.svelte';
-    import {onMount, setContext} from "svelte";
+    import { setContext } from "svelte";
     import {writable} from "svelte/store";
     //defining variable that will hold class value, that will be passed into this component's wrapper
     let defaultClasses = '';
@@ -35,6 +35,7 @@
     //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
     let recentScroll = 0;
+    let fullpage
     //setting section visible
     let active = true;
 
@@ -74,12 +75,14 @@
     const scrollUp = async () => {
         if ($activeSectionStore > 0){
             activeSection--;
+            fullpage.scrollTop -= fullpage.clientHeight
         }
     };
     // scroll down effect, only when it's possible
     const scrollDown = async () => {
         if ($activeSectionStore < sectionCount-1){
             activeSection++;
+            fullpage.scrollTop += fullpage.clientHeight
         }
     };
     // handling arrow event
@@ -158,22 +161,19 @@
     $: generateFallbackSectionTitles(sectionTitles, sectionCount);
 </script>
 
-<!--<svelte:window on:keydown={ (event)=>handleKey(event) }/> &lt;!&ndash; Necessity when listening to window events &ndash;&gt;-->
-<!--<svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> &lt;!&ndash; disables slideDownToRefresh feature &ndash;&gt;-->
+<svelte:window on:keydown|preventDefault={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
+<svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
 
 
-<div class={classes} style={style} on:mousewheel|preventDefault>
-    <div class="svelte-fp-container">
-        <div class="svelte-fp-container">
-            <slot />
-        </div>
-        <Indicator {sections} bind:activeSection/>
+<div class={classes} style={style}>
+    <div class="svelte-fp-container" bind:this={fullpage} on:mousewheel|preventDefault>
+        <slot />
     </div>
+    <Indicator {sections} bind:activeSection/>
 </div>
 
 <style>
     .svelte-fp-wrapper {
-        overflow-y: scroll;
         position: absolute;
         top: 0;
         left: 0;
@@ -181,16 +181,18 @@
         bottom: 0;
         height: 100%;
         width: 100%;
-        scroll-snap-type: y mandatory;
-    }
-    .svelte-fp-wrapper::-webkit-scrollbar {
-        width: 0;
-        background: transparent;
     }
     .svelte-fp-container {
         height: inherit;
         width: inherit;
         position: relative;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+    .svelte-fp-container::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
     }
     .svelte-fp-disable-pull-refresh {
         overscroll-behavior: contain;
