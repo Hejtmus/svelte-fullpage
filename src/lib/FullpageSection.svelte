@@ -1,7 +1,8 @@
 <script>
     import Indicator from './Indicator/Slide.svelte';
     import {getContext, onMount, setContext} from "svelte";
-    import { writable } from "svelte/store";
+    import { FullpageActivity } from './stores'
+    import { writable } from 'svelte/store'
 
     let defaultClasses = '';
 
@@ -12,7 +13,6 @@
     export let slideTitles = false;
     let slides = [];
     export let activeSlide = 0;
-    const activeSlideStore = writable(activeSlide);
     export let center = false;
     export let arrows = false;
     export let select = false;
@@ -25,11 +25,14 @@
     sectionId = parseInt(sectionId);
     let visible;
 
-    let activeSlideIndicator = activeSlide;
-    let dragStartPosition;
     let touchStartPosition;
     let recentSlide = 0;
-    let slideCount = 0;
+    const slideCount = writable(0);
+    const activeSlideStore = FullpageActivity(slideCount);
+    let section
+    let dragPosition
+    let dragStartScroll
+    let dragging
 
     let classes = `${defaultClasses} svelte-fp-section svelte-fp-flexbox-center`;
 
@@ -41,58 +44,31 @@
     setContext('slide', {
         activeSlideStore,
         getId: ()=>{
-            slideCount++;
-            return slideCount-1;
+            $slideCount++;
+            return $slideCount - 1;
         }
     })
 
-    const makePositive = (num) => {
-        let negative = false;
-        if (num < 0) {
-            negative = true;
-            num = -num;
-        }
-        return {num, negative};
-    };
-
-    const handleSelect = () => {
-        if (!select) {
-            return false;
-        }
-    };
-
     const slideRight = () => {
-        const active = makePositive($activeSlideStore);
-        if (active.num < slides.length-1){
-            activeSlideIndicator = active.num+1;
-            activeSlideStore.set(-(activeSlideIndicator));
-        } else {
-            activeSlideStore.set(0)
-            activeSlideIndicator = $activeSlideStore;
-        }
+        activeSlideStore.nextPage()
     };
 
     const slideLeft = () => {
-        const active = makePositive($activeSlideStore);
-        if (active.num > 0) {
-            activeSlideStore.set(active.num-1);
-        } else {
-            activeSlideStore.set(slides.length-1);
-        }
-        activeSlideIndicator = $activeSlideStore;
+        activeSlideStore.previousPage()
     };
 
     const toSlide = (slideId) => {
-        if (slideId > activeSlideIndicator) {
-            while (slideId > activeSlideIndicator) {
-                slideRight()
-            }
-        } else {
-            while (slideId < activeSlideIndicator) {
-                slideLeft()
-            }
-        }
+        activeSlideStore.toPage(slideId)
     };
+    const updateSlideScroll = (activeSlide) => {
+        if (section) {
+            console.log(activeSlide, section.scrollLeft, activeSlide * section.clientWidth)
+            section.scrollTo({
+                left: activeSlide * section.clientWidth,
+                behavior: 'smooth'
+            })
+        }
+    }
 
     // handling arrow event
     const handleKey = (event) => {
@@ -108,19 +84,31 @@
         }
     };
 
-    // memoize drag start X coordinate
     const handleDragStart = (event) => {
-        dragStartPosition = event.screenX;
+        dragPosition = event.clientX
+        dragStartScroll = section.scrollLeft
+        dragging = true
+        console.log('a')
     };
-    // handles drag end event
-    const handleDragEnd = (event) => {
-        const dragEndPosition = event.screenX;
-        // Trigger scroll event after thresholds are exceeded
-        if (dragStartPosition - dragEndPosition > dragThreshold) {
-            slideRight();
-        } else if (dragStartPosition - dragEndPosition < -dragThreshold) {
-            slideLeft()
+    const handleDragging = (event) => {
+        if (dragging) {
+            console.log('d', dragStartScroll - (event.clientX - dragPosition))
+            section.scrollTo({
+                left: dragStartScroll - (event.clientX - dragPosition),
+                behavior: 'smooth'
+            })
         }
+    };
+    const handleDragEnd = () => {
+        dragging = false
+        const scrollDelta = section.scrollLeft % section.clientWidth
+        const hasScrolledLeft = dragStartScroll > section.scrollLeft
+        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > section.clientWidth / 4
+        let nextSlide = Math.floor(section.scrollLeft / section.clientWidth) // Set next slide to current
+        if (hasExceededScrollRoundThreshold) {
+            nextSlide += hasScrolledLeft ? -1 : 1
+        }
+        toSlide(nextSlide)
     };
 
     // memoize touch start X coordinate
@@ -171,24 +159,27 @@
     })
     // Everytime section disappears, slide count resets, this prevents slides from getting wrong ID
     $: if (!visible) {
-        slideCount = 0;
+        $slideCount = 0;
     }
 
     // If user has specified slideTitles, then slides is overridden
     $: if (slideTitles) slides = slideTitles;
 
-    $: generateFallbackSlideTitles(slideTitles, slideCount);
+    $: generateFallbackSlideTitles(slideTitles, $slideCount);
+    $: updateSlideScroll($activeSlideStore)
 </script>
 
-<!--<svelte:window on:keydown={ (event)=>handleKey(event) }/>-->
+<svelte:window on:keydown|preventDefault={ (event)=>handleKey(event) }/>
 
-<section class={classes} style={style} class:slidable={slideCount !== 0}>
-    <div class="svelte-fp-container svelte-fp-flexbox-expand" class:svelte-fp-flexbox-center={center}>
-        <slot>
-        </slot>
+<section class={classes} style={style}>
+    <div class="svelte-fp-container svelte-fp-flexbox-expand" class:slidable={$slideCount !== 0} class:svelte-fp-flexbox-center={center}
+         bind:this={section}
+         on:mousewheel|preventDefault on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
+         on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}>
+        <slot />
     </div>
-    {#if slideCount > 0}
-        <Indicator {slides} {activeSlideIndicator} on:toSlide={(e)=>toSlide(e.detail)}/>
+    {#if $slideCount > 0}
+        <Indicator {slides} activeSlideIndicator={$activeSlideStore} on:toSlide={(e)=>toSlide(e.detail)}/>
     {/if}
 </section>
 
