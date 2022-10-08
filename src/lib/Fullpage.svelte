@@ -29,8 +29,9 @@
     export let pullDownToRefresh = false;
 
     // Auxiliary variables that make possible drag and scroll feature
-    let dragStartPosition;
-    let touchStartPosition;
+    let dragging = false;
+    let dragPosition = 0
+    let dragStartScroll = 0
 
     //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
@@ -67,10 +68,6 @@
             }
         }
     };
-    // toggles visibility of active section
-    const toggleActive = () => {
-        active = !active;
-    };
     // scroll up effect, only when it's possible
     const scrollUp = async () => {
         if ($activeSectionStore > 0){
@@ -100,41 +97,24 @@
     };
     // memoize drag start Y coordinate, only if drag effect is enabled
     const handleDragStart = (event) => {
-        if (drag) {
-            dragStartPosition = event.screenY;
-        }
+        dragPosition = event.pageY - event.target.offsetTop
+        dragStartScroll = fullpage.scrollTop
+        dragging = true
     };
     // handles drag end event
-    const handleDragEnd = (event) => {
-        if (drag) {
-            const dragEndPosition = event.screenY;
-            // Trigger scroll event after thresholds are exceeded
-            if (dragStartPosition - dragEndPosition > dragThreshold) {
-                scrollDown();
-            } else if (dragStartPosition - dragEndPosition < -dragThreshold) {
-                scrollUp()
-            }
+    const handleDragging = (event) => {
+        if (dragging) {
+            const y = event.pageY - event.target.offsetTop
+            fullpage.scrollTop = dragStartScroll - (y - dragPosition)
         }
     };
     // memoize touch start Y coordinate
-    const handleTouchStart = (event) => {
-        touchStartPosition = event.touches[0].screenY;
+    const handleDragEnd = (event) => {
+        dragging = false
+        const scrollDelta = fullpage.scrollTop % fullpage.clientHeight
+        fullpage.scrollTop += scrollDelta > fullpage.clientHeight / 2 ? fullpage.clientHeight - scrollDelta : -scrollDelta
     };
-    // Compare touch start and end Y coordinates, if difference exceeds threshold, scroll function is triggered
-    const handleTouchEnd = (event) => {
-        // Timer is used for preventing scrolling multiple sections
-        let timer = new Date().getTime();
-        const touchEndPosition = event.touches[0].screenY;
-        if (transitionDuration < timer-recentScroll) {
-            if (touchStartPosition - touchEndPosition > touchThreshold) {
-                scrollDown();
-                recentScroll = timer;
-            } else if (touchStartPosition - touchEndPosition < -touchThreshold) {
-                scrollUp();
-                recentScroll = timer;
-            }
-        }
-    };
+
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
     const generateFallbackSectionTitles = (sectionTitles, sectionCount) => {
         if (sectionCount !== 0 && !sectionTitles) {
@@ -166,7 +146,8 @@
 
 
 <div class={classes} style={style}>
-    <div class="svelte-fp-container" bind:this={fullpage} on:mousewheel|preventDefault>
+    <div class="svelte-fp-container" class:dragging bind:this={fullpage} on:mousewheel|preventDefault on:mousedown|preventDefault={handleDragStart}
+         on:mousemove|preventDefault={handleDragging} on:mouseup|preventDefault={handleDragEnd} on:mouseleave|preventDefault={handleDragEnd}>
         <slot />
     </div>
     <Indicator {sections} bind:activeSection/>
@@ -189,6 +170,10 @@
         overflow-y: scroll;
         scroll-snap-type: y mandatory;
         scroll-behavior: smooth;
+        user-select: none;
+    }
+    .dragging {
+        scroll-snap-type: y proximity;
     }
     .svelte-fp-container::-webkit-scrollbar {
         width: 0;
