@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
     import Indicator from './Indicator/Section.svelte';
     import { setContext } from "svelte";
     import {writable} from "svelte/store";
+    import { FullpageActivity } from './stores'
     //defining variable that will hold class value, that will be passed into this component's wrapper
     let defaultClasses = '';
 
@@ -10,8 +11,8 @@
     export let style = '';
     //number that hold which section is active
     export let activeSection = 0;
-    const activeSectionStore = writable(activeSection)
-    let sectionCount = 0;
+    const sectionCount = writable(0);
+    const activeSectionStore = FullpageActivity(sectionCount)
     export let sectionTitles = false;
     let sections = [];
     // duration of animation and scroll cooldown in milliseconds
@@ -28,6 +29,8 @@
     export let touchThreshold = 75;
     export let pullDownToRefresh = false;
 
+    let wheelTimeout
+    let wheelDelta = 0
     // Auxiliary variables that make possible drag and scroll feature
     let dragging = false;
     let dragPosition = 0
@@ -48,8 +51,8 @@
     setContext('section', {
         activeSectionStore,
         getId: ()=>{
-            sectionCount++;
-            return sectionCount-1;
+            $sectionCount++;
+            return $sectionCount - 1;
         }
     })
 
@@ -68,20 +71,22 @@
             }
         }
     };
-    // scroll up effect, only when it's possible
-    const scrollUp = async () => {
-        if ($activeSectionStore > 0){
-            activeSection--;
-            fullpage.scrollTop -= fullpage.clientHeight
-        }
+    const scrollUp = () => {
+        activeSectionStore.previousPage()
     };
-    // scroll down effect, only when it's possible
-    const scrollDown = async () => {
-        if ($activeSectionStore < sectionCount-1){
-            activeSection++;
-            fullpage.scrollTop += fullpage.clientHeight
-        }
+    const scrollDown = () => {
+        activeSectionStore.nextPage()
     };
+    const toSection = (sectionId) => {
+        activeSectionStore.toPage(sectionId)
+    };
+    const updateFullpageScroll = (activeSection) => {
+        if (fullpage) {
+            fullpage.scrollTo({
+                top: activeSection * fullpage.clientHeight
+            })
+        }
+    }
     // handling arrow event
     const handleKey = (event) => {
         if (arrows) {
@@ -95,6 +100,28 @@
             }
         }
     };
+    const handleWheel = (event) => {
+        if (fullpage) {
+            clearTimeout(wheelTimeout)
+            fullpage.scrollBy({
+                top: event.deltaY
+            })
+            wheelDelta += event.deltaY
+            setTimeout(handleWheelEnd, 10)
+        }
+    }
+    const handleWheelEnd = () => {
+        const hasScrolledUp = wheelDelta < 0
+        const hasExceededScrollRoundThreshold = Math.abs(wheelDelta) > fullpage.clientHeight / 4
+        let nextSection = Math.floor(fullpage.scrollTop / fullpage.clientHeight) // Set next section to current
+        if (hasExceededScrollRoundThreshold) {
+            nextSection += hasScrolledUp ? -1 : 1
+        }
+        toSection(nextSection)
+        // TODO: fix bug where store value doesnt change and introduces bug
+        console.log(hasScrolledUp, hasExceededScrollRoundThreshold, nextSection)
+        wheelDelta = 0
+    }
     const handleDragStart = (event) => {
         dragPosition = event.clientY
         dragStartScroll = fullpage.scrollTop
@@ -103,8 +130,7 @@
     const handleDragging = (event) => {
         if (dragging) {
             fullpage.scrollTo({
-                top: dragStartScroll - (event.clientY - dragPosition),
-                behavior: 'smooth'
+                top: dragStartScroll - (event.clientY - dragPosition)
             })
         }
     };
@@ -117,10 +143,7 @@
         if (hasExceededScrollRoundThreshold) {
             nextSection += hasScrolledUp ? -1 : 1
         }
-        fullpage.scrollTo({
-            top: nextSection * fullpage.clientHeight,
-            behavior: 'smooth'
-        })
+        toSection(nextSection)
     };
 
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
@@ -141,12 +164,13 @@
     Everytime activeSection updates, this store gets new value and then all sections that subscribe,
     this is because user may want to control sections programmatically
      */
-    $: activeSectionStore.set(activeSection)
+    $: activeSectionStore.toPage(activeSection)
 
     // If user has specified sectionTitles, then sections is overridden
     $: if (sectionTitles) sections = sectionTitles;
 
-    $: generateFallbackSectionTitles(sectionTitles, sectionCount);
+    $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
+    $: updateFullpageScroll($activeSectionStore)
 </script>
 
 <svelte:window on:keydown|preventDefault={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
@@ -154,11 +178,11 @@
 
 
 <div class={classes} style={style}>
-    <div class="svelte-fp-container" class:dragging bind:this={fullpage} on:mousewheel|preventDefault on:mousedown={handleDragStart}
+    <div class="svelte-fp-container" class:dragging bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
          on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}>
         <slot />
     </div>
-    <Indicator {sections} bind:activeSection/>
+    <Indicator {sections} bind:activeSection={$activeSectionStore}/>
 </div>
 
 <style>
