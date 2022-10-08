@@ -95,24 +95,32 @@
             }
         }
     };
-    // memoize drag start Y coordinate, only if drag effect is enabled
     const handleDragStart = (event) => {
-        dragPosition = event.pageY - event.target.offsetTop
+        dragPosition = event.clientY
         dragStartScroll = fullpage.scrollTop
         dragging = true
     };
-    // handles drag end event
     const handleDragging = (event) => {
         if (dragging) {
-            const y = event.pageY - event.target.offsetTop
-            fullpage.scrollTop = dragStartScroll - (y - dragPosition)
+            fullpage.scrollTo({
+                top: dragStartScroll - (event.clientY - dragPosition),
+                behavior: 'smooth'
+            })
         }
     };
-    // memoize touch start Y coordinate
-    const handleDragEnd = (event) => {
+    const handleDragEnd = () => {
         dragging = false
         const scrollDelta = fullpage.scrollTop % fullpage.clientHeight
-        fullpage.scrollTop += scrollDelta > fullpage.clientHeight / 2 ? fullpage.clientHeight - scrollDelta : -scrollDelta
+        const hasScrolledUp = dragStartScroll > fullpage.scrollTop
+        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / 4
+        let nextSection = Math.floor(fullpage.scrollTop / fullpage.clientHeight) // Set next section to current
+        if (hasExceededScrollRoundThreshold) {
+            nextSection += hasScrolledUp ? -1 : 1
+        }
+        fullpage.scrollTo({
+            top: nextSection * fullpage.clientHeight,
+            behavior: 'smooth'
+        })
     };
 
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
@@ -146,8 +154,8 @@
 
 
 <div class={classes} style={style}>
-    <div class="svelte-fp-container" class:dragging bind:this={fullpage} on:mousewheel|preventDefault on:mousedown|preventDefault={handleDragStart}
-         on:mousemove|preventDefault={handleDragging} on:mouseup|preventDefault={handleDragEnd} on:mouseleave|preventDefault={handleDragEnd}>
+    <div class="svelte-fp-container" class:dragging bind:this={fullpage} on:mousewheel|preventDefault on:mousedown={handleDragStart}
+         on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}>
         <slot />
     </div>
     <Indicator {sections} bind:activeSection/>
@@ -173,7 +181,7 @@
         user-select: none;
     }
     .dragging {
-        scroll-snap-type: y proximity;
+        scroll-snap-type: y ;
     }
     .svelte-fp-container::-webkit-scrollbar {
         width: 0;
