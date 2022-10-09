@@ -73,12 +73,15 @@
     };
     const scrollUp = () => {
         activeSectionStore.previousPage()
+        updateFullpageScroll($activeSectionStore)
     };
     const scrollDown = () => {
         activeSectionStore.nextPage()
+        updateFullpageScroll($activeSectionStore)
     };
     const toSection = (sectionId) => {
         activeSectionStore.toPage(sectionId)
+        updateFullpageScroll($activeSectionStore)
     };
     const updateFullpageScroll = (activeSection) => {
         if (fullpage) {
@@ -107,7 +110,7 @@
                 top: event.deltaY
             })
             wheelDelta += event.deltaY
-            setTimeout(handleWheelEnd, 10)
+            wheelTimeout = setTimeout(handleWheelEnd, 100)
         }
     }
     const handleWheelEnd = () => {
@@ -118,7 +121,6 @@
             nextSection += hasScrolledUp ? -1 : 1
         }
         toSection(nextSection)
-        // TODO: fix bug where store value doesnt change and introduces bug
         console.log(hasScrolledUp, hasExceededScrollRoundThreshold, nextSection)
         wheelDelta = 0
     }
@@ -170,7 +172,6 @@
     $: if (sectionTitles) sections = sectionTitles;
 
     $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
-    $: updateFullpageScroll($activeSectionStore)
 </script>
 
 <svelte:window on:keydown|preventDefault={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
