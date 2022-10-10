@@ -138,14 +138,12 @@
     };
     const handleDragEnd = () => {
         dragging = false
-        const scrollDelta = fullpage.scrollTop % fullpage.clientHeight
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
+        const scrollDelta = fullpage.scrollTop % fullpage.clientHeight
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / 4
-        let nextSection = Math.floor(fullpage.scrollTop / fullpage.clientHeight) // Set next section to current
         if (hasExceededScrollRoundThreshold) {
-            nextSection += hasScrolledUp ? -1 : 1
+            hasScrolledUp ? scrollUp() : scrollDown()
         }
-        toSection(nextSection)
     };
 
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
@@ -179,7 +177,7 @@
 
 
 <div class={classes} style={style}>
-    <div class="svelte-fp-container" class:dragging bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
+    <div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
          on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}>
         <slot />
     </div>
@@ -201,12 +199,8 @@
         width: inherit;
         position: relative;
         overflow-y: scroll;
-        scroll-snap-type: y mandatory;
         scroll-behavior: smooth;
         user-select: none;
-    }
-    .dragging {
-        scroll-snap-type: y ;
     }
     .svelte-fp-container::-webkit-scrollbar {
         width: 0;
