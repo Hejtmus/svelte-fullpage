@@ -33,6 +33,7 @@
     let dragging = false;
     let dragPosition = 0
     let dragStartScroll = 0
+    let touchStartPosition
 
     //extending exported classes with wrapper class
     let classes = `${defaultClasses} svelte-fp-wrapper`;
@@ -88,8 +89,9 @@
     };
     const handleWheel = (event) => {
         const now = Date.now()
-        if (now - recentScroll >= transitionDuration * 2) {
-            handleWheelEnd(event.deltaY)
+        const deltaY = event.deltaY
+        if (Math.abs(deltaY) > 20 && now - recentScroll >= transitionDuration * 2) {
+            handleWheelEnd(deltaY)
             recentScroll = now
         }
     }
@@ -116,6 +118,23 @@
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / 4
         if (hasExceededScrollRoundThreshold) {
             hasScrolledUp ? scrollUp() : scrollDown()
+        }
+    };
+    const handleTouchStart = (event) => {
+        touchStartPosition = event.touches[0].screenY;
+    };
+    // Compare touch start and end Y coordinates, if difference exceeds threshold, scroll function is triggered
+    const handleTouchMove = (event) => {
+        // Timer is used for preventing scrolling multiple sections
+        const now = Date.now()
+        const touchEndPosition = event.touches[0].screenY
+        if (transitionDuration < now-recentScroll) {
+            const touchDelta = touchStartPosition - touchEndPosition
+            const hasScrolledUp = touchStartPosition < touchEndPosition
+            if (Math.abs(touchDelta) > touchThreshold) {
+                hasScrolledUp ? scrollUp() : scrollDown()
+                recentScroll = now
+            }
         }
     };
 
@@ -151,7 +170,8 @@
 
 <div class={classes} style={style}>
     <div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
-         on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}>
+         on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}
+         on:drag={ ()=>{return false} }  on:touchstart|preventDefault={handleTouchStart} on:touchmove|preventDefault={handleTouchMove}>
         <slot />
     </div>
     <Indicator {sections} bind:activeSection={$activeSectionStore}/>
