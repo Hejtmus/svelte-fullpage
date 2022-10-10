@@ -29,8 +29,6 @@
     export let touchThreshold = 75;
     export let pullDownToRefresh = false;
 
-    let wheelTimeout
-    let wheelDelta = 0
     // Auxiliary variables that make possible drag and scroll feature
     let dragging = false;
     let dragPosition = 0
@@ -56,21 +54,6 @@
         }
     })
 
-    //function that handles scroll and sets scroll cooldown based on animation duration
-    const handleScroll = (event) => {
-        //getting direction of scroll, if negative, scroll up, if positive, scroll down
-        let deltaY = event.deltaY;
-        let timer = new Date().getTime();
-        //if cooldown time is up, fullpage is scrollable again
-        if (transitionDuration < timer-recentScroll) {
-            recentScroll = timer;
-            if (deltaY < 0) {
-                scrollUp()
-            } else if (deltaY > 0) {
-                scrollDown()
-            }
-        }
-    };
     const scrollUp = () => {
         activeSectionStore.previousPage()
         updateFullpageScroll($activeSectionStore)
@@ -104,17 +87,15 @@
         }
     };
     const handleWheel = (event) => {
-        if (fullpage) {
-            // console.log('scr', event.deltaY)
-            wheelDelta += event.deltaY
-            clearTimeout(wheelTimeout)
-            wheelTimeout = setTimeout(handleWheelEnd, 10)
+        const now = Date.now()
+        if (now - recentScroll >= transitionDuration * 2) {
+            handleWheelEnd(event.deltaY)
+            recentScroll = now
         }
     }
-    const handleWheelEnd = () => {
+    const handleWheelEnd = (wheelDelta) => {
         const hasScrolledUp = wheelDelta < 0
         hasScrolledUp ? scrollUp() : scrollDown()
-        wheelDelta = 0
     }
     const handleDragStart = (event) => {
         dragPosition = event.clientY
