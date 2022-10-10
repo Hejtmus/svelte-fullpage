@@ -105,23 +105,15 @@
     };
     const handleWheel = (event) => {
         if (fullpage) {
-            clearTimeout(wheelTimeout)
-            fullpage.scrollBy({
-                top: event.deltaY
-            })
+            // console.log('scr', event.deltaY)
             wheelDelta += event.deltaY
-            wheelTimeout = setTimeout(handleWheelEnd, 100)
+            clearTimeout(wheelTimeout)
+            wheelTimeout = setTimeout(handleWheelEnd, 10)
         }
     }
     const handleWheelEnd = () => {
         const hasScrolledUp = wheelDelta < 0
-        const hasExceededScrollRoundThreshold = Math.abs(wheelDelta) > fullpage.clientHeight / 4
-        let nextSection = Math.floor(fullpage.scrollTop / fullpage.clientHeight) // Set next section to current
-        if (hasExceededScrollRoundThreshold) {
-            nextSection += hasScrolledUp ? -1 : 1
-        }
-        toSection(nextSection)
-        console.log(hasScrolledUp, hasExceededScrollRoundThreshold, nextSection)
+        hasScrolledUp ? scrollUp() : scrollDown()
         wheelDelta = 0
     }
     const handleDragStart = (event) => {
