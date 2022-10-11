@@ -71,7 +71,8 @@
     const updateFullpageScroll = (activeSection) => {
         if (fullpage) {
             fullpage.scrollTo({
-                top: activeSection * fullpage.clientHeight
+                top: activeSection * fullpage.clientHeight,
+                behavior: 'smooth'
             })
         }
     }
@@ -156,14 +157,13 @@
     $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
 </script>
 
-<svelte:window on:keydown={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
+<svelte:window on:keydown={ (event)=>handleKey(event) } on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->
 <svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
 
 
 <div class={classes} style={style}>
     <div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
-         on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}
-         on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
+         on:mousemove|preventDefault={handleDragging} on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
         <slot />
     </div>
     <Indicator {sections} bind:activeSection={$activeSectionStore} on:goto={toSection}/>
@@ -179,7 +179,6 @@
         width: inherit;
         position: relative;
         overflow-y: scroll;
-        scroll-behavior: smooth;
         user-select: none;
     }
     .svelte-fp-container::-webkit-scrollbar {

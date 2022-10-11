@@ -70,7 +70,8 @@
     const updateSlideScroll = (activeSlide) => {
         if (section) {
             section.scrollTo({
-                left: activeSlide * section.clientWidth
+                left: activeSlide * section.clientWidth,
+                behavior: 'smooth'
             })
         }
     }
@@ -180,7 +181,6 @@
     }
     .slidable {
         overflow-x: scroll;
-        scroll-behavior: smooth;
         user-select: none;
         display: flex;
         flex-direction: row;
