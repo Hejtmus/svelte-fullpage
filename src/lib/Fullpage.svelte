@@ -18,7 +18,7 @@
     // duration of animation and scroll cooldown in milliseconds
     export let transitionDuration = 500;
     // enables scrolling using arrows
-    export let arrows = false;
+    export let arrows = true;
     // enables scrolling using drag
     export let drag = false;
     /*
@@ -78,14 +78,15 @@
     }
     // handling arrow event
     const handleKey = (event) => {
+        if (event.key === 'ArrowDown' || event.key ==='ArrowUp') {
+            event.preventDefault()
+        }
         if (arrows) {
             switch (event.key) {
                 case 'ArrowDown':
-                    event.preventDefault()
                     scrollDown();
                     break;
                 case 'ArrowUp':
-                    event.preventDefault()
                     scrollUp();
                     break;
             }
@@ -136,7 +137,6 @@
         if (sectionCount !== 0 && !sectionTitles) {
             sections = [];
             for (let i = 0; sectionCount > i; i++) {
-                console.log(sections)
                 sections = [
                     ...sections,
                     `Section ${i+1}`

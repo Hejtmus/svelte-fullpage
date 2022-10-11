@@ -14,7 +14,7 @@
     let slides = [];
     export let activeSlide = 0;
     export let center = false;
-    export let arrows = false;
+    export let arrows = true;
     export let select = false;
     export let transitionDuration = 500;
     export let dragThreshold = 100;
@@ -78,6 +78,9 @@
 
     // handling arrow event
     const handleKey = (event) => {
+        if (event.key === 'ArrowLeft' || event.key ==='ArrowRight') {
+            event.preventDefault()
+        }
         if (arrows) {
             switch (event.key) {
                 case 'ArrowLeft':
