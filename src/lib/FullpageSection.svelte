@@ -117,22 +117,10 @@
 
     // memoize touch start X coordinate
     const handleTouchStart = (event) => {
-        touchStartPosition = event.touches[0].screenX;
+        dragPosition = event.touches[0].screenX
+        dragStartScroll = section.scrollLeft
     };
-    // Compare touch start and end X coordinates, if difference exceeds threshold, scroll function is triggered
-    const handleTouchMove = (event) => {
-        // Timer is used for preventing scrolling multiple slides
-        const now = Date.now()
-        const touchEndPosition = event.touches[0].screenX;
-        if (transitionDuration < now - recentSlide) {
-            const touchDelta = touchStartPosition - touchEndPosition
-            const hasScrolledLeft = touchStartPosition < touchEndPosition
-            if (Math.abs(touchDelta) > touchThreshold) {
-                hasScrolledLeft ? slideLeft() : slideRight()
-                recentSlide = now
-            }
-        }
-    };
+
     // If user hasn't specified slideTitle, sections array will be generated with placeholder strings
     const generateFallbackSlideTitles = (slideTitles, slideCount) => {
         if (slideCount !== 0 && !slideTitles) {
@@ -174,8 +162,8 @@
     <div class="svelte-fp-container svelte-fp-flexbox-expand" class:slidable={$slideCount !== 0} class:svelte-fp-flexbox-center={center}
          bind:this={section}
          on:mousewheel|preventDefault on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
-         on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd} on:touchstart|preventDefault={handleTouchStart}
-         on:touchmove|preventDefault={handleTouchMove}>
+         on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd} on:touchstart={handleTouchStart}
+         on:touchend={handleDragEnd}>
         <slot />
     </div>
     {#if $slideCount > 0}

@@ -126,21 +126,8 @@
         }
     };
     const handleTouchStart = (event) => {
-        touchStartPosition = event.touches[0].screenY;
-    };
-    // Compare touch start and end Y coordinates, if difference exceeds threshold, scroll function is triggered
-    const handleTouchMove = (event) => {
-        // Timer is used for preventing scrolling multiple sections
-        const now = Date.now()
-        const touchEndPosition = event.touches[0].screenY
-        if (transitionDuration < now - recentScroll) {
-            const touchDelta = touchStartPosition - touchEndPosition
-            const hasScrolledUp = touchStartPosition < touchEndPosition
-            if (Math.abs(touchDelta) > touchThreshold) {
-                hasScrolledUp ? scrollUp() : scrollDown()
-                recentScroll = now
-            }
-        }
+        dragPosition = event.touches[0].screenY
+        dragStartScroll = fullpage.scrollTop
     };
 
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
@@ -176,7 +163,7 @@
 <div class={classes} style={style}>
     <div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
          on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}
-         on:drag={ ()=>{return false} } on:touchstart|preventDefault={handleTouchStart} on:touchmove|preventDefault={handleTouchMove}>
+         on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
         <slot />
     </div>
     <Indicator {sections} bind:activeSection={$activeSectionStore} on:goto={toSection}/>
