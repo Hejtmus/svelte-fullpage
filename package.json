@@ -15,6 +15,8 @@
     "dev": "vite dev",
     "build": "vite build",
     "package": "svelte-package",
+    "release": "npm run package && cd ./package && npm publish",
+    "prerelease": "npm version prerelease --preid=alpha && npm run package && cd ./package && npm publish --tag next",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",

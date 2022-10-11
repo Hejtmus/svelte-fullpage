@@ -157,7 +157,7 @@
     $: updateSlideScroll($activeSlideStore)
 </script>
 
-<svelte:window on:keydown={ (event)=>handleKey(event) }/>
+<svelte:window on:keydown={handleKey}/>
 
 <section class={classes} style={style}>
     <div class="svelte-fp-container svelte-fp-flexbox-expand" class:slidable={$slideCount !== 0} class:svelte-fp-flexbox-center={center}

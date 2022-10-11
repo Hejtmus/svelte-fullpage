@@ -157,7 +157,7 @@
     $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
 </script>
 
-<svelte:window on:keydown={ (event)=>handleKey(event) } on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->
+<svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->
 <svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
 
 
