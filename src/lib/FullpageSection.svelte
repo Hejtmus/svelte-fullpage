@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Indicator from './Indicator/Slide.svelte';
     import {getContext, onMount, setContext} from "svelte";
     import { FullpageActivity } from './stores'
@@ -10,7 +10,7 @@
     export let style = '';
     let sectionId;
     const { getId, activeSectionStore} = getContext('section');
-    export let slideTitles = false;
+    export let slideTitles: Array<string> | false = false;
     let slides = [];
     export let activeSlide = 0;
     export let center = false;
@@ -77,9 +77,11 @@
         if (arrows) {
             switch (event.key) {
                 case 'ArrowLeft':
+                    event.preventDefault()
                     slideLeft();
                     break;
                 case 'ArrowRight':
+                    event.preventDefault()
                     slideRight();
                     break;
             }
@@ -90,27 +92,22 @@
         dragPosition = event.clientX
         dragStartScroll = section.scrollLeft
         dragging = true
-        console.log('a')
     };
     const handleDragging = (event) => {
         if (dragging) {
-            console.log('d', dragStartScroll - (event.clientX - dragPosition))
             section.scrollTo({
-                left: dragStartScroll - (event.clientX - dragPosition),
-                behavior: 'smooth'
+                left: dragStartScroll - (event.clientX - dragPosition)
             })
         }
     };
     const handleDragEnd = () => {
         dragging = false
-        const scrollDelta = section.scrollLeft % section.clientWidth
         const hasScrolledLeft = dragStartScroll > section.scrollLeft
+        const scrollDelta = section.scrollLeft % section.clientWidth
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > section.clientWidth / 4
-        let nextSlide = Math.floor(section.scrollLeft / section.clientWidth) // Set next slide to current
         if (hasExceededScrollRoundThreshold) {
-            nextSlide += hasScrolledLeft ? -1 : 1
+            hasScrolledLeft ? slideLeft() : slideRight()
         }
-        toSlide(nextSlide)
     };
 
     // memoize touch start X coordinate
@@ -118,17 +115,16 @@
         touchStartPosition = event.touches[0].screenX;
     };
     // Compare touch start and end X coordinates, if difference exceeds threshold, scroll function is triggered
-    const handleTouchEnd = (event) => {
+    const handleTouchMove = (event) => {
         // Timer is used for preventing scrolling multiple slides
-        let timer = new Date().getTime();
+        const now = Date.now()
         const touchEndPosition = event.touches[0].screenX;
-        if (transitionDuration < timer-recentSlide) {
-            if (touchStartPosition - touchEndPosition > touchThreshold) {
-                slideRight();
-                recentSlide = timer;
-            } else if (touchStartPosition - touchEndPosition < -touchThreshold) {
-                slideLeft();
-                recentSlide = timer;
+        if (transitionDuration < now - recentSlide) {
+            const touchDelta = touchStartPosition - touchEndPosition
+            const hasScrolledLeft = touchStartPosition < touchEndPosition
+            if (Math.abs(touchDelta) > touchThreshold) {
+                hasScrolledLeft ? slideLeft() : slideRight()
+                recentSlide = now
             }
         }
     };
@@ -171,13 +167,14 @@
     $: updateSlideScroll($activeSlideStore)
 </script>
 
-<svelte:window on:keydown|preventDefault={ (event)=>handleKey(event) }/>
+<svelte:window on:keydown={ (event)=>handleKey(event) }/>
 
 <section class={classes} style={style}>
     <div class="svelte-fp-container svelte-fp-flexbox-expand" class:slidable={$slideCount !== 0} class:svelte-fp-flexbox-center={center}
          bind:this={section}
          on:mousewheel|preventDefault on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
-         on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}>
+         on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd} on:touchstart|preventDefault={handleTouchStart}
+         on:touchmove|preventDefault={handleTouchMove}>
         <slot />
     </div>
     {#if $slideCount > 0}

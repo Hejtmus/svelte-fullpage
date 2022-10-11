@@ -14,7 +14,7 @@
     const sectionCount = writable(0);
     const activeSectionStore = FullpageActivity(sectionCount)
     export let sectionTitles = false;
-    let sections = [];
+    let sections: Array<string> | false = [];
     // duration of animation and scroll cooldown in milliseconds
     export let transitionDuration = 500;
     // enables scrolling using arrows
@@ -80,9 +80,11 @@
         if (arrows) {
             switch (event.key) {
                 case 'ArrowDown':
+                    event.preventDefault()
                     scrollDown();
                     break;
                 case 'ArrowUp':
+                    event.preventDefault()
                     scrollUp();
                     break;
             }
@@ -129,7 +131,7 @@
         // Timer is used for preventing scrolling multiple sections
         const now = Date.now()
         const touchEndPosition = event.touches[0].screenY
-        if (transitionDuration < now-recentScroll) {
+        if (transitionDuration < now - recentScroll) {
             const touchDelta = touchStartPosition - touchEndPosition
             const hasScrolledUp = touchStartPosition < touchEndPosition
             if (Math.abs(touchDelta) > touchThreshold) {
@@ -165,14 +167,14 @@
     $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
 </script>
 
-<svelte:window on:keydown|preventDefault={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
+<svelte:window on:keydown={ (event)=>handleKey(event) }/> <!-- Necessity when listening to window events -->
 <svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
 
 
 <div class={classes} style={style}>
     <div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
          on:mousemove|preventDefault={handleDragging} on:mouseup={handleDragEnd} on:mouseleave={handleDragEnd}
-         on:drag={ ()=>{return false} }  on:touchstart|preventDefault={handleTouchStart} on:touchmove|preventDefault={handleTouchMove}>
+         on:drag={ ()=>{return false} } on:touchstart|preventDefault={handleTouchStart} on:touchmove|preventDefault={handleTouchMove}>
         <slot />
     </div>
     <Indicator {sections} bind:activeSection={$activeSectionStore} on:goto={toSection}/>
