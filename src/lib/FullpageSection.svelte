@@ -50,16 +50,19 @@
     })
 
     const slideRight = () => {
+        if ($activeSectionStore !== sectionId) return
         activeSlideStore.nextPage()
         updateSlideScroll($activeSlideStore)
     };
 
     const slideLeft = () => {
+        if ($activeSectionStore !== sectionId) return
         activeSlideStore.previousPage()
         updateSlideScroll($activeSlideStore)
     };
 
     const toSlide = (event) => {
+        if ($activeSectionStore !== sectionId) return
         const slideId = event.detail
         activeSlideStore.toPage(slideId)
         updateSlideScroll($activeSlideStore)
@@ -155,10 +158,6 @@
     onMount(()=>{
         sectionId = getId()
     })
-    // Everytime section disappears, slide count resets, this prevents slides from getting wrong ID
-    $: if (!visible) {
-        $slideCount = 0;
-    }
 
     // If user has specified slideTitles, then slides is overridden
     $: if (slideTitles) slides = slideTitles;
@@ -184,11 +183,12 @@
 
 <style>
     section {
-        height: inherit;
-        width: inherit;
+        height: 100vh;
+        max-height: 100vh;
+        width: 100vw;
+        max-width: 100vw;
         position: relative;
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
+        overflow-y: hidden;
     }
     .slidable {
         overflow-x: scroll;

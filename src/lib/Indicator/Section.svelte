@@ -18,7 +18,7 @@
         height: inherit;
         width: auto;
         overflow: hidden;
-        position: fixed;
+        position: absolute;
         z-index: 100;
         right: 0;
         top: 0;
