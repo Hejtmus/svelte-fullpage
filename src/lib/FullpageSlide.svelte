@@ -27,11 +27,10 @@
 
 <style>
     .svelte-fp-content {
-        height: inherit;
-        width: inherit;
+        height: 100vh;
+        width: 100vw;
+        min-width: 100vw;
         position: relative;
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
     }
     .svelte-fp-flexbox-center {
         display: flex;

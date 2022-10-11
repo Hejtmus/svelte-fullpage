@@ -51,21 +51,23 @@
 
     const slideRight = () => {
         activeSlideStore.nextPage()
+        updateSlideScroll($activeSlideStore)
     };
 
     const slideLeft = () => {
         activeSlideStore.previousPage()
+        updateSlideScroll($activeSlideStore)
     };
 
-    const toSlide = (slideId) => {
+    const toSlide = (event) => {
+        const slideId = event.detail
         activeSlideStore.toPage(slideId)
+        updateSlideScroll($activeSlideStore)
     };
     const updateSlideScroll = (activeSlide) => {
         if (section) {
-            console.log(activeSlide, section.scrollLeft, activeSlide * section.clientWidth)
             section.scrollTo({
-                left: activeSlide * section.clientWidth,
-                behavior: 'smooth'
+                left: activeSlide * section.clientWidth
             })
         }
     }
@@ -179,21 +181,24 @@
         <slot />
     </div>
     {#if $slideCount > 0}
-        <Indicator {slides} activeSlideIndicator={$activeSlideStore} on:toSlide={(e)=>toSlide(e.detail)}/>
+        <Indicator {slides} activeSlideIndicator={$activeSlideStore} on:goto={toSlide}/>
     {/if}
 </section>
 
 <style>
     section {
         height: inherit;
+        width: inherit;
         position: relative;
         scroll-snap-align: center;
         scroll-snap-stop: always;
     }
     .slidable {
         overflow-x: scroll;
-        scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
+        user-select: none;
+        display: flex;
+        flex-direction: row;
     }
     .slidable::-webkit-scrollbar {
         width: 0;
