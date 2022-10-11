@@ -20,7 +20,7 @@ function FullpageActivity(pageCountStore: Writable<number>) {
         }
     }
     const toPage = (pageId: number) => {
-        if (pageId > 0 && pageId < pageCount) {
+        if (pageId >= 0 && pageId < pageCount) {
             set(pageId)
         }
     }

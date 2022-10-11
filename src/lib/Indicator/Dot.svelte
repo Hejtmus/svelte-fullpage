@@ -7,14 +7,14 @@
 
     const dispatch = createEventDispatcher();
 
-    const click = () => {
-        dispatch('click', index)
+    const goto = () => {
+        dispatch('goto', index)
     }
 </script>
 
 <li class="svelte-fp-indicator-list-item">
     <button title={title || ''} class="svelte-fp-indicator-list-item-btn {activeDot === index ? 'svelte-fp-active':''}"
-            on:click={click}>
+            on:click={goto}>
     </button>
 </li>
 

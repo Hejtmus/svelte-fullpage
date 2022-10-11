@@ -63,7 +63,8 @@
         activeSectionStore.nextPage()
         updateFullpageScroll($activeSectionStore)
     };
-    const toSection = (sectionId) => {
+    const toSection = (event) => {
+        const sectionId = event.detail
         activeSectionStore.toPage(sectionId)
         updateFullpageScroll($activeSectionStore)
     };
@@ -174,7 +175,7 @@
          on:drag={ ()=>{return false} }  on:touchstart|preventDefault={handleTouchStart} on:touchmove|preventDefault={handleTouchMove}>
         <slot />
     </div>
-    <Indicator {sections} bind:activeSection={$activeSectionStore}/>
+    <Indicator {sections} bind:activeSection={$activeSectionStore} on:goto={toSection}/>
 </div>
 
 <style>
