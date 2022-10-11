@@ -107,9 +107,11 @@
         dragging = false
         const hasScrolledLeft = dragStartScroll > section.scrollLeft
         const scrollDelta = section.scrollLeft % section.clientWidth
-        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > section.clientWidth / 4
+        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > section.clientWidth / 8
         if (hasExceededScrollRoundThreshold) {
             hasScrolledLeft ? slideLeft() : slideRight()
+        } else {
+            toSlide($activeSlideStore)
         }
     };
 
@@ -183,10 +185,8 @@
 
 <style>
     section {
-        height: 100vh;
-        max-height: 100vh;
-        width: 100vw;
-        max-width: 100vw;
+        height: inherit;
+        width: inherit;
         position: relative;
         overflow-y: hidden;
     }

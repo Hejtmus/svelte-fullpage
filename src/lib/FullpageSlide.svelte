@@ -27,9 +27,9 @@
 
 <style>
     .svelte-fp-content {
-        height: 100vh;
-        width: 100vw;
-        min-width: 100vw;
+        height: 100%;
+        width: 100%;
+        min-width: 100%;
         position: relative;
     }
     .svelte-fp-flexbox-center {

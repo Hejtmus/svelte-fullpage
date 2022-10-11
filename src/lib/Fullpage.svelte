@@ -117,10 +117,12 @@
     const handleDragEnd = () => {
         dragging = false
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
-        const scrollDelta = fullpage.scrollTop % fullpage.clientHeight
-        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / 4
+        const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
+        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / 8
         if (hasExceededScrollRoundThreshold) {
             hasScrolledUp ? scrollUp() : scrollDown()
+        } else {
+            toSection($activeSectionStore)
         }
     };
     const handleTouchStart = (event) => {
@@ -182,8 +184,8 @@
 
 <style>
     .svelte-fp-wrapper {
-        height: 100vh;
-        width: 100vw;
+        height: inherit;
+        width: inherit;
     }
     .svelte-fp-container {
         height: inherit;

@@ -118,3 +118,9 @@
         </div>
     </FullpageSection>
 </Fullpage>
+
+<style>
+    :global(body) {
+        height: 100vh;
+    }
+</style>
