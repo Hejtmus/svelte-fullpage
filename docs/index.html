@@ -2,15 +2,16 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="/svelte-fullpage/favicon.png" />
+		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content=""><title>Svelte-fullpage</title>
-	<link rel="stylesheet" href="/svelte-fullpage/_app/assets/pages/index.svelte-a730f64f.css">
-	<link rel="modulepreload" href="/svelte-fullpage/_app/start-7b8679c6.js">
-	<link rel="modulepreload" href="/svelte-fullpage/_app/chunks/index-c70b175b.js">
-	<link rel="modulepreload" href="/svelte-fullpage/_app/chunks/index-041dfc65.js">
-	<link rel="modulepreload" href="/svelte-fullpage/_app/layout.svelte-c448c808.js">
-	<link rel="modulepreload" href="/svelte-fullpage/_app/pages/index.svelte-76b4dbd5.js">
+		<link href="./_app/immutable/assets/_page-33633d97.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/start-ea088f66.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-5c7fc3b6.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-d91ae8c4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-39244a04.js">
+		<link rel="modulepreload" href="./_app/immutable/components/layout.svelte-e55efd21.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-4fdfd05a.js">
 	</head>
 	<body>
 		<div>
@@ -43,26 +44,25 @@
 </div>
 
 
-		<script type="module" data-hydrate="v3lgnt">
-		import { start } from "/svelte-fullpage/_app/start-7b8679c6.js";
-		start({
-			target: document.querySelector('[data-hydrate="v3lgnt"]').parentNode,
-			paths: {"base":"/svelte-fullpage","assets":"/svelte-fullpage"},
-			session: {},
-			route: true,
-			spa: false,
-			trailing_slash: "never",
-			hydrate: {
-				status: 200,
-				error: null,
-				nodes: [
-					import("/svelte-fullpage/_app/layout.svelte-c448c808.js"),
-						import("/svelte-fullpage/_app/pages/index.svelte-76b4dbd5.js")
-				],
-				params: {},
-				routeId: ""
-			}
-		});
-	</script></div>
+		<script type="module" data-sveltekit-hydrate="v3lgnt">
+			import { start } from "./_app/immutable/start-ea088f66.js";
+
+			start({
+				env: {},
+				hydrate: {
+					status: 200,
+					error: null,
+					node_ids: [0, 2],
+					params: {},
+					routeId: "",
+					data: (function(a,b){return [{type:"data",data:b,uses:{dependencies:a,params:a,parent:a,url:a}},b]}(void 0,null)),
+					form: null
+				},
+				paths: {"base":"","assets":""},
+				target: document.querySelector('[data-sveltekit-hydrate="v3lgnt"]').parentNode,
+				trailing_slash: "never"
+			});
+		</script>
+	</div>
 	</body>
 </html>
