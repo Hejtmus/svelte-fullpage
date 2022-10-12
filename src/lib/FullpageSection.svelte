@@ -146,7 +146,7 @@
     Everytime activeSlide updates, this store gets new value and then all slides that subscribe,
     this is because user may want to control slides programmatically
      */
-    $: activeSlideStore.set(activeSlide)
+    $: activeSlideStore.toPage(activeSlide)
 
     // After DOM is ready ged sectionId
     onMount(()=>{

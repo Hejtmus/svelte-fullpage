@@ -1,6 +1,11 @@
-import { writable, type Writable } from 'svelte/store'
+import { writable, type Writable, type Readable } from 'svelte/store'
 
-function FullpageActivity(pageCountStore: Writable<number>) {
+interface FullpageActivityStore extends Readable<number> {
+    previousPage: () => void,
+    nextPage: () => void,
+    toPage: (pageId: number) => void
+}
+function FullpageActivity(pageCountStore: Writable<number>): FullpageActivityStore {
     let activePage = 0
     let pageCount = 0
     pageCountStore.subscribe((value) => {
@@ -26,7 +31,6 @@ function FullpageActivity(pageCountStore: Writable<number>) {
     }
     return {
         subscribe,
-        set,
         previousPage,
         nextPage,
         toPage
@@ -35,4 +39,7 @@ function FullpageActivity(pageCountStore: Writable<number>) {
 
 export {
     FullpageActivity
+}
+export type {
+    FullpageActivityStore
 }

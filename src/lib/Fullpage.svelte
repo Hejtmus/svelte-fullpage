@@ -1,46 +1,27 @@
 <script lang="ts">
+    import FullpageController from './FullpageController.svelte'
     import Indicator from './Indicator/Section.svelte';
     import { setContext } from "svelte";
-    import {writable} from "svelte/store";
+    import { writable } from "svelte/store";
     import { FullpageActivity } from './stores'
-    //defining variable that will hold class value, that will be passed into this component's wrapper
-    let defaultClasses = '';
 
-    //exporting classes, for passing classes into wrapper
-    export {defaultClasses as class};
+    let defaultClasses = '';
+    export {defaultClasses as class}
     export let style = '';
     //number that hold which section is active
     export let activeSection = 0;
-    const sectionCount = writable(0);
+    const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
-    export let sectionTitles = false;
-    let sections: Array<string> | false = [];
-    // duration of animation and scroll cooldown in milliseconds
-    export let transitionDuration = 500;
-    // enables scrolling using arrows
-    export let arrows = true;
-    // enables scrolling using drag
-    export let drag = false;
-    /*
-    Distance in px, if values from events emitted by user behavior exceed this thresholds, function for handling drag (by
-    cursor) or touch will be triggered.
-     */
-    export let dragThreshold = 100;
-    export let touchThreshold = 75;
-    export let pullDownToRefresh = false;
+    let sections: Array<string> | false = []
 
-    // Auxiliary variables that make possible drag and scroll feature
-    let dragging = false;
-    let dragPosition = 0
-    let dragStartScroll = 0
-    let touchStartPosition
+    export let navigationCooldown = 750
+    export let pageRoundingThresholdMultiplier = 8
+    export let disableDragNavigation = false
+    export let disableArrowsNavigation = false
+    export let disablePullDownToRefresh = true
+    export let sectionTitles: Array<string> | false = false
 
-    //extending exported classes with wrapper class
-    let classes = `${defaultClasses} svelte-fp-wrapper`;
-    let recentScroll = 0;
-    let fullpage
-    //setting section visible
-    let active = true;
+    let toSection
 
     /*
     Passing data about section visibility to all sections, activeSectionStore notifies all child FullpageSections about
@@ -54,83 +35,6 @@
             return $sectionCount - 1;
         }
     })
-
-    const scrollUp = () => {
-        activeSectionStore.previousPage()
-        updateFullpageScroll($activeSectionStore)
-    };
-    const scrollDown = () => {
-        activeSectionStore.nextPage()
-        updateFullpageScroll($activeSectionStore)
-    };
-    const toSection = (event) => {
-        const sectionId = event.detail
-        activeSectionStore.toPage(sectionId)
-        updateFullpageScroll($activeSectionStore)
-    };
-    const updateFullpageScroll = (activeSection) => {
-        if (fullpage) {
-            fullpage.scrollTo({
-                top: activeSection * fullpage.clientHeight,
-                behavior: 'smooth'
-            })
-        }
-    }
-    // handling arrow event
-    const handleKey = (event) => {
-        if (event.key === 'ArrowDown' || event.key ==='ArrowUp') {
-            event.preventDefault()
-        }
-        if (arrows) {
-            switch (event.key) {
-                case 'ArrowDown':
-                    scrollDown();
-                    break;
-                case 'ArrowUp':
-                    scrollUp();
-                    break;
-            }
-        }
-    };
-    const handleWheel = (event) => {
-        const now = Date.now()
-        const deltaY = event.deltaY
-        if (Math.abs(deltaY) > 20 && now - recentScroll >= transitionDuration * 2) {
-            handleWheelEnd(deltaY)
-            recentScroll = now
-        }
-    }
-    const handleWheelEnd = (wheelDelta) => {
-        const hasScrolledUp = wheelDelta < 0
-        hasScrolledUp ? scrollUp() : scrollDown()
-    }
-    const handleDragStart = (event) => {
-        dragPosition = event.clientY
-        dragStartScroll = fullpage.scrollTop
-        dragging = true
-    };
-    const handleDragging = (event) => {
-        if (dragging) {
-            fullpage.scrollTo({
-                top: dragStartScroll - (event.clientY - dragPosition)
-            })
-        }
-    };
-    const handleDragEnd = () => {
-        dragging = false
-        const hasScrolledUp = dragStartScroll > fullpage.scrollTop
-        const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
-        const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / 8
-        if (hasExceededScrollRoundThreshold) {
-            hasScrolledUp ? scrollUp() : scrollDown()
-        } else {
-            toSection($activeSectionStore)
-        }
-    };
-    const handleTouchStart = (event) => {
-        dragPosition = event.touches[0].screenY
-        dragStartScroll = fullpage.scrollTop
-    };
 
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
     const generateFallbackSectionTitles = (sectionTitles, sectionCount) => {
@@ -157,35 +61,17 @@
     $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
 </script>
 
-<svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->
-<svelte:body class:svelte-fp-disable-pull-refresh={pullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
-
-
-<div class={classes} style={style}>
-    <div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
-         on:mousemove|preventDefault={handleDragging} on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
-        <slot />
-    </div>
-    <Indicator {sections} bind:activeSection={$activeSectionStore} on:goto={toSection}/>
+<div class="{defaultClasses} svelte-fp-wrapper" style={style}>
+    <FullpageController bind:toSection {activeSectionStore} {navigationCooldown} {pageRoundingThresholdMultiplier}
+                        {disableDragNavigation} {disableArrowsNavigation} {disablePullDownToRefresh}>
+        <slot/>
+    </FullpageController>
+    <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>
 </div>
 
 <style>
     .svelte-fp-wrapper {
         height: inherit;
         width: inherit;
-    }
-    .svelte-fp-container {
-        height: inherit;
-        width: inherit;
-        position: relative;
-        overflow-y: scroll;
-        user-select: none;
-    }
-    .svelte-fp-container::-webkit-scrollbar {
-        width: 0;
-        background: transparent;
-    }
-    .svelte-fp-disable-pull-refresh {
-        overscroll-behavior: contain;
     }
 </style>
