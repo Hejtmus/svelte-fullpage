@@ -13,8 +13,6 @@
         'GitHub',
         'Future'
     ];
-    // Optional, for additional control od displayed section
-    let activeSection = 0;
 
     // Same mechanics as in sections titles
     const slideTitles = [
@@ -22,16 +20,14 @@
         'arrows',
         'drag',
     ];
-    // Same mechanics as in activeSection
-    let activeSlide = 0;
 </script>
 
 <svelte:head>
     <title>Svelte-fullpage</title>
 </svelte:head>
 
-<Fullpage {sectionTitles} bind:activeSection arrows drag>
-    <FullpageSection center>
+<Fullpage {sectionTitles}>
+    <FullpageSection>
         <div class="container text-center">
             <div class="row">
                 <div class="col">
@@ -46,8 +42,8 @@
             </div>
         </div>
     </FullpageSection>
-    <FullpageSection {slideTitles} class="bg-info" arrows>
-        <FullpageSlide center>
+    <FullpageSection {slideTitles} class="bg-info">
+        <FullpageSlide>
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
@@ -60,7 +56,7 @@
                 </div>
             </div>
         </FullpageSlide>
-        <FullpageSlide class="bg-danger" center>
+        <FullpageSlide class="bg-danger">
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
@@ -72,7 +68,7 @@
                 </div>
             </div>
         </FullpageSlide>
-        <FullpageSlide class="bg-success" center>
+        <FullpageSlide class="bg-success">
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
@@ -103,7 +99,7 @@
             </div>
         </div>
     </FullpageSection>
-    <FullpageSection class="bg-warning" center>
+    <FullpageSection class="bg-warning">
         <div class="container text-center">
             <div class="row">
                 <div class="col">

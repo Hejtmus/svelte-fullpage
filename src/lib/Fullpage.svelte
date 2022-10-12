@@ -33,6 +33,12 @@
         getId: ()=>{
             $sectionCount++;
             return $sectionCount - 1;
+        },
+        config: {
+            navigationCooldown,
+            pageRoundingThresholdMultiplier,
+            disableDragNavigation,
+            disableArrowsNavigation
         }
     })
 

@@ -5,7 +5,7 @@
     export { defaultClasses as class }
     export let style = ''
     const { getId } = getContext('slide')
-    export let center = false
+    const { config: { disableCenter } } = getContext('section')
 
     // After DOM is ready ged slideId
     onMount(()=>{
@@ -13,7 +13,7 @@
     })
 </script>
 
-<div class="{defaultClasses} svelte-fp-content" style={style} class:svelte-fp-flexbox-center={center}>
+<div class="{defaultClasses} svelte-fp-content" style={style} class:svelte-fp-flexbox-center={!disableCenter}>
     <slot/>
 </div>
 
