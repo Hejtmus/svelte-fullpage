@@ -66,7 +66,8 @@
 
 <section class="{classes} svelte-fp-section" style={style}>
     <FullpageSectionController bind:toSlide {activeSlideStore} {isSlidable} {isActive}
-                               {disableCenter} disableDragNavigation={config.disableDragNavigation}
+                               {disableCenter} navigationCooldown={config.navigationCooldown}
+                               disableDragNavigation={config.disableDragNavigation}
                                disableArrowsNavigation={config.disableArrowsNavigation}
                                pageRoundingThresholdMultiplier={config.pageRoundingThresholdMultiplier}>
         <slot/>

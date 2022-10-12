@@ -6,11 +6,12 @@
     export let isActive: boolean
     // Configuration
     export let disableCenter: boolean
-    // export let navigationCooldown: boolean
+    export let navigationCooldown: boolean
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: boolean
 
+    let recentScroll = 0
     let section
     let dragPosition
     let dragStartScroll
@@ -58,6 +59,19 @@
         }
     };
 
+    const handleWheel = (event) => {
+        const now = Date.now()
+        const deltaX = event.deltaX
+        if (Math.abs(deltaX) > 20 && now - recentScroll >= navigationCooldown) {
+            handleWheelEnd(deltaX)
+            recentScroll = now
+        }
+    }
+    const handleWheelEnd = (wheelDelta) => {
+        const hasScrolledLeft = wheelDelta < 0
+        hasScrolledLeft ? slideLeft() : slideRight()
+    }
+
     const handleDragStart = (event) => {
         if (disableDragNavigation) return
         dragPosition = event.clientX
@@ -95,7 +109,7 @@
 
 <div bind:this={section} class="svelte-fp-container svelte-fp-flexbox-expand"
      class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCenter}
-     on:mousewheel|preventDefault on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
+     on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
      on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
     <slot />
 </div>
