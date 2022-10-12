@@ -94,7 +94,7 @@
 <svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd}/>
 
 <div bind:this={section} class="svelte-fp-container svelte-fp-flexbox-expand"
-     class:slidable={isSlidable} class:svelte-fp-flexbox-center={!disableCenter}
+     class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCenter}
      on:mousewheel|preventDefault on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
      on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
     <slot />

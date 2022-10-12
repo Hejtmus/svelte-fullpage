@@ -88,7 +88,7 @@
         if (hasExceededScrollRoundThreshold) {
             hasScrolledUp ? scrollUp() : scrollDown()
         } else {
-            toSection($activeSectionStore)
+            updateFullpageScroll()
         }
     };
     const handleTouchStart = (event) => {
