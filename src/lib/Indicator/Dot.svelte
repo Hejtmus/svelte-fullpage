@@ -1,11 +1,11 @@
-<script>
-    import { createEventDispatcher } from "svelte";
+<script lang="ts">
+    import { createEventDispatcher } from 'svelte'
 
-    export let activeDot = 0;
-    export let index = 0;
-    export let title = '';
+    export let activeDot = 0
+    export let index = 0
+    export let title = ''
 
-    const dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher()
 
     const goto = () => {
         dispatch('goto', index)
@@ -13,7 +13,7 @@
 </script>
 
 <li class="svelte-fp-indicator-list-item">
-    <button title={title || ''} class="svelte-fp-indicator-list-item-btn {activeDot === index ? 'svelte-fp-active':''}"
+    <button title={title || ''} class="svelte-fp-indicator-list-item-btn {activeDot === index ? 'svelte-fp-active' : ''}"
             on:click={goto}>
     </button>
 </li>

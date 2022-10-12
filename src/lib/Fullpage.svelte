@@ -1,15 +1,15 @@
 <script lang="ts">
     import FullpageController from './FullpageController.svelte'
-    import Indicator from './Indicator/Section.svelte';
-    import { setContext } from "svelte";
-    import { writable } from "svelte/store";
+    import Indicator from './Indicator/Section.svelte'
+    import { setContext } from 'svelte'
+    import { writable } from 'svelte/store'
     import { FullpageActivity } from './stores'
 
-    let defaultClasses = '';
-    export {defaultClasses as class}
-    export let style = '';
-    //number that hold which section is active
-    export let activeSection = 0;
+    let defaultClasses = ''
+    export { defaultClasses as class }
+    export let style = ''
+    // number that hold which section is active
+    export let activeSection = 0
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
     let sections: Array<string> | false = []
@@ -30,9 +30,9 @@
      */
     setContext('section', {
         activeSectionStore,
-        getId: ()=>{
-            $sectionCount++;
-            return $sectionCount - 1;
+        getId: () => {
+            $sectionCount++
+            return $sectionCount - 1
         },
         config: {
             navigationCooldown,
@@ -45,12 +45,12 @@
     // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
     const generateFallbackSectionTitles = (sectionTitles, sectionCount) => {
         if (sectionCount !== 0 && !sectionTitles) {
-            sections = [];
+            sections = []
             for (let i = 0; sectionCount > i; i++) {
                 sections = [
                     ...sections,
-                    `Section ${i+1}`
-                ];
+                    `Section ${i + 1}`
+                ]
             }
         }
     }
@@ -62,9 +62,9 @@
     $: activeSectionStore.toPage(activeSection)
 
     // If user has specified sectionTitles, then sections is overridden
-    $: if (sectionTitles) sections = sectionTitles;
+    $: if (sectionTitles) sections = sectionTitles
 
-    $: generateFallbackSectionTitles(sectionTitles, $sectionCount);
+    $: generateFallbackSectionTitles(sectionTitles, $sectionCount)
 </script>
 
 <div class="{defaultClasses} svelte-fp-wrapper" style={style}>

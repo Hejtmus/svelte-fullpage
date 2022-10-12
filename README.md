@@ -2,7 +2,7 @@
 
 Pure Svelte fullpage component
 
-***Tested using latest svelte (3.47.0) and svelteKit (next.320)***
+[![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
 
 Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. There is also support for
 mobile devices. Tested on Svelte and Sapper. Note that this component is in development, expect bugs, if you notice some, 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Dot from './Dot.svelte';
+    import Dot from './Dot.svelte'
 
     export let slides: Array<string>
     export let activeSlide: number

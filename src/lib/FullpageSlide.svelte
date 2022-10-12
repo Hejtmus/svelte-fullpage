@@ -1,5 +1,5 @@
 <script>
-    import {getContext, onMount} from "svelte";
+    import { getContext, onMount } from 'svelte'
 
     let defaultClasses = ''
     export { defaultClasses as class }
@@ -8,7 +8,7 @@
     const { config: { disableCenter } } = getContext('section')
 
     // After DOM is ready ged slideId
-    onMount(()=>{
+    onMount(() => {
         getId()
     })
 </script>

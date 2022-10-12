@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Dot from './Dot.svelte';
+    import Dot from './Dot.svelte'
 
     export let sections: Array<string>
     export let activeSection: number

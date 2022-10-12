@@ -20,18 +20,18 @@
     const slideRight = () => {
         activeSlideStore.nextPage()
         updateSlideScroll()
-    };
+    }
 
     const slideLeft = () => {
         activeSlideStore.previousPage()
         updateSlideScroll()
-    };
+    }
 
     export const toSlide = (event) => {
         const slideId = event.detail
         activeSlideStore.toPage(slideId)
         updateSlideScroll()
-    };
+    }
     const updateSlideScroll = () => {
         if (section) {
             section.scrollTo({
@@ -49,15 +49,15 @@
         }
         if (!disableArrowsNavigation) {
             switch (event.key) {
-                case 'ArrowLeft':
-                    slideLeft();
-                    break;
-                case 'ArrowRight':
-                    slideRight();
-                    break;
+            case 'ArrowLeft':
+                slideLeft()
+                break
+            case 'ArrowRight':
+                slideRight()
+                break
             }
         }
-    };
+    }
 
     const handleWheel = (event) => {
         const now = Date.now()
@@ -77,14 +77,14 @@
         dragPosition = event.clientX
         dragStartScroll = section.scrollLeft
         dragging = true
-    };
+    }
     const handleDragging = (event) => {
         if (dragging) {
             section.scrollTo({
                 left: dragStartScroll - (event.clientX - dragPosition)
             })
         }
-    };
+    }
     const handleDragEnd = () => {
         dragging = false
         const hasScrolledLeft = dragStartScroll > section.scrollLeft
@@ -95,14 +95,13 @@
         } else {
             updateSlideScroll()
         }
-    };
+    }
 
     // memoize touch start X coordinate
     const handleTouchStart = (event) => {
         dragPosition = event.touches[0].screenX
         dragStartScroll = section.scrollLeft
-    };
-
+    }
 </script>
 
 <svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd}/>

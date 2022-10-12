@@ -41,20 +41,20 @@
 
     // handling arrow event
     const handleKey = (event) => {
-        if (event.key === 'ArrowDown' || event.key ==='ArrowUp') {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault()
         }
         if (!disableArrowsNavigation) {
             switch (event.key) {
-                case 'ArrowDown':
-                    scrollDown();
-                    break;
-                case 'ArrowUp':
-                    scrollUp();
-                    break;
+            case 'ArrowDown':
+                scrollDown()
+                break
+            case 'ArrowUp':
+                scrollUp()
+                break
             }
         }
-    };
+    }
     const handleWheel = (event) => {
         const now = Date.now()
         const deltaY = event.deltaY
@@ -72,14 +72,14 @@
         dragPosition = event.clientY
         dragStartScroll = fullpage.scrollTop
         dragging = true
-    };
+    }
     const handleDragging = (event) => {
         if (dragging) {
             fullpage.scrollTo({
                 top: dragStartScroll - (event.clientY - dragPosition)
             })
         }
-    };
+    }
     const handleDragEnd = () => {
         dragging = false
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
@@ -90,11 +90,11 @@
         } else {
             updateFullpageScroll()
         }
-    };
+    }
     const handleTouchStart = (event) => {
         dragPosition = event.touches[0].screenY
         dragStartScroll = fullpage.scrollTop
-    };
+    }
 </script>
 
 <svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->
