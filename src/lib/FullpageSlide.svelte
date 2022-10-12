@@ -1,19 +1,11 @@
 <script>
     import {getContext, onMount} from "svelte";
 
-    let defaultClasses = '';
-    export { defaultClasses as class };
-    export let style = '';
+    let defaultClasses = ''
+    export { defaultClasses as class }
+    export let style = ''
     const { getId } = getContext('slide')
-    export let center = false;
-    export let transitionIn = {
-        duration: 500,
-        x: -2000
-    };
-    export let transitionOut = {
-        duration: 500,
-        x: 2000
-    };
+    export let center = false
 
     // After DOM is ready ged slideId
     onMount(()=>{
@@ -21,7 +13,7 @@
     })
 </script>
 
-<div class={`${defaultClasses} svelte-fp-content`} style={style} class:svelte-fp-flexbox-center={center}>
+<div class="{defaultClasses} svelte-fp-content" style={style} class:svelte-fp-flexbox-center={center}>
     <slot/>
 </div>
 

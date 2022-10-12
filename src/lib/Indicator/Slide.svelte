@@ -1,14 +1,14 @@
-<script>
+<script lang="ts">
     import Dot from './Dot.svelte';
 
-    export let slides;
-    export let activeSlideIndicator;
+    export let slides: Array<string>
+    export let activeSlide: number
 </script>
 
 <div class="svelte-fp-indicator-horizontal">
     <ul class="svelte-fp-indicator-list-horizontal">
         {#each slides as title, index}
-            <Dot {title} {index} bind:activeDot={activeSlideIndicator} on:goto />
+            <Dot {title} {index} activeDot={activeSlide} on:goto />
         {/each}
     </ul>
 </div>

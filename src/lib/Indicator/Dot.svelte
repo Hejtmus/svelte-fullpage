@@ -28,7 +28,7 @@
     .svelte-fp-indicator-list-item-btn {
         width: 1rem;
         height: 1rem;
-        border-radius: 0.5rem;
+        border-radius: 50%;
         border: solid 1px #767676;
         background-color: transparent;
         order: 1;
@@ -42,7 +42,6 @@
         .svelte-fp-indicator-list-item-btn {
             width: 0.5rem;
             height: 0.5rem;
-            border-radius: 0.25rem;
         }
     }
 </style>

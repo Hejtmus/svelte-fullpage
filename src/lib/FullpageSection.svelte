@@ -171,7 +171,7 @@
         <slot />
     </div>
     {#if $slideCount > 0}
-        <Indicator {slides} activeSlideIndicator={$activeSlideStore} on:goto={toSlide}/>
+        <Indicator {slides} activeSlide={$activeSlideStore} on:goto={toSlide}/>
     {/if}
 </section>
 

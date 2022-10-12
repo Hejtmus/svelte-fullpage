@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
     import Dot from './Dot.svelte';
 
-    export let sections;
-    export let activeSection = 0;
+    export let sections: Array<string>
+    export let activeSection: number
 </script>
 
 <div class="svelte-fp-indicator">
