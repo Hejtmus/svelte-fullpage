@@ -52,7 +52,8 @@
                                {disableCenter} scrollDuration={config.scrollDuration}
                                disableDragNavigation={config.disableDragNavigation}
                                disableArrowsNavigation={config.disableArrowsNavigation}
-                               pageRoundingThresholdMultiplier={config.pageRoundingThresholdMultiplier}>
+                               pageRoundingThresholdMultiplier={config.pageRoundingThresholdMultiplier}
+                               easing={config.easing}>
         <slot/>
     </FullpageSectionController>
     {#if isSlidable}

@@ -17,6 +17,7 @@
     export let pageRoundingThresholdMultiplier = 8
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
+    export let easing: (t: number) => number | null = null
 
     let toSection: (event: Event) => void
 
@@ -40,7 +41,8 @@
             scrollDuration,
             pageRoundingThresholdMultiplier,
             disableDragNavigation,
-            disableArrowsNavigation
+            disableArrowsNavigation,
+            easing
         }
     })
 
@@ -53,7 +55,7 @@
 
 <div class="{userClasses} svelte-fp-wrapper" style={style}>
     <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
-                        {disableDragNavigation} {disableArrowsNavigation}>
+                        {disableDragNavigation} {disableArrowsNavigation} {easing}>
         <slot/>
     </FullpageController>
     <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>

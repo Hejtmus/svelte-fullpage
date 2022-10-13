@@ -9,11 +9,12 @@
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
+    export let easing: (t: number) => number
 
     let fullpage
     const fullpageScroll = tweened(0, {
         duration: scrollDuration,
-        easing: quartOut
+        easing: easing || quartOut
     })
 
     // Auxiliary variables

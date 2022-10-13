@@ -12,11 +12,12 @@
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: boolean
+    export let easing: (t: number) => number
 
     let section
     const sectionScroll = tweened(0, {
         duration: scrollDuration,
-        easing: quartOut
+        easing: easing || quartOut
     })
 
     let recentScroll = 0
