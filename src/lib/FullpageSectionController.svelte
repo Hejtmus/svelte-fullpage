@@ -113,7 +113,7 @@
 <svelte:window on:keydown={handleKey} on:pointerup|capture={handleDragEnd}/>
 
 <div bind:this={section} class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCenter}
-     on:wheel|preventDefault={handleWheel} on:pointerdown={handleDragStart} on:pointermove={handleDragging}>
+     on:wheel|preventDefault={handleWheel} on:pointerdown={handleDragStart} on:pointermove={handleDragging} {...$$restProps}>
     <slot />
 </div>
 
@@ -122,12 +122,12 @@
         height: inherit;
         width: inherit;
         position: relative;
-        touch-action: none;
         flex: 1;
+        touch-action: none;
+        overflow: hidden;
+        user-select: none;
     }
     .slidable {
-        overflow-x: hidden;
-        user-select: none;
         display: flex;
         flex-direction: row;
     }

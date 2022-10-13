@@ -5,9 +5,6 @@
     import { FullpageActivity } from './stores'
     import { writable } from 'svelte/store'
 
-    let userClasses = ''
-    export { userClasses as class }
-    export let style = ''
     export let title = ''
     export let disableCenter = false
 
@@ -40,13 +37,13 @@
     $: isSlidable = $slideCount > 0
 </script>
 
-<section class="{userClasses} svelte-fp-section" style={style}>
-    <FullpageSectionController bind:toSlide {activeSlideStore} {isSlidable} {isActive}
+<section>
+    <FullpageSectionController  bind:toSlide {activeSlideStore} {isSlidable} {isActive}
                                {disableCenter} scrollDuration={config.scrollDuration}
                                disableDragNavigation={config.disableDragNavigation}
                                disableArrowsNavigation={config.disableArrowsNavigation}
                                pageRoundingThresholdMultiplier={config.pageRoundingThresholdMultiplier}
-                               easing={config.easing}>
+                               easing={config.easing} {...$$restProps}>
         <slot/>
     </FullpageSectionController>
     {#if isSlidable}
@@ -59,6 +56,5 @@
         height: inherit;
         width: inherit;
         position: relative;
-        overflow-y: hidden;
     }
 </style>

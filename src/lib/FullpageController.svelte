@@ -104,7 +104,7 @@
 <svelte:window on:keydown={handleKey} on:pointerup|capture={handleDragEnd} />
 
 <div bind:this={fullpage} on:wheel|preventDefault={handleWheel}
-     on:pointerdown={handleDragStart} on:pointermove={handleDragging}>
+     on:pointerdown={handleDragStart} on:pointermove={handleDragging} {...$$restProps}>
     <slot />
 </div>
 

@@ -5,10 +5,6 @@
     import { writable } from 'svelte/store'
     import { FullpageActivity } from './stores'
 
-    let userClasses = ''
-    export { userClasses as class }
-    export let style = ''
-
     export let scrollDuration = 750
     export let pageRoundingThresholdMultiplier = 8
     export let disableDragNavigation = false
@@ -46,17 +42,18 @@
     })
 </script>
 
-<div class="{userClasses} svelte-fp-wrapper" style={style}>
+<div>
     <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
-                        {disableDragNavigation} {disableArrowsNavigation} {easing}>
+                        {disableDragNavigation} {disableArrowsNavigation} {easing} {...$$restProps}>
         <slot/>
     </FullpageController>
     <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>
 </div>
 
 <style>
-    .svelte-fp-wrapper {
+    div {
         height: inherit;
         width: inherit;
+        position: relative;
     }
 </style>
