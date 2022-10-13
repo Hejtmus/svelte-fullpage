@@ -9,7 +9,6 @@
     export { userClasses as class }
     export let style = ''
     export let title = ''
-    export let activeSlide = 0
     export let disableCenter = false
 
     const { registerSection, activeSectionStore, config } = getContext('section')
@@ -32,12 +31,6 @@
             ]
         }
     })
-
-    /*
-    Everytime activeSlide updates, this store gets new value and then all slides that subscribe,
-    this is because user may want to control slides programmatically
-     */
-    $: activeSlideStore.toPage(activeSlide)
 
     onMount(() => {
         sectionId = registerSection(title)

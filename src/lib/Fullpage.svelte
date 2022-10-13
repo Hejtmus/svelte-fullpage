@@ -8,10 +8,6 @@
     let userClasses = ''
     export { userClasses as class }
     export let style = ''
-    export let activeSection = 0
-    const sectionCount = writable(0)
-    const activeSectionStore = FullpageActivity(sectionCount)
-    let sections: Array<string> = []
 
     export let scrollDuration = 750
     export let pageRoundingThresholdMultiplier = 8
@@ -19,6 +15,9 @@
     export let disableArrowsNavigation = false
     export let easing: (t: number) => number | null = null
 
+    const sectionCount = writable(0)
+    const activeSectionStore = FullpageActivity(sectionCount)
+    let sections: Array<string> = []
     let toSection: (event: Event) => void
 
     /*
@@ -45,12 +44,6 @@
             easing
         }
     })
-
-    /*
-    Everytime activeSection updates, this store gets new value and then all sections that subscribe,
-    this is because user may want to control sections programmatically
-     */
-    $: activeSectionStore.toPage(activeSection)
 </script>
 
 <div class="{userClasses} svelte-fp-wrapper" style={style}>
