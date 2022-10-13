@@ -5,11 +5,11 @@
 
     export let activeSectionStore: FullpageActivityStore
     // Configuration
-    export let navigationCooldown
-    export let disableDragNavigation
-    export let disableArrowsNavigation
-    export let disablePullDownToRefresh
-    export let pageRoundingThresholdMultiplier
+    export let navigationCooldown: number
+    export let disableDragNavigation: boolean
+    export let disableArrowsNavigation: boolean
+    export let disablePullDownToRefresh: boolean
+    export let pageRoundingThresholdMultiplier: number
 
     let fullpage
     const fullpageScroll = tweened(0, {

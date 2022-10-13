@@ -21,7 +21,7 @@
     export let disablePullDownToRefresh = true
     export let sectionTitles: Array<string> | false = false
 
-    let toSection
+    let toSection: (event: Event) => void
 
     /*
     Passing data about section visibility to all sections, activeSectionStore notifies all child FullpageSections about

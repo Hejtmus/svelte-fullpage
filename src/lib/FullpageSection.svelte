@@ -17,9 +17,9 @@
     const slideCount = writable(0)
     const activeSlideStore = FullpageActivity(slideCount)
 
-    let sectionId
-    let slides = []
-    let toSlide
+    let sectionId: number
+    let slides: Array<string> = []
+    let toSlide: (event: Event) => void
 
     // Passing data about slide visibility to all slides, same principle as setContext('section',{...}) in Fullpage.svelte
     setContext('slide', {

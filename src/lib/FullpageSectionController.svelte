@@ -8,7 +8,7 @@
     export let isActive: boolean
     // Configuration
     export let disableCenter: boolean
-    export let navigationCooldown: boolean
+    export let navigationCooldown: number
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: boolean
