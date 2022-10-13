@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { FullpageActivityStore } from './stores'
     import { tweened } from 'svelte/motion'
-    import { quartOut } from 'svelte/easing'
 
     export let activeSectionStore: FullpageActivityStore
     // Configuration
@@ -14,7 +13,7 @@
     let fullpage
     const fullpageScroll = tweened(0, {
         duration: scrollDuration,
-        easing: easing || quartOut
+        easing
     })
 
     // Auxiliary variables

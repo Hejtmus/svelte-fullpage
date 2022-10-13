@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { FullpageActivityStore } from './stores'
     import { tweened } from 'svelte/motion'
-    import { quartOut } from 'svelte/easing'
 
     export let activeSlideStore: FullpageActivityStore
     export let isSlidable: boolean
@@ -17,7 +16,7 @@
     let section
     const sectionScroll = tweened(0, {
         duration: scrollDuration,
-        easing: easing || quartOut
+        easing
     })
 
     let recentScroll = 0

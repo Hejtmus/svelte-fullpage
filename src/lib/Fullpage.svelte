@@ -3,13 +3,14 @@
     import Indicator from './Indicator/Section.svelte'
     import { setContext } from 'svelte'
     import { writable } from 'svelte/store'
+    import { quartOut } from 'svelte/easing'
     import { FullpageActivity } from './stores'
 
     export let scrollDuration = 750
     export let pageRoundingThresholdMultiplier = 8
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
-    export let easing: (t: number) => number | null = null
+    export let easing: (t: number) => number | null = quartOut
 
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
