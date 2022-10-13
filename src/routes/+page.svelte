@@ -68,22 +68,22 @@
             </div>
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection title="GitHub">
-        <div class="container w-100 h-100 d-flex flex-column">
-            <div class="row justify-content-center pt-5 mt-5">
-                <div class="col-auto">
-                    <h1>
-                        Recursive fullpage
-                    </h1>
-                </div>
-            </div>
-            <div class="row flex-grow-1 align-items-center justify-content-center">
-                <div class="col-10 h-75 border border-dark rounded-3 position-relative">
+<!--    <FullpageSection title="GitHub">-->
+<!--        <div class="container w-100 h-100 d-flex flex-column">-->
+<!--            <div class="row justify-content-center pt-5 mt-5">-->
+<!--                <div class="col-auto">-->
+<!--                    <h1>-->
+<!--                        Recursive fullpage-->
+<!--                    </h1>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row flex-grow-1 align-items-center justify-content-center">-->
+<!--                <div class="col-10 h-75 border border-dark rounded-3 position-relative">-->
 <!--                    <svelte:self />-->
-                </div>
-            </div>
-        </div>
-    </FullpageSection>
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </FullpageSection>-->
     <FullpageSection title="Future" class="bg-warning">
         <div class="container text-center">
             <div class="row">

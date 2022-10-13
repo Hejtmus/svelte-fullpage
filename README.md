@@ -3,6 +3,12 @@
 Lightweight fullpage Svelte component.
 
 [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Hejtmus/svelte-fullpage/Node.js%20CI)
+![version](https://img.shields.io/npm/v/svelte-fullpage)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/svelte-fullpage)
+![license](https://img.shields.io/github/license/Hejtmus/svelte-fullpage)
+[![GitHub issues](https://img.shields.io/github/issues/Hejtmus/svelte-fullpage)](https://github.com/Hejtmus/svelte-fullpage/issues)
+![downloads](https://img.shields.io/npm/dw/svelte-fullpage)
 
 Makes scrolling pages by sections.
 
