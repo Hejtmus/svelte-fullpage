@@ -5,14 +5,14 @@
 
     export let activeSectionStore: FullpageActivityStore
     // Configuration
-    export let navigationCooldown: number
+    export let scrollDuration: number
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
 
     let fullpage
     const fullpageScroll = tweened(0, {
-        duration: navigationCooldown,
+        duration: scrollDuration,
         easing: quartOut
     })
 
@@ -64,7 +64,7 @@
     const handleWheel = (event) => {
         const now = Date.now()
         const deltaY = event.deltaY
-        if (Math.abs(deltaY) > 20 && now - recentScroll >= navigationCooldown) {
+        if (Math.abs(deltaY) > 20 && now - recentScroll >= scrollDuration) {
             handleWheelEnd(deltaY)
             recentScroll = now
         }

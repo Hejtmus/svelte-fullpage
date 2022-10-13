@@ -8,14 +8,14 @@
     export let isActive: boolean
     // Configuration
     export let disableCenter: boolean
-    export let navigationCooldown: number
+    export let scrollDuration: number
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: boolean
 
     let section
     const sectionScroll = tweened(0, {
-        duration: navigationCooldown,
+        duration: scrollDuration,
         easing: quartOut
     })
 
@@ -71,7 +71,7 @@
     const handleWheel = (event) => {
         const now = Date.now()
         const deltaX = event.deltaX
-        if (Math.abs(deltaX) > 20 && now - recentScroll >= navigationCooldown) {
+        if (Math.abs(deltaX) > 20 && now - recentScroll >= scrollDuration) {
             handleWheelEnd(deltaX)
             recentScroll = now
         }

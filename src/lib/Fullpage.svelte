@@ -14,7 +14,7 @@
     const activeSectionStore = FullpageActivity(sectionCount)
     let sections: Array<string> | false = []
 
-    export let navigationCooldown = 750
+    export let scrollDuration = 750
     export let pageRoundingThresholdMultiplier = 8
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
@@ -34,7 +34,7 @@
             return $sectionCount - 1
         },
         config: {
-            navigationCooldown,
+            scrollDuration,
             pageRoundingThresholdMultiplier,
             disableDragNavigation,
             disableArrowsNavigation
@@ -67,7 +67,7 @@
 </script>
 
 <div class="{defaultClasses} svelte-fp-wrapper" style={style}>
-    <FullpageController bind:toSection {activeSectionStore} {navigationCooldown} {pageRoundingThresholdMultiplier}
+    <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
                         {disableDragNavigation} {disableArrowsNavigation}>
         <slot/>
     </FullpageController>
