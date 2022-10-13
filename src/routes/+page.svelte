@@ -1,37 +1,18 @@
 <script>
-    import '../css/bootstrap.css';
+    import '../css/bootstrap.css'
     import {
         Fullpage,
         FullpageSection,
         FullpageSlide
-    } from '$lib';
-
-    // Titles for sections are optional, if they are specified, section indicator will have tooltip with section's title
-    const sectionTitles = [
-        'Svelte Fullpage',
-        'Features',
-        'GitHub',
-        'Future'
-    ];
-    // Optional, for additional control od displayed section
-    let activeSection = 0;
-
-    // Same mechanics as in sections titles
-    const slideTitles = [
-        'slides',
-        'arrows',
-        'drag',
-    ];
-    // Same mechanics as in activeSection
-    let activeSlide = 0;
+    } from '$lib'
 </script>
 
 <svelte:head>
     <title>Svelte-fullpage</title>
 </svelte:head>
 
-<Fullpage {sectionTitles} bind:activeSection arrows drag>
-    <FullpageSection center>
+<Fullpage>
+    <FullpageSection title="Svelte Fullpage">
         <div class="container text-center">
             <div class="row">
                 <div class="col">
@@ -46,8 +27,8 @@
             </div>
         </div>
     </FullpageSection>
-    <FullpageSection {slideTitles} class="bg-info" arrows>
-        <FullpageSlide center>
+    <FullpageSection title="Features" class="bg-info">
+        <FullpageSlide title="slides">
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
@@ -60,7 +41,7 @@
                 </div>
             </div>
         </FullpageSlide>
-        <FullpageSlide class="bg-danger" center>
+        <FullpageSlide title="arrows" class="bg-danger">
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
@@ -72,7 +53,7 @@
                 </div>
             </div>
         </FullpageSlide>
-        <FullpageSlide class="bg-success" center>
+        <FullpageSlide title="drag" class="bg-success">
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
@@ -87,7 +68,7 @@
             </div>
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection>
+    <FullpageSection title="GitHub">
         <div class="container w-100 h-100 d-flex flex-column">
             <div class="row justify-content-center pt-5 mt-5">
                 <div class="col-auto">
@@ -98,12 +79,12 @@
             </div>
             <div class="row flex-grow-1 align-items-center justify-content-center">
                 <div class="col-10 h-75 border border-dark rounded-3 position-relative">
-                    <svelte:self />
+<!--                    <svelte:self />-->
                 </div>
             </div>
         </div>
     </FullpageSection>
-    <FullpageSection class="bg-warning" center>
+    <FullpageSection title="Future" class="bg-warning">
         <div class="container text-center">
             <div class="row">
                 <div class="col">
@@ -118,3 +99,9 @@
         </div>
     </FullpageSection>
 </Fullpage>
+
+<style>
+    :global(body) {
+        height: 100vh;
+    }
+</style>
