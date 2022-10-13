@@ -5,15 +5,14 @@
     import { FullpageActivity } from './stores'
     import { writable } from 'svelte/store'
 
-    let classes = ''
-
-    export { classes as class }
+    let userClasses = ''
+    export { userClasses as class }
     export let style = ''
-    export let slideTitles: Array<string> | false = false
+    export let title = ''
     export let activeSlide = 0
     export let disableCenter = false
 
-    const { getId, activeSectionStore, config } = getContext('section')
+    const { registerSection, activeSectionStore, config } = getContext('section')
     const slideCount = writable(0)
     const activeSlideStore = FullpageActivity(slideCount)
 
@@ -24,24 +23,15 @@
     // Passing data about slide visibility to all slides, same principle as setContext('section',{...}) in Fullpage.svelte
     setContext('slide', {
         activeSlideStore,
-        getId: () => {
+        registerSlide: (title?: string): void => {
+            const id = $slideCount
             $slideCount++
-            return $slideCount - 1
+            slides = [
+                ...slides,
+                title || `${id + 1}`
+            ]
         }
     })
-
-    // If user hasn't specified slideTitle, sections array will be generated with placeholder strings
-    const generateFallbackSlideTitles = (slideTitles, slideCount) => {
-        if (slideCount !== 0 && !slideTitles) {
-            slides = []
-            for (let i = 0; slideCount > i; i++) {
-                slides = [
-                    ...slides,
-                    `Slide ${i + 1}`
-                ]
-            }
-        }
-    }
 
     /*
     Everytime activeSlide updates, this store gets new value and then all slides that subscribe,
@@ -49,20 +39,15 @@
      */
     $: activeSlideStore.toPage(activeSlide)
 
-    // After DOM is ready ged sectionId
     onMount(() => {
-        sectionId = getId()
+        sectionId = registerSection(title)
     })
-
-    // If user has specified slideTitles, then slides is overridden
-    $: if (slideTitles) slides = slideTitles
 
     $: isActive = (sectionId === $activeSectionStore)
     $: isSlidable = $slideCount > 0
-    $: generateFallbackSlideTitles(slideTitles, $slideCount)
 </script>
 
-<section class="{classes} svelte-fp-section" style={style}>
+<section class="{userClasses} svelte-fp-section" style={style}>
     <FullpageSectionController bind:toSlide {activeSlideStore} {isSlidable} {isActive}
                                {disableCenter} scrollDuration={config.scrollDuration}
                                disableDragNavigation={config.disableDragNavigation}

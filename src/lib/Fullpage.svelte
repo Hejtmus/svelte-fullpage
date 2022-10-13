@@ -5,20 +5,18 @@
     import { writable } from 'svelte/store'
     import { FullpageActivity } from './stores'
 
-    let defaultClasses = ''
-    export { defaultClasses as class }
+    let userClasses = ''
+    export { userClasses as class }
     export let style = ''
-    // number that hold which section is active
     export let activeSection = 0
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
-    let sections: Array<string> | false = []
+    let sections: Array<string> = []
 
     export let scrollDuration = 750
     export let pageRoundingThresholdMultiplier = 8
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
-    export let sectionTitles: Array<string> | false = false
 
     let toSection: (event: Event) => void
 
@@ -29,9 +27,14 @@
      */
     setContext('section', {
         activeSectionStore,
-        getId: () => {
+        registerSection: (title?: string): number => {
+            const id = $sectionCount
             $sectionCount++
-            return $sectionCount - 1
+            sections = [
+                ...sections,
+                title || `${id + 1}`
+            ]
+            return id
         },
         config: {
             scrollDuration,
@@ -41,32 +44,14 @@
         }
     })
 
-    // If user hasn't specified sectionTitle, sections array will be generated with fallback strings
-    const generateFallbackSectionTitles = (sectionTitles, sectionCount) => {
-        if (sectionCount !== 0 && !sectionTitles) {
-            sections = []
-            for (let i = 0; sectionCount > i; i++) {
-                sections = [
-                    ...sections,
-                    `Section ${i + 1}`
-                ]
-            }
-        }
-    }
-
     /*
     Everytime activeSection updates, this store gets new value and then all sections that subscribe,
     this is because user may want to control sections programmatically
      */
     $: activeSectionStore.toPage(activeSection)
-
-    // If user has specified sectionTitles, then sections is overridden
-    $: if (sectionTitles) sections = sectionTitles
-
-    $: generateFallbackSectionTitles(sectionTitles, $sectionCount)
 </script>
 
-<div class="{defaultClasses} svelte-fp-wrapper" style={style}>
+<div class="{userClasses} svelte-fp-wrapper" style={style}>
     <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
                         {disableDragNavigation} {disableArrowsNavigation}>
         <slot/>
