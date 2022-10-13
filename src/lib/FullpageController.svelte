@@ -8,7 +8,6 @@
     export let navigationCooldown: number
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
-    export let disablePullDownToRefresh: boolean
     export let pageRoundingThresholdMultiplier: number
 
     let fullpage
@@ -47,7 +46,6 @@
         }
     }
 
-    // handling arrow event
     const handleKey = (event) => {
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault()
@@ -99,34 +97,23 @@
             setScroll()
         }
     }
-    const handleTouchStart = (event) => {
-        dragPosition = event.touches[0].screenY
-        dragStartScroll = fullpage.scrollTop
-    }
     $: updateFullpageScroll($fullpageScroll)
 </script>
 
-<svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->
-<svelte:body class:svelte-fp-disable-pull-refresh={disablePullDownToRefresh}/> <!-- disables slideDownToRefresh feature -->
+<svelte:window on:keydown={handleKey} on:pointerup|capture={handleDragEnd} />
 
-<div class="svelte-fp-container" bind:this={fullpage} on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart}
-     on:mousemove|preventDefault={handleDragging} on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
+<div bind:this={fullpage} on:wheel|preventDefault={handleWheel}
+     on:pointerdown={handleDragStart} on:pointermove={handleDragging}>
     <slot />
 </div>
 
 <style>
-    .svelte-fp-container {
+    div {
         height: inherit;
         width: inherit;
         position: relative;
-        overflow-y: scroll;
+        overflow: hidden;
         user-select: none;
-    }
-    .svelte-fp-container::-webkit-scrollbar {
-        width: 0;
-        background: transparent;
-    }
-    .svelte-fp-disable-pull-refresh {
-        overscroll-behavior: contain;
+        touch-action: none;
     }
 </style>

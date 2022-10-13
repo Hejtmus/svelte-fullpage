@@ -106,41 +106,29 @@
         }
     }
 
-    // memoize touch start X coordinate
-    const handleTouchStart = (event) => {
-        dragPosition = event.touches[0].screenX
-        dragStartScroll = section.scrollLeft
-    }
     $: updateSlideScroll($sectionScroll)
 </script>
 
-<svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd}/>
+<svelte:window on:keydown={handleKey} on:pointerup|capture={handleDragEnd}/>
 
-<div bind:this={section} class="svelte-fp-container svelte-fp-flexbox-expand"
-     class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCenter}
-     on:wheel|preventDefault={handleWheel} on:mousedown={handleDragStart} on:mousemove|preventDefault={handleDragging}
-     on:touchstart={handleTouchStart} on:touchend={handleDragEnd}>
+<div bind:this={section} class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCenter}
+     on:wheel|preventDefault={handleWheel} on:pointerdown={handleDragStart} on:pointermove={handleDragging}>
     <slot />
 </div>
 
 <style>
-    .svelte-fp-container {
+    div {
         height: inherit;
         width: inherit;
         position: relative;
-    }
-    .svelte-fp-flexbox-expand {
+        touch-action: none;
         flex: 1;
     }
     .slidable {
-        overflow-x: scroll;
+        overflow-x: hidden;
         user-select: none;
         display: flex;
         flex-direction: row;
-    }
-    .slidable::-webkit-scrollbar {
-        width: 0;
-        background: transparent;
     }
     .svelte-fp-flexbox-center {
         display: flex;

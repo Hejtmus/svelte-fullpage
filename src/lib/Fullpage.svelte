@@ -18,7 +18,6 @@
     export let pageRoundingThresholdMultiplier = 8
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
-    export let disablePullDownToRefresh = true
     export let sectionTitles: Array<string> | false = false
 
     let toSection: (event: Event) => void
@@ -69,7 +68,7 @@
 
 <div class="{defaultClasses} svelte-fp-wrapper" style={style}>
     <FullpageController bind:toSection {activeSectionStore} {navigationCooldown} {pageRoundingThresholdMultiplier}
-                        {disableDragNavigation} {disableArrowsNavigation} {disablePullDownToRefresh}>
+                        {disableDragNavigation} {disableArrowsNavigation}>
         <slot/>
     </FullpageController>
     <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>
