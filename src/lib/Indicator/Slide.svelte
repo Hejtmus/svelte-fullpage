@@ -1,21 +1,14 @@
-<script>
-    import Dot from './Dot.svelte';
-    import { createEventDispatcher } from "svelte";
+<script lang="ts">
+    import Dot from './Dot.svelte'
 
-    export let slides;
-    export let activeSlideIndicator;
-
-    const dispatch = createEventDispatcher();
-
-    const toSlide = (event) => {
-        dispatch('toSlide', event.detail);
-    }
+    export let slides: Array<string>
+    export let activeSlide: number
 </script>
 
 <div class="svelte-fp-indicator-horizontal">
     <ul class="svelte-fp-indicator-list-horizontal">
         {#each slides as title, index}
-            <Dot {title} {index} bind:activeDot={activeSlideIndicator} on:click={toSlide}/>
+            <Dot {title} {index} activeDot={activeSlide} on:goto />
         {/each}
     </ul>
 </div>
