@@ -6,7 +6,7 @@
     import { writable } from 'svelte/store'
 
     export let title = ''
-    export let disableCenter = false
+    export let disableCentering = false
 
     const { registerSection, activeSectionStore, config } = getContext('section')
     const slideCount = writable(0)
@@ -38,8 +38,8 @@
 </script>
 
 <section>
-    <FullpageSectionController  bind:toSlide {activeSlideStore} {isSlidable} {isActive}
-                               {disableCenter} scrollDuration={config.scrollDuration}
+    <FullpageSectionController bind:toSlide {activeSlideStore} {isSlidable} {isActive}
+                               {disableCentering} scrollDuration={config.scrollDuration}
                                disableDragNavigation={config.disableDragNavigation}
                                disableArrowsNavigation={config.disableArrowsNavigation}
                                pageRoundingThresholdMultiplier={config.pageRoundingThresholdMultiplier}

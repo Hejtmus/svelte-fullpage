@@ -2,8 +2,8 @@
     import { getContext, onMount } from 'svelte'
 
     export let title = ''
+    export let disableCentering = false
     const { registerSlide } = getContext('slide')
-    const { config: { disableCenter } } = getContext('section')
 
     // After DOM is ready ged slideId
     onMount(() => {
@@ -11,7 +11,7 @@
     })
 </script>
 
-<div class:svelte-fp-flexbox-center={!disableCenter} {...$$restProps}>
+<div class:svelte-fp-flexbox-center={!disableCentering} {...$$restProps}>
     <slot/>
 </div>
 

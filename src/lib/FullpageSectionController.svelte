@@ -7,7 +7,7 @@
     export let isSlidable: boolean
     export let isActive: boolean
     // Configuration
-    export let disableCenter: boolean
+    export let disableCentering: boolean
     export let scrollDuration: number
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
@@ -112,7 +112,7 @@
 
 <svelte:window on:keydown={handleKey} on:pointerup|capture={handleDragEnd}/>
 
-<div bind:this={section} class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCenter}
+<div bind:this={section} class:slidable={isSlidable} class:svelte-fp-flexbox-center={!isSlidable && !disableCentering}
      on:wheel|preventDefault={handleWheel} on:pointerdown={handleDragStart} on:pointermove={handleDragging} {...$$restProps}>
     <slot />
 </div>
