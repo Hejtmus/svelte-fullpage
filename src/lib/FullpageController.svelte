@@ -1,5 +1,7 @@
 <script lang="ts">
     import type { FullpageActivityStore } from './stores'
+    import { tweened } from 'svelte/motion'
+    import { quartOut } from 'svelte/easing'
 
     export let activeSectionStore: FullpageActivityStore
     // Configuration
@@ -10,6 +12,10 @@
     export let pageRoundingThresholdMultiplier
 
     let fullpage
+    const fullpageScroll = tweened(0, {
+        duration: navigationCooldown,
+        easing: quartOut
+    })
 
     // Auxiliary variables
     let recentScroll = 0
@@ -19,22 +25,24 @@
 
     const scrollUp = () => {
         activeSectionStore.previousPage()
-        updateFullpageScroll()
+        setScroll()
     }
     const scrollDown = () => {
         activeSectionStore.nextPage()
-        updateFullpageScroll()
+        setScroll()
     }
     export const toSection = (event) => {
         const sectionId = event.detail
         activeSectionStore.toPage(sectionId)
-        updateFullpageScroll()
+        setScroll()
     }
-    const updateFullpageScroll = () => {
+    const setScroll = () => {
+        fullpageScroll.set($activeSectionStore * fullpage.clientHeight)
+    }
+    const updateFullpageScroll = (scroll) => {
         if (fullpage) {
-            fullpage.scrollTo({
-                top: $activeSectionStore * fullpage.clientHeight,
-                behavior: 'smooth'
+            requestAnimationFrame(() => {
+                fullpage.scrollTop = scroll
             })
         }
     }
@@ -75,8 +83,8 @@
     }
     const handleDragging = (event) => {
         if (dragging) {
-            fullpage.scrollTo({
-                top: dragStartScroll - (event.clientY - dragPosition)
+            fullpageScroll.set(dragStartScroll - (event.clientY - dragPosition), {
+                duration: 0
             })
         }
     }
@@ -88,13 +96,14 @@
         if (hasExceededScrollRoundThreshold) {
             hasScrolledUp ? scrollUp() : scrollDown()
         } else {
-            updateFullpageScroll()
+            setScroll()
         }
     }
     const handleTouchStart = (event) => {
         dragPosition = event.touches[0].screenY
         dragStartScroll = fullpage.scrollTop
     }
+    $: updateFullpageScroll($fullpageScroll)
 </script>
 
 <svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd} /> <!-- Necessity when listening to window events -->

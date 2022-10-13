@@ -1,5 +1,7 @@
 <script lang="ts">
     import type { FullpageActivityStore } from './stores'
+    import { tweened } from 'svelte/motion'
+    import { quartOut } from 'svelte/easing'
 
     export let activeSlideStore: FullpageActivityStore
     export let isSlidable: boolean
@@ -11,32 +13,39 @@
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: boolean
 
-    let recentScroll = 0
     let section
+    const sectionScroll = tweened(0, {
+        duration: navigationCooldown,
+        easing: quartOut
+    })
+
+    let recentScroll = 0
     let dragPosition
     let dragStartScroll
     let dragging
 
     const slideRight = () => {
         activeSlideStore.nextPage()
-        updateSlideScroll()
+        setScroll()
     }
 
     const slideLeft = () => {
         activeSlideStore.previousPage()
-        updateSlideScroll()
+        setScroll()
     }
 
     export const toSlide = (event) => {
         const slideId = event.detail
         activeSlideStore.toPage(slideId)
-        updateSlideScroll()
+        setScroll()
     }
-    const updateSlideScroll = () => {
+    const setScroll = () => {
+        sectionScroll.set($activeSlideStore * section.clientWidth)
+    }
+    const updateSlideScroll = (scroll) => {
         if (section) {
-            section.scrollTo({
-                left: $activeSlideStore * section.clientWidth,
-                behavior: 'smooth'
+            requestAnimationFrame(() => {
+                section.scrollLeft = scroll
             })
         }
     }
@@ -80,8 +89,8 @@
     }
     const handleDragging = (event) => {
         if (dragging) {
-            section.scrollTo({
-                left: dragStartScroll - (event.clientX - dragPosition)
+            sectionScroll.set(dragStartScroll - (event.clientX - dragPosition), {
+                duration: 0
             })
         }
     }
@@ -93,7 +102,7 @@
         if (hasExceededScrollRoundThreshold) {
             hasScrolledLeft ? slideLeft() : slideRight()
         } else {
-            updateSlideScroll()
+            setScroll()
         }
     }
 
@@ -102,6 +111,7 @@
         dragPosition = event.touches[0].screenX
         dragStartScroll = section.scrollLeft
     }
+    $: updateSlideScroll($sectionScroll)
 </script>
 
 <svelte:window on:keydown={handleKey} on:mouseup|capture={handleDragEnd}/>
