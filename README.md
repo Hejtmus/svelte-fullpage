@@ -1,132 +1,91 @@
 # Svelte-fullpage
 
-Pure Svelte fullpage component
+Lightweight fullpage Svelte component.
 
 [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
 
-Lightweight fullpage Svelte component, no vanilla JS or FullPage.js, just pure Svelte component. There is also support for
-mobile devices. Tested on Svelte and Sapper. Note that this component is in development, expect bugs, if you notice some, 
-please report them to this component's GitHub repo to the 'Issues' section.
+Makes scrolling pages by sections.
 
 ## Instalation
 
 > ```bash
-> npm i svelte-fullpage --save-dev
+> npm i svelte-fullpage -D
 > ```
 
 ## How to use
 
+To make things clear:
+- `<Fullpage>` is wrapper of its sections which can be scrolled vertically to navigate between sections
+- `<FullpageSection>` is section that takes entire viewport and optionally can be scrolled horizontally to navigate between slides
+- `<FullpageSlide>` analogy of section which is child of section
+
 ### Static version
 
-1. Make Svelte page
-2. Include `import { Fullpage, FullpageSection, FullpageSlide } from 'svelte-fullpage';` into mentioned file.
-3. Make fullpage sections and put them into `<Fullpage>`, if you need slides, make them too and put them into some `<FullpageSection>`.
-4. Define new arrays that will contain all names of all sections and slides, insert them into Fullpage or FullpageSection
-component, example `<Fullpage sections={myFullpageSectionsNames}` or `<FullpageSlide slides={myFullpageSlidesNames}`.
-5. You can check if everything is working, if you use Sapper, don't forget to make this component SSR, just include
-it like this `import Fullpage from 'svelte-fullpage/src/Fullpage.svelte'` and section as well 
-`import FullpageSection from 'svelte-fullpage/src/FullpageSection.svelte'` also slides 
-`import FullpageSlide from 'svelte-fullpage/src/FullpageSlide.svelte'`.
+1. Include `import { Fullpage, FullpageSection, FullpageSlide } from 'svelte-fullpage'` into desired page.
+2. Make fullpage sections and put them into `<Fullpage>`, if you need slides, make them too and put them into some `<FullpageSection>`.
+3. If needed, make `<FullpageSlide>`s and place them inside some `<FullpageSection>`.
 
-NOTE - Fullpage component is positioned **absolute**, it is recommended to put it into element with position **relative**.
-
-### Something copyable
+### Example code
 
 ```html
 <script>
-    //Svelte import
     import { 
         Fullpage,
         FullpageSection,
         FullpageSlide
-    } from 'svelte-fullpage';
-
-    // Optional, include all titles of your sections
-    const sectionTitles = [
-        'Home',
-        'History',
-        'Present',
-        'Future'
-    ];
-    
-    // Same mechanics as in sections
-    const slideTitles = [
-        '1982-1993',
-        '1993-2006',
-        '2006-present'
-    ];
+    } from 'svelte-fullpage'
 </script>
 
-<Fullpage {sectionTitles} arrows>
-    <FullpageSection center>
+<Fullpage>
+    <FullpageSection title="Home">
         ...Your markup here
     </FullpageSection>
-    <FullpageSection {slideTitles} arrows>
-        <FullpageSlide>
+    <FullpageSection title="History">
+        <FullpageSlide title="1982-1993">
             ...Your markup here
         </FullpageSlide>
-        <FullpageSlide>
+        <FullpageSlide title="1993-2006">
             ...Your markup here
         </FullpageSlide>
-        <FullpageSlide>
+        <FullpageSlide title="2006-present">
             ...Your markup here
         </FullpageSlide>
     </FullpageSection>
-    <FullpageSection>
+    <FullpageSection title="Present">
         ...Your markup here
     </FullpageSection>
-    <FullpageSection>
+    <FullpageSection title="Future">
         ...Your markup here
     </FullpageSection>
 </Fullpage>
 
 ```
 
-If you are not sure how to use this component, take a look at [demo site code](https://github.com/Hejtmus/svelte-fullpage/blob/master/docs/src/App.svelte)
+If you are not sure how to use this component, take a look at [demo site code](https://github.com/Hejtmus/svelte-fullpage/blob/master/src/routes/%2Bpage.svelte)
 
 ### Tweaks
 
-So, there are options for customizing your fullpage component.
-
+These are options for customizing your fullpage component. In addition to these props feel free to use HTML customization 
+props such as class, style, ....
+ 
 #### Fullpage
 
-These props are customizable:
-
-* **class** - `string` - Standard HTML class
-* **style** - `string` - Standard HTML style
-* **sectionTitles** - `array<string>` - Array containing titles of FullpageSections for section indicator
-* **activeSection** - `number` - Number that points set visibility of sections.
-* **transitionDuration** - `number` - Duration of transition between sections
-* **arrows** - `boolean` - Adds support for scrolling using arrows
-* **drag** - `boolean` - Allows scrolling using mouse drag
-* **pullDownToRefresh** - `boolean` - Enables pull down to refresh effect on chrome mobile, default `false`.
+- **scrollDuration** - `number` default: `750` - Duration of scroll and next scroll timeout in milliseconds
+- **pageRoundingThresholdMultiplier** - `number` default: `8` - Number which sets scroll sensitivity, bigger number, 
+less needed scrolling effort. `n` means user have to make scroll delta `1/n` of viewport height/width in order to get to new page.
+- **disableDragNavigation** - `boolean` default: `false` - Disables pointer drag navigation
+- **disableArrowsNavigation** - `boolean` default: `false` - Disables navigation using arrow keys
+- **easing** - `function` default: `quartOut` - Custom easing function which will be applied to scrolling sections and slides
 
 #### FullpageSection
 
-These props are customizable:
-
-* **class** - `string` - Standard HTML class
-* **style** - `string` - Standard HTML style
-* **slideTitles** - `array<string>` - Array containing titles of FullpageSlides for slide indicator
-* **activeSlide** - `string` - Number that tells slide if is visible
-* **center** - `boolean` - Centering content using flexbox
-* **arrows** - `boolean` - Adds support for sliding using arrows
-* **select** - `boolean` - Enables highlighting
-* **transitionDuration** - `number` - Duration of transition between slides, if you want to edit it, edit it here rather than in 
-transition prop, because this alters cooldown between transitions.
-* **transition** - `object` - Options for transitionOut between this sections
-* **dragThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is drag detected on page
-* **touchThreshold** - `number` - Number in pixels, that says, when to switch to another section, if is touch detected on page
+- **title** - `string` - Title of section displayed on hover effect on section indicator
+- **disableCentering** - `string` - Disabled flexbox centering of section's content
 
 #### FullpageSlide
 
-These props are customizable:
-
-* **class** - `string` - Standard HTML class
-* **style** - `string` - Standard HTML style
-* **center** - `number` - Centering content using flexbox
-* **transitionIn** - `object` - Options for transitionIn between this slides
-* **transitionOut** - `object` - Options for transitionOut between this slides
+- **title** - `string` - Title of slide displayed on hover effect on slide indicator
+- **disableCentering** - `string` - Disabled flexbox centering of slide's content
 
 ## License
 
