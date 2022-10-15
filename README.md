@@ -5,6 +5,7 @@ Lightweight fullpage Svelte component.
 [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Hejtmus/svelte-fullpage/Node.js%20CI)
 ![version](https://img.shields.io/npm/v/svelte-fullpage)
+![npm bundle size](https://img.shields.io/bundlephobia/min/svelte-fullpage)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/svelte-fullpage)
 ![license](https://img.shields.io/github/license/Hejtmus/svelte-fullpage)
 [![GitHub issues](https://img.shields.io/github/issues/Hejtmus/svelte-fullpage)](https://github.com/Hejtmus/svelte-fullpage/issues)
@@ -25,11 +26,11 @@ To make things clear:
 - `<FullpageSection>` is section that takes entire viewport and optionally can be scrolled horizontally to navigate between slides
 - `<FullpageSlide>` analogy of section which is child of section
 
-### Static version
+### Quick guide
 
-1. Include `import { Fullpage, FullpageSection, FullpageSlide } from 'svelte-fullpage'` into desired page.
-2. Make fullpage sections and put them into `<Fullpage>`, if you need slides, make them too and put them into some `<FullpageSection>`.
-3. If needed, make `<FullpageSlide>`s and place them inside some `<FullpageSection>`.
+1. Include `import { Fullpage, FullpageSection, FullpageSlide } from 'svelte-fullpage'` into desired page
+2. Make fullpage sections and put them into `<Fullpage>`, if you need slides, make them too and put them into some `<FullpageSection>`
+3. If needed, make `<FullpageSlide>`s and place them inside some `<FullpageSection>`
 
 ### Example code
 
@@ -69,7 +70,7 @@ To make things clear:
 
 If you are not sure how to use this component, take a look at [demo site code](https://github.com/Hejtmus/svelte-fullpage/blob/master/src/routes/%2Bpage.svelte)
 
-### Tweaks
+### Customization
 
 These are options for customizing your fullpage component. In addition to these props feel free to use HTML customization 
 props such as class, style, ....
@@ -85,13 +86,13 @@ less needed scrolling effort. `n` means user have to make scroll delta `1/n` of 
 
 #### FullpageSection
 
-- **title** - `string` - Title of section displayed on hover effect on section indicator
-- **disableCentering** - `string` - Disabled flexbox centering of section's content
+- **title** - `string` default: `sectionIndex` - Title of section displayed on hover effect on section indicator
+- **disableCentering** - `string` default: `false` - Disabled flexbox centering of section's content
 
 #### FullpageSlide
 
-- **title** - `string` - Title of slide displayed on hover effect on slide indicator
-- **disableCentering** - `string` - Disabled flexbox centering of slide's content
+- **title** - `string` default: `sectionIndex` - Title of slide displayed on hover effect on slide indicator
+- **disableCentering** - `string` default: `false` - Disabled flexbox centering of slide's content
 
 ## License
 
