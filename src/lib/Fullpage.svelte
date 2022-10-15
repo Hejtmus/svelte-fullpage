@@ -53,8 +53,8 @@
 
 <style>
     div {
-        height: inherit;
-        width: inherit;
+        height: 100%;
+        width: 100%;
         position: relative;
     }
 </style>
