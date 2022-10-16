@@ -109,8 +109,9 @@
 
 <style>
     div {
-        height: inherit;
-        width: inherit;
+        height: 100%;
+        width: 100%;
+        display: block;
         position: relative;
         overflow: hidden;
         user-select: none;

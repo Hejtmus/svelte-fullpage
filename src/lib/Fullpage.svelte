@@ -43,9 +43,9 @@
     })
 </script>
 
-<div>
+<div {...$$restProps}>
     <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
-                        {disableDragNavigation} {disableArrowsNavigation} {easing} {...$$restProps}>
+                        {disableDragNavigation} {disableArrowsNavigation} {easing}>
         <slot/>
     </FullpageController>
     <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>
@@ -55,6 +55,7 @@
     div {
         height: 100%;
         width: 100%;
+        max-height: 100%;
         position: relative;
     }
 </style>

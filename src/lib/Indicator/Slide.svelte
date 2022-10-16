@@ -15,7 +15,7 @@
 
 <style>
     .svelte-fp-indicator-horizontal {
-        width: inherit;
+        width: 100%;
         height: 5rem;
         overflow: hidden;
         position: absolute;

@@ -37,13 +37,13 @@
     $: isSlidable = $slideCount > 0
 </script>
 
-<section>
+<section {...$$restProps}>
     <FullpageSectionController bind:toSlide {activeSlideStore} {isSlidable} {isActive}
                                {disableCentering} scrollDuration={config.scrollDuration}
                                disableDragNavigation={config.disableDragNavigation}
                                disableArrowsNavigation={config.disableArrowsNavigation}
                                pageRoundingThresholdMultiplier={config.pageRoundingThresholdMultiplier}
-                               easing={config.easing} {...$$restProps}>
+                               easing={config.easing}>
         <slot/>
     </FullpageSectionController>
     {#if isSlidable}
@@ -53,8 +53,8 @@
 
 <style>
     section {
-        height: inherit;
-        width: inherit;
+        height: 100%;
+        width: 100%;
         position: relative;
     }
 </style>
