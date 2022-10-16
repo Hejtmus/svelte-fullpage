@@ -97,7 +97,7 @@
     const handleDragEnd = () => {
         dragging = false
         const hasScrolledLeft = dragStartScroll > section.scrollLeft
-        const scrollDelta = section.scrollLeft % section.clientWidth
+        const scrollDelta = (hasScrolledLeft ? section.scrollLeft - section.clientWidth : section.scrollLeft) % section.clientWidth
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > section.clientWidth / pageRoundingThresholdMultiplier
         if (hasExceededScrollRoundThreshold) {
             hasScrolledLeft ? slideLeft() : slideRight()
