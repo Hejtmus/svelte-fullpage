@@ -5,8 +5,8 @@
     export let activeSection: number
 </script>
 
-<div class="svelte-fp-indicator">
-    <ul class="svelte-fp-indicator-list">
+<div>
+    <ul>
         {#each sections as title, index}
             <Dot {title} {index} bind:activeDot={activeSection} on:goto />
         {/each}
@@ -14,7 +14,7 @@
 </div>
 
 <style>
-    .svelte-fp-indicator {
+    div {
         height: 100%;
         width: auto;
         overflow: hidden;
@@ -27,16 +27,13 @@
         justify-content: center;
         align-items: center;
     }
-    .svelte-fp-indicator-list {
+    ul {
         margin: 1rem;
         padding: 1rem;
         list-style-type: none;
     }
     @media only screen and (max-width: 600px){
-        .svelte-fp-indicator {
-            width: 2rem;
-        }
-        .svelte-fp-indicator-list {
+        ul {
             margin: 0.3rem;
             padding: 0.3rem;
         }

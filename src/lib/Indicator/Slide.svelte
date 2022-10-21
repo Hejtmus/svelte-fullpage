@@ -5,8 +5,8 @@
     export let activeSlide: number
 </script>
 
-<div class="svelte-fp-indicator-horizontal">
-    <ul class="svelte-fp-indicator-list-horizontal">
+<div>
+    <ul>
         {#each slides as title, index}
             <Dot {title} {index} activeDot={activeSlide} on:goto />
         {/each}
@@ -14,9 +14,9 @@
 </div>
 
 <style>
-    .svelte-fp-indicator-horizontal {
+    div {
         width: 100%;
-        height: 5rem;
+        height: auto;
         overflow: hidden;
         position: absolute;
         left: 0;
@@ -26,10 +26,16 @@
         justify-content: center;
         align-items: center;
     }
-    .svelte-fp-indicator-list-horizontal {
+    ul {
         margin: 1rem;
         padding: 1rem;
         list-style-type: none;
         display: flex;
+    }
+    @media only screen and (max-width: 600px){
+        ul {
+            margin: 0.3rem;
+            padding: 0.3rem;
+        }
     }
 </style>
