@@ -3,7 +3,7 @@
 Lightweight fullpage Svelte component.
 
 [![js-standard-style](https://cdn.rawgit.com/standard/standard/master/badge.svg)](http://standardjs.com)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Hejtmus/svelte-fullpage/Node.js%20CI)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Hejtmus/svelte-fullpage/nodejs.yml)
 ![version](https://img.shields.io/npm/v/svelte-fullpage)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/svelte-fullpage)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/svelte-fullpage)
