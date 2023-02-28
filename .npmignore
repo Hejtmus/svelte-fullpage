@@ -1,4 +1,12 @@
 .github
 .gitignore
+.idea
+.svelte-kit
 docs
 node_modules
+src
+static
+.eslintrc.cjs
+svelte.config.js
+tsconfig.json
+vite.config.ts

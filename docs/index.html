@@ -5,16 +5,17 @@
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_page-2ef5b377.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/start-825357b2.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-c99f3c8e.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-429f201b.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-107a78c5.js">
-		<link rel="modulepreload" href="./_app/immutable/components/layout.svelte-1b04d2c9.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-d5a04674.js"><title>Svelte-fullpage</title><!-- HEAD_svelte-1vyuym9 --><!-- HEAD_svelte-1vyuym9 -->
+		<link href="./_app/immutable/assets/_page.c6d27bfe.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.b64daf46.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.d2677542.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.bbc3e4ab.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.f157f874.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.256e5384.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/layout.svelte.e29284a4.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/_page.svelte.176c6f25.js"><title>Svelte-fullpage</title><!-- HEAD_svelte-1vyuym9_START --><!-- HEAD_svelte-1vyuym9_END -->
 	</head>
 	<body>
-	
+
 
 
 
@@ -29,7 +30,7 @@
                         vertical with finger or use arrows to scroll.
                     </p></div></div></div>
 </div>
-    
+
 </section>
     <section class="bg-info svelte-12zlcqb">
 
@@ -49,7 +50,7 @@
                         </p></div></div></div>
 </div>
 </div>
-    
+
 </section>
 
 
@@ -75,7 +76,7 @@
                         to fork it and make pull request.
                     </p></div></div></div>
 </div>
-    
+
 </section>
 </div>
     <div class="svelte-tl5y4n"><ul class="svelte-tl5y4n"></ul>
@@ -83,25 +84,30 @@
 </div>
 
 
-		<script type="module" data-sveltekit-hydrate="nebymx">
-			import { start } from "./_app/immutable/start-825357b2.js";
 
-			start({
-				env: {},
-				hydrate: {
-					status: 200,
-					error: null,
-					node_ids: [0, 2],
-					params: {},
-					routeId: "",
-					data: (function(a,b){return [{type:"data",data:b,uses:{dependencies:a,params:a,parent:a,url:a}},b]}(void 0,null)),
-					form: null
-				},
-				paths: {"base":"","assets":""},
-				target: document.querySelector('[data-sveltekit-hydrate="nebymx"]').parentNode,
-				trailing_slash: "never"
-			});
-		</script>
-	
+			<script>
+				{
+					__sveltekit_aioe8k = {
+						env: {},
+						assets: new URL(".", location.href).pathname.replace(/^\/$/, ''),
+						element: document.currentScript.parentElement
+					};
+
+					const data = [{"type":"data","data":null,"uses":{}},null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.b64daf46.js"),
+						import("./_app/immutable/entry/app.256e5384.js")
+					]).then(([kit, app]) => {
+						kit.start(app, __sveltekit_aioe8k.element, {
+							node_ids: [0, 2],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+
 	</body>
 </html>
