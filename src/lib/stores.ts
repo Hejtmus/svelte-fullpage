@@ -26,6 +26,7 @@ function FullpageActivity(pageCountStore: Writable<number>): FullpageActivitySto
     }
     const toPage = (pageId: number) => {
         if (pageId >= 0 && pageId < pageCount) {
+            activePage = pageId
             set(pageId)
         }
     }
