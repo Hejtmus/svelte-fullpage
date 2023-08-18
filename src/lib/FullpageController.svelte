@@ -101,7 +101,6 @@
     const handleDragEnd = () => {
         if (tapped) return
         dragging = false
-        // quick fix is to add -1 to hasScrolledUp
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
         const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / pageRoundingThresholdMultiplier
