@@ -21,6 +21,9 @@
     let dragPosition = 0
     let dragStartScroll = 0
     let dragging
+    let tapped = false
+    // maybe make this user configurable?
+    let dragThreshold = 50
 
     const scrollUp = () => {
         activeSectionStore.previousPage()
@@ -47,17 +50,18 @@
     }
 
     const handleKey = (event) => {
+        console.log('event.key: ', event.key)
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault()
         }
         if (!disableArrowsNavigation) {
             switch (event.key) {
-            case 'ArrowDown':
-                scrollDown()
-                break
-            case 'ArrowUp':
-                scrollUp()
-                break
+                case 'ArrowDown':
+                    scrollDown()
+                    break
+                case 'ArrowUp':
+                    scrollUp()
+                    break
             }
         }
     }
@@ -81,13 +85,23 @@
     }
     const handleDragging = (event) => {
         if (dragging) {
-            fullpageScroll.set(dragStartScroll - (event.clientY - dragPosition), {
-                duration: 0
-            })
+            const distance = Math.abs(event.clientY - dragPosition);
+            const threshold = distance > (fullpage.clientHeight / dragThreshold);
+
+            if (threshold) {
+                tapped = false;
+                const scrollAmount = dragStartScroll - (event.clientY - dragPosition);
+                fullpageScroll.set(scrollAmount, { duration: 0 });
+            } else {
+                tapped = true;
+            }
         }
-    }
+    };
+
     const handleDragEnd = () => {
+        if (tapped) return
         dragging = false
+        // quick fix is to add -1 to hasScrolledUp
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
         const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / pageRoundingThresholdMultiplier
