@@ -11,6 +11,7 @@
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
     export let easing: (t: number) => number | null = quartOut
+    export let dragThreshold:number = 50
 
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
@@ -38,14 +39,15 @@
             pageRoundingThresholdMultiplier,
             disableDragNavigation,
             disableArrowsNavigation,
-            easing
+            easing,
+            dragThreshold
         }
     })
 </script>
 
 <div {...$$restProps}>
     <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
-                        {disableDragNavigation} {disableArrowsNavigation} {easing}>
+                        {disableDragNavigation} {disableArrowsNavigation} {easing} {dragThreshold}>
         <slot/>
     </FullpageController>
     <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>
