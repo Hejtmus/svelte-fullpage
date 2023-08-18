@@ -9,6 +9,7 @@
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
     export let easing: (t: number) => number
+    export let dragThreshold: number = 50
 
     let fullpage
     const fullpageScroll = tweened(0, {
@@ -22,8 +23,7 @@
     let dragStartScroll = 0
     let dragging
     let tapped = false
-    // maybe make this user configurable?
-    let dragThreshold = 50
+
 
     const scrollUp = () => {
         activeSectionStore.previousPage()
