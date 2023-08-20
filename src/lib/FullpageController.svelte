@@ -55,7 +55,7 @@
         }
         if (!disableArrowsNavigation) {
             switch (event.key) {
-                case 'ArrowDown':
+            case 'ArrowDown':
                     scrollDown()
                     break
                 case 'ArrowUp':
