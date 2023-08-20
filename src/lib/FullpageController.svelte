@@ -60,7 +60,7 @@
                     break
                 case 'ArrowUp':
                 scrollUp()
-                    break
+                break
             }
         }
     }
