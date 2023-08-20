@@ -11,7 +11,7 @@
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
     export let easing: (t: number) => number | null = quartOut
-    export let dragThreshold:number = 50
+    export let dragThreshold: number = 50
 
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
