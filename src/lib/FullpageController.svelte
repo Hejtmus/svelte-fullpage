@@ -58,7 +58,7 @@
             case 'ArrowDown':
                 scrollDown()
                 break
-                case 'ArrowUp':
+            case 'ArrowUp':
                 scrollUp()
                 break
             }
