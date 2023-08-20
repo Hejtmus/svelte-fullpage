@@ -98,7 +98,11 @@
     };
 
     const handleDragEnd = () => {
-        if (tapped) return
+        dragging = false // Has to be set first when drag ends
+        if (tapped) {
+            setScroll()
+            return
+        }
         dragging = false
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
         const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
