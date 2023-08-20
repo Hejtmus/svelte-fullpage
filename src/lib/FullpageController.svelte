@@ -50,7 +50,6 @@
     }
 
     const handleKey = (event) => {
-        console.log('event.key: ', event.key)
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault()
         }
