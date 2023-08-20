@@ -59,7 +59,7 @@
                     scrollDown()
                     break
                 case 'ArrowUp':
-                    scrollUp()
+                scrollUp()
                     break
             }
         }
