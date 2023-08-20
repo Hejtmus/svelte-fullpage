@@ -103,7 +103,6 @@
             setScroll()
             return
         }
-        dragging = false
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
         const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / pageRoundingThresholdMultiplier
