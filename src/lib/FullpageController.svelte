@@ -57,7 +57,7 @@
             switch (event.key) {
             case 'ArrowDown':
                 scrollDown()
-                    break
+                break
                 case 'ArrowUp':
                 scrollUp()
                 break
