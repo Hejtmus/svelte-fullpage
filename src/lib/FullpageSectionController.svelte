@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { FullpageActivityStore } from './stores'
     import { tweened } from 'svelte/motion'
+    import type { easingFunction, FullpageActivityStore, navigationFunction } from '$lib/types'
 
     export let activeSlideStore: FullpageActivityStore
     export let isSlidable: boolean
@@ -10,19 +10,19 @@
     export let scrollDuration: number
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
-    export let pageRoundingThresholdMultiplier: boolean
-    export let easing: (t: number) => number
+    export let pageRoundingThresholdMultiplier: number
+    export let easing: easingFunction
 
-    let section
+    let section: HTMLDivElement
     const sectionScroll = tweened(0, {
         duration: scrollDuration,
         easing
     })
 
     let recentScroll = 0
-    let dragPosition
-    let dragStartScroll
-    let dragging
+    let dragPosition: number
+    let dragStartScroll: number
+    let dragging: boolean
 
     const slideRight = () => {
         activeSlideStore.nextPage()
@@ -34,7 +34,7 @@
         setScroll()
     }
 
-    export const toSlide = (event) => {
+    export const toSlide: navigationFunction = (event) => {
         const slideId = event.detail
         activeSlideStore.toPage(slideId)
         setScroll()
@@ -42,7 +42,7 @@
     const setScroll = () => {
         sectionScroll.set($activeSlideStore * section.clientWidth)
     }
-    const updateSlideScroll = (scroll) => {
+    const updateSlideScroll = (scroll: number) => {
         if (section) {
             requestAnimationFrame(() => {
                 section.scrollLeft = scroll
@@ -51,7 +51,7 @@
     }
 
     // handling arrow event
-    const handleKey = (event) => {
+    const handleKey = (event: KeyboardEvent) => {
         if (!isActive) return
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
             event.preventDefault()
@@ -68,7 +68,7 @@
         }
     }
 
-    const handleWheel = (event) => {
+    const handleWheel = (event: WheelEvent) => {
         const now = Date.now()
         const deltaX = event.deltaX
         if (Math.abs(deltaX) > 20 && now - recentScroll >= scrollDuration) {
@@ -76,18 +76,18 @@
             recentScroll = now
         }
     }
-    const handleWheelEnd = (wheelDelta) => {
+    const handleWheelEnd = (wheelDelta: number) => {
         const hasScrolledLeft = wheelDelta < 0
         hasScrolledLeft ? slideLeft() : slideRight()
     }
 
-    const handleDragStart = (event) => {
+    const handleDragStart = (event: PointerEvent) => {
         if (disableDragNavigation) return
         dragPosition = event.clientX
         dragStartScroll = section.scrollLeft
         dragging = true
     }
-    const handleDragging = (event) => {
+    const handleDragging = (event: PointerEvent) => {
         if (dragging) {
             sectionScroll.set(dragStartScroll - (event.clientX - dragPosition), {
                 duration: 0

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { FullpageActivityStore } from './stores'
     import { tweened } from 'svelte/motion'
+    import type { easingFunction, FullpageActivityStore, navigationFunction } from '$lib/types'
 
     export let activeSectionStore: FullpageActivityStore
     // Configuration
@@ -8,9 +8,9 @@
     export let disableDragNavigation: boolean
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
-    export let easing: (t: number) => number
+    export let easing: easingFunction
 
-    let fullpage
+    let fullpage: HTMLDivElement
     const fullpageScroll = tweened(0, {
         duration: scrollDuration,
         easing
@@ -20,7 +20,7 @@
     let recentScroll = 0
     let dragPosition = 0
     let dragStartScroll = 0
-    let dragging
+    let dragging: boolean
 
     const scrollUp = () => {
         activeSectionStore.previousPage()
@@ -30,7 +30,7 @@
         activeSectionStore.nextPage()
         setScroll()
     }
-    export const toSection = (event) => {
+    export const toSection: navigationFunction = (event) => {
         const sectionId = event.detail
         activeSectionStore.toPage(sectionId)
         setScroll()
@@ -38,7 +38,7 @@
     const setScroll = () => {
         fullpageScroll.set($activeSectionStore * fullpage.clientHeight)
     }
-    const updateFullpageScroll = (scroll) => {
+    const updateFullpageScroll = (scroll: number) => {
         if (fullpage) {
             requestAnimationFrame(() => {
                 fullpage.scrollTop = scroll
@@ -46,7 +46,7 @@
         }
     }
 
-    const handleKey = (event) => {
+    const handleKey = (event: KeyboardEvent) => {
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault()
         }
@@ -61,7 +61,7 @@
             }
         }
     }
-    const handleWheel = (event) => {
+    const handleWheel = (event: WheelEvent) => {
         const now = Date.now()
         const deltaY = event.deltaY
         if (Math.abs(deltaY) > 20 && now - recentScroll >= scrollDuration) {
@@ -69,17 +69,17 @@
             recentScroll = now
         }
     }
-    const handleWheelEnd = (wheelDelta) => {
+    const handleWheelEnd = (wheelDelta: number) => {
         const hasScrolledUp = wheelDelta < 0
         hasScrolledUp ? scrollUp() : scrollDown()
     }
-    const handleDragStart = (event) => {
+    const handleDragStart = (event: PointerEvent) => {
         if (disableDragNavigation) return
         dragPosition = event.clientY
         dragStartScroll = fullpage.scrollTop
         dragging = true
     }
-    const handleDragging = (event) => {
+    const handleDragging = (event: PointerEvent) => {
         if (dragging) {
             fullpageScroll.set(dragStartScroll - (event.clientY - dragPosition), {
                 duration: 0

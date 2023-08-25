@@ -4,20 +4,21 @@
     import { getContext, onMount, setContext } from 'svelte'
     import { FullpageActivity } from './stores'
     import { writable } from 'svelte/store'
+    import type { navigationFunction, SectionContext, SlideContext } from '$lib/types'
 
     export let title = ''
     export let disableCentering = false
 
-    const { registerSection, activeSectionStore, config } = getContext('section')
+    const { registerSection, activeSectionStore, config }: SectionContext = getContext('section')
     const slideCount = writable(0)
     const activeSlideStore = FullpageActivity(slideCount)
 
     let sectionId: number
     let slides: Array<string> = []
-    let toSlide: (event: Event) => void
+    let toSlide: navigationFunction
 
     // Passing data about slide visibility to all slides, same principle as setContext('section',{...}) in Fullpage.svelte
-    setContext('slide', {
+    const slideContext: SlideContext = {
         activeSlideStore,
         registerSlide: (title?: string): void => {
             const id = $slideCount
@@ -27,7 +28,8 @@
                 title || `${id + 1}`
             ]
         }
-    })
+    }
+    setContext('slide', slideContext)
 
     onMount(() => {
         sectionId = registerSection(title)

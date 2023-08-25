@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
     import { getContext, onMount } from 'svelte'
+    import type { SlideContext } from '$lib/types'
 
     export let title = ''
     export let disableCentering = false
-    const { registerSlide } = getContext('slide')
+    const { registerSlide }: Omit<SlideContext, 'activeSlideStore'> = getContext('slide')
 
     // After DOM is ready ged slideId
     onMount(() => {
