@@ -9,6 +9,7 @@
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
     export let easing: (t: number) => number
+    export let dragThreshold: number
 
     let fullpage
     const fullpageScroll = tweened(0, {
@@ -21,6 +22,8 @@
     let dragPosition = 0
     let dragStartScroll = 0
     let dragging
+    let tapped = false
+
 
     const scrollUp = () => {
         activeSectionStore.previousPage()
@@ -81,13 +84,25 @@
     }
     const handleDragging = (event) => {
         if (dragging) {
-            fullpageScroll.set(dragStartScroll - (event.clientY - dragPosition), {
-                duration: 0
-            })
+            const distance = Math.abs(event.clientY - dragPosition);
+            const threshold = distance > (fullpage.clientHeight / dragThreshold);
+
+            if (threshold) {
+                tapped = false;
+                const scrollAmount = dragStartScroll - (event.clientY - dragPosition);
+                fullpageScroll.set(scrollAmount, { duration: 0 });
+            } else {
+                tapped = true;
+            }
         }
-    }
+    };
+
     const handleDragEnd = () => {
-        dragging = false
+        dragging = false // Has to be set first when drag ends
+        if (tapped) {
+            setScroll()
+            return
+        }
         const hasScrolledUp = dragStartScroll > fullpage.scrollTop
         const scrollDelta = (hasScrolledUp ? fullpage.scrollTop - fullpage.clientHeight : fullpage.scrollTop) % fullpage.clientHeight
         const hasExceededScrollRoundThreshold = Math.abs(scrollDelta) > fullpage.clientHeight / pageRoundingThresholdMultiplier
