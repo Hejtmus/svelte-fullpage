@@ -6,7 +6,10 @@ module.exports = {
 	ignorePatterns: ['*.cjs'],
 	overrides: [{
 		files: ['*.svelte'],
-		parser: 'svelte-eslint-parser'
+		parser: 'svelte-eslint-parser',
+		parserOptions: {
+			parser: '@typescript-eslint/parser',
+		},
 	}],
 	settings: {
 		'svelte3/typescript': () => require('typescript')
