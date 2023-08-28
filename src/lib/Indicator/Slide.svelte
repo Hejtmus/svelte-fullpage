@@ -5,8 +5,8 @@
     export let activeSlide: number
 </script>
 
-<div>
-    <ul>
+<div class="svelte-fp-slide-indicator">
+    <ul class="svelte-fp-slide-indicator">
         {#each slides as title, index}
             <Dot {title} {index} activeDot={activeSlide} on:goto />
         {/each}

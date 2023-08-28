@@ -5,8 +5,8 @@
     export let activeSection: number
 </script>
 
-<div>
-    <ul>
+<div class="svelte-fp-section-indicator">
+    <ul class="svelte-fp-section-indicator">
         {#each sections as title, index}
             <Dot {title} {index} bind:activeDot={activeSection} on:goto />
         {/each}
