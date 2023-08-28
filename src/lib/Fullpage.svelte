@@ -12,6 +12,7 @@
     export let disableDragNavigation = false
     export let disableArrowsNavigation = false
     export let easing: easingFunction = quartOut
+    export let showIndicators = true
 
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
@@ -50,7 +51,7 @@
                         {disableDragNavigation} {disableArrowsNavigation} {easing}>
         <slot/>
     </FullpageController>
-    <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>
+    <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection} {showIndicators}/>
 </div>
 
 <style>

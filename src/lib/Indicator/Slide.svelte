@@ -3,9 +3,10 @@
 
     export let slides: Array<string>
     export let activeSlide: number
+    export let showIndicators: boolean
 </script>
 
-<div class="svelte-fp-slide-indicator">
+<div class="svelte-fp-slide-indicator" class:hidden={!showIndicators}>
     <ul class="svelte-fp-slide-indicator">
         {#each slides as title, index}
             <Dot {title} {index} activeDot={activeSlide} on:goto />
@@ -31,6 +32,9 @@
         padding: 1rem;
         list-style-type: none;
         display: flex;
+    }
+    .hidden {
+        display: none;
     }
     @media only screen and (max-width: 600px){
         ul {

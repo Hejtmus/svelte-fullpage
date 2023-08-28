@@ -3,9 +3,10 @@
 
     export let sections: Array<string>
     export let activeSection: number
+    export let showIndicators: boolean
 </script>
 
-<div class="svelte-fp-section-indicator">
+<div class="svelte-fp-section-indicator" class:hidden={!showIndicators}>
     <ul class="svelte-fp-section-indicator">
         {#each sections as title, index}
             <Dot {title} {index} bind:activeDot={activeSection} on:goto />
@@ -31,6 +32,9 @@
         margin: 1rem;
         padding: 1rem;
         list-style-type: none;
+    }
+    .hidden {
+        display: none;
     }
     @media only screen and (max-width: 600px){
         ul {

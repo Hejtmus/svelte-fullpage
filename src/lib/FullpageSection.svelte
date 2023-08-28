@@ -8,6 +8,7 @@
 
     export let title = ''
     export let disableCentering = false
+    export let showIndicators = true
 
     const { registerSection, activeSectionStore, config }: SectionContext = getContext('section')
     const slideCount = writable(0)
@@ -49,7 +50,7 @@
         <slot/>
     </FullpageSectionController>
     {#if isSlidable}
-        <Indicator {slides} activeSlide={$activeSlideStore} on:goto={toSlide}/>
+        <Indicator {slides} activeSlide={$activeSlideStore} on:goto={toSlide} {showIndicators}/>
     {/if}
 </section>
 
