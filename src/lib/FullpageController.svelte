@@ -1,6 +1,10 @@
 <script lang="ts">
     import { tweened } from 'svelte/motion'
-    import type { easingFunction, FullpageActivityStore, navigationFunction } from '$lib/types'
+    import type {
+        easingFunction,
+        FullpageActivityStore,
+        navigationFunction
+    } from '$lib/types'
 
     export let activeSectionStore: FullpageActivityStore
     // Configuration
@@ -9,6 +13,11 @@
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
     export let easing: easingFunction
+    export let externalController
+    externalController.goto = (sectionId: number) => {
+        activeSectionStore.toPage(sectionId)
+        setScroll()
+    }
 
     let fullpage: HTMLDivElement
     const fullpageScroll = tweened(0, {

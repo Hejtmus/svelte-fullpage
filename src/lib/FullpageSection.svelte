@@ -2,7 +2,7 @@
     import FullpageSectionController from './FullpageSectionController.svelte'
     import Indicator from './Indicator/Slide.svelte'
     import { getContext, onMount, setContext } from 'svelte'
-    import { FullpageActivity } from './stores'
+    import { FullpageActivity, FullpageExternalController } from './stores'
     import { writable } from 'svelte/store'
     import type { navigationFunction, SectionContext, SlideContext } from '$lib/types'
 
@@ -12,6 +12,7 @@
     const { registerSection, activeSectionStore, config }: SectionContext = getContext('section')
     const slideCount = writable(0)
     const activeSlideStore = FullpageActivity(slideCount)
+    export const controller = FullpageExternalController(activeSlideStore)
 
     let sectionId: number
     let slides: Array<string> = []
@@ -40,7 +41,7 @@
 </script>
 
 <section {...$$restProps}>
-    <FullpageSectionController bind:toSlide {activeSlideStore} {isSlidable} {isActive}
+    <FullpageSectionController bind:toSlide externalController={controller} {activeSlideStore} {isSlidable} {isActive}
                                {disableCentering} scrollDuration={config.scrollDuration}
                                disableDragNavigation={config.disableDragNavigation}
                                disableArrowsNavigation={config.disableArrowsNavigation}

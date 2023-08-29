@@ -4,8 +4,8 @@
     import { setContext } from 'svelte'
     import { writable } from 'svelte/store'
     import { quartOut } from 'svelte/easing'
-    import { FullpageActivity } from './stores'
-    import type { easingFunction, navigationFunction, SectionContext } from '$lib/types'
+    import { FullpageActivity, FullpageExternalController } from './stores'
+    import type { easingFunction, FullpageExternalControllerStore, navigationFunction, SectionContext } from '$lib/types'
 
     export let scrollDuration = 750
     export let pageRoundingThresholdMultiplier = 8
@@ -15,6 +15,7 @@
 
     const sectionCount = writable(0)
     const activeSectionStore = FullpageActivity(sectionCount)
+    export const controller: FullpageExternalControllerStore = FullpageExternalController(activeSectionStore)
     let sections: Array<string> = []
     let toSection: navigationFunction
 
@@ -46,8 +47,8 @@
 </script>
 
 <div {...$$restProps}>
-    <FullpageController bind:toSection {activeSectionStore} {scrollDuration} {pageRoundingThresholdMultiplier}
-                        {disableDragNavigation} {disableArrowsNavigation} {easing}>
+    <FullpageController bind:toSection externalController={controller} {activeSectionStore} {scrollDuration}
+                        {pageRoundingThresholdMultiplier} {disableDragNavigation} {disableArrowsNavigation} {easing}>
         <slot/>
     </FullpageController>
     <Indicator {sections} activeSection={$activeSectionStore} on:goto={toSection}/>

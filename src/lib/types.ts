@@ -8,6 +8,10 @@ interface FullpageActivityStore extends Readable<number> {
     toPage: (pageId: number) => void
 }
 
+interface FullpageExternalControllerStore extends Readable<number> {
+    goto: (pageId: number) => void
+}
+
 type registerSection = (title?: string) => number
 
 type easingFunction = ((t: number) => number) | undefined
@@ -36,6 +40,7 @@ interface SlideContext {
 export type {
     navigationFunction,
     FullpageActivityStore,
+    FullpageExternalControllerStore,
     registerSection,
     easingFunction,
     SectionContext,

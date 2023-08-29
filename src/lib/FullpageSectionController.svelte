@@ -12,6 +12,11 @@
     export let disableArrowsNavigation: boolean
     export let pageRoundingThresholdMultiplier: number
     export let easing: easingFunction
+    export let externalController
+    externalController.goto = (sectionId: number) => {
+        activeSlideStore.toPage(sectionId)
+        setScroll()
+    }
 
     let section: HTMLDivElement
     const sectionScroll = tweened(0, {

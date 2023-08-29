@@ -1,5 +1,5 @@
 import { writable, type Writable } from 'svelte/store'
-import type { FullpageActivityStore } from '$lib/types'
+import type { FullpageActivityStore, FullpageExternalControllerStore } from '$lib/types'
 
 function FullpageActivity (pageCountStore: Writable<number>): FullpageActivityStore {
     let activePage = 0
@@ -34,7 +34,19 @@ function FullpageActivity (pageCountStore: Writable<number>): FullpageActivitySt
     }
 }
 
+function FullpageExternalController (fullpageActivityStore: FullpageActivityStore): FullpageExternalControllerStore {
+    const { subscribe } = fullpageActivityStore
+    const goto = (pageId: number) => {
+        console.error(`FullpageExternalController.goto(${pageId}) is not implemented, wait for components to be mounted`)
+    }
+    return {
+        subscribe,
+        goto
+    }
+}
+
 export {
-    FullpageActivity
+    FullpageActivity,
+    FullpageExternalController
 }
 
