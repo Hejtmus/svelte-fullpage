@@ -69,7 +69,7 @@
                     <div class="col">
                         <h1>Usage example</h1>
                         <p>
-                            Look at <a href="https://github.com/Hejtmus/svelte-fullpage/blob/master/src/routes/%2Bpage.sveltea">source code</a>
+                            Look at <a href="https://github.com/Hejtmus/svelte-fullpage/blob/master/src/routes/%2Bpage.svelte">source code</a>
                             of this very page to see how to use this component, and thus inspire yourself.
                         </p>
                     </div>
