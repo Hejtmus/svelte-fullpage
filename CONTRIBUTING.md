@@ -22,8 +22,19 @@ has to be kept at least until major release. So, if you are not sure about your 
 
 ## Testing
 
-For now, this lib is missing automated testing, so please test your code manually before creating, and also compare new behavior
-with old behavior of this lib, so you can at leas partially see, whether you change did not create any side effects.
+```bash
+npm test            # both suites
+npm run test:unit   # vitest: the modules and the components, in jsdom
+npm run test:e2e    # playwright: the demo page in a real browser
+```
+
+The split matters here. jsdom has no layout, no scrolling and no frames, so the unit suite can
+only check the mechanism — what the components register, what they ask the browser to do. Anything
+about scrolling, snapping, pointer gestures or animation has to be an end to end test against the
+demo page, where a real browser actually does it. Bugs in this library live on that side of the
+line, so put a playwright test on any change to dragging, settling or snapping.
+
+The first playwright run needs its browser: `npx playwright install --with-deps chromium`.
 
 ## Documentation
 
