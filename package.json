@@ -1,13 +1,14 @@
 {
   "name": "svelte-fullpage",
-  "version": "1.1.1",
+  "version": "2.0.0-alpha.0",
   "license": "MIT",
   "author": {
-    "name": "Filip Holčík",
+    "name": "Filip Hol\u010d\u00edk",
     "email": "filip.holcik.official@gmail.com"
   },
   "repository": "https://github.com/Hejtmus/svelte-fullpage",
   "homepage": "https://hejtmus.github.io/svelte-fullpage/",
+  "description": "Lightweight fullpage scroll-snap library for Svelte 5",
   "import": "./dist/index.js",
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,51 +17,59 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "prepare": "svelte-kit sync || echo ''",
     "dev": "vite dev --host",
     "build": "vite build",
+    "preview": "vite preview",
     "package": "svelte-package",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint ./src ./tests",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
     "version:major": "npm version major --no-git-tag-version",
-    "version:prerelease": "npm version prerelease --preid=alpha --no-git-tag-version",
-    "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "eslint --ignore-path .gitignore ."
+    "version:prerelease": "npm version prerelease --preid=alpha --no-git-tag-version"
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^2.0.3",
-    "@sveltejs/kit": "^1.23.0",
-    "@sveltejs/package": "^2.1.1",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.1",
-    "eslint": "^8.47.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-svelte": "^2.33.0",
-    "svelte": "^4.2.0",
-    "svelte-check": "^3.5.0",
-    "svelte-preprocess": "^5.0.4",
-    "svelte2tsx": "^0.6.20",
-    "tslib": "^2.6.2",
-    "typescript": "^5.2.2"
+    "@playwright/test": "^1.63.0",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.50.2",
+    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@testing-library/svelte": "^5.2.8",
+    "eslint": "^9.39.5",
+    "eslint-plugin-svelte": "^3.23.0",
+    "jsdom": "^30.0.1",
+    "neostandard": "^0.13.0",
+    "svelte": "^5.44.1",
+    "svelte-check": "^4.4.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
   },
   "peerDependencies": {
-    "svelte": "^3.0.0 || ^4.0.0 || ^5.0.0"
+    "svelte": "^5.0.0"
   },
   "keywords": [
     "svelte",
-    "sapper",
-    "ssr",
+    "sveltekit",
     "fullpage",
-    "fullscroll",
-    "full",
-    "page",
+    "scroll-snap",
+    "sections",
+    "slides",
+    "ssr",
     "scroll"
   ],
   "type": "module"
