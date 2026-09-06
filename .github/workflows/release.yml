@@ -1,0 +1,95 @@
+# Releases the package whenever the version field in package.json changes.
+# Bump the version with `npm run version:patch` (or minor/major/prerelease),
+# commit and push it, and this workflow tags, releases and publishes it.
+#
+# Authentication uses npm trusted publishing (OIDC) — no tokens are involved.
+# For more information see: https://docs.npmjs.com/trusted-publishers
+
+name: Release
+
+on:
+  push:
+    branches: [master]
+    paths: [package.json]
+
+jobs:
+  # A version is considered unreleased as long as no tag exists for it, which
+  # makes this safe to re-run and tolerant of several commits arriving at once
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      unreleased: ${{ steps.tag.outputs.unreleased }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Read version from package.json
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # Tags carry the bare version, matching the existing 1.1.1, 1.0.10, ... tags
+      - name: Look for an existing tag
+        id: tag
+        run: |
+          if git rev-parse "${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "unreleased=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "unreleased=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  release:
+    needs: check-version
+    if: needs.check-version.outputs.unreleased == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      VERSION: ${{ needs.check-version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # registry-url is deliberately omitted: it makes setup-node write an
+      # _authToken line into .npmrc, which npm reads as "auth is configured"
+      # and then never starts the OIDC exchange.
+      - name: Install node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      # Node 22 bundles npm 10, trusted publishing needs npm 11.5.1 or later
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build svelte library
+        run: npm run package
+
+      # Provenance attestations are generated automatically when publishing
+      # through trusted publishing, so --provenance is not needed.
+      # Prerelease versions carry a hyphen (1.2.0-alpha.0) and go out under
+      # the next tag so they never become the default install.
+      - name: Publish package
+        run: |
+          if [[ "$VERSION" == *-* ]]; then
+            npm publish --access public --tag next
+          else
+            npm publish --access public
+          fi
+
+      # Runs last so a failed publish leaves no tag behind and can be retried
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ "$VERSION" == *-* ]]; then
+            gh release create "$VERSION" --title "$VERSION" --generate-notes --prerelease
+          else
+            gh release create "$VERSION" --title "$VERSION" --generate-notes
+          fi
