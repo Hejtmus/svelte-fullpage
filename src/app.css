@@ -1,0 +1,91 @@
+:root {
+    --surface: #0f172a;
+    --surface-soft: #1e293b;
+    --text: #f8fafc;
+    --accent: #ff3e00;
+    --chrome-height: 4rem;
+
+    /* One colour per section, so every boundary is obvious while scrolling */
+    --tint-intro: #0f172a;
+    --tint-slides: #0b4f6c;
+    --tint-document: #4c1d95;
+    --tint-hijacking: #7f1d1d;
+    --tint-links: #14532d;
+    --edge: 3px solid rgb(248 250 252 / 0.55);
+
+    /* The library only ships custom properties, so the indicators take the site palette */
+    --fullpage-indicator-color: rgb(248 250 252 / 0.35);
+    --fullpage-indicator-active-color: var(--accent);
+    --fullpage-indicator-focus-ring: 2px solid var(--accent);
+
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    color: var(--accent);
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    border: 1px solid rgb(248 250 252 / 0.3);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: transparent;
+    cursor: pointer;
+}
+
+button:hover {
+    border-color: var(--accent);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Each section paints itself and draws the line to the next one */
+.fullpage-section {
+    border-block-end: var(--edge);
+}
+
+.section-intro {
+    background: var(--tint-intro);
+}
+
+.section-slides {
+    background: var(--tint-slides);
+}
+
+.section-document-scroll {
+    background: var(--tint-document);
+}
+
+.section-no-hijacking {
+    background: var(--tint-hijacking);
+}
+
+.section-deep-links {
+    background: var(--tint-links);
+}
+
+/* Slides are tinted against their section and separated the same way */
+.fullpage-slide {
+    border-inline-end: var(--edge);
+}
+
+.fullpage-slide[data-index='1'] {
+    background: rgb(0 0 0 / 0.18);
+}
+
+.fullpage-slide[data-index='2'] {
+    background: rgb(0 0 0 / 0.34);
+}
