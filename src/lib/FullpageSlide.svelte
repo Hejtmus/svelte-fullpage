@@ -1,31 +1,33 @@
 <script lang="ts">
-    import { getContext, onMount } from 'svelte'
-    import type { SlideContext } from '$lib/types'
+    import { consumeSlides } from './context'
+    import type { FullpageSlideProps } from './types'
 
-    export let title = ''
-    export let disableCentering = false
-    const { registerSlide }: Omit<SlideContext, 'activeSlideStore'> = getContext('slide')
+    const slides = consumeSlides()
+    const generatedId = $props.id()
 
-    // After DOM is ready ged slideId
-    onMount(() => {
-        registerSlide(title)
+    let { id = generatedId, title = '', class: className, children, ...rest }: FullpageSlideProps = $props()
+
+    let element: HTMLElement | null = $state(null)
+
+    $effect(() => {
+        if (!element) return
+        return slides.register({ id, title, element })
     })
+
+    const index = $derived(slides.pages.findIndex(page => page.id === id))
+    const isActive = $derived(slides.activeId === id)
 </script>
 
-<div class:svelte-fp-flexbox-center={!disableCentering} {...$$restProps}>
-    <slot/>
+<div bind:this={element} {id} data-index={index} data-active={isActive} {...rest}
+    class={['fullpage-slide', className]}>
+    {@render children()}
 </div>
 
 <style>
-    div {
-        height: 100%;
-        width: 100%;
-        min-width: 100%;
-        position: relative;
-    }
-    .svelte-fp-flexbox-center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .fullpage-slide {
+        flex: 0 0 100%;
+        inline-size: 100%;
+        min-inline-size: 100%;
+        scroll-snap-align: start;
     }
 </style>

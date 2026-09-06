@@ -1,49 +1,94 @@
-import type { Readable } from 'svelte/store'
+import type { Snippet } from 'svelte'
+import type { HTMLAttributes } from 'svelte/elements'
 
-type navigationFunction = (event: CustomEvent) => void
-
-interface FullpageActivityStore extends Readable<number> {
-    previousPage: () => void,
-    nextPage: () => void,
-    toPage: (pageId: number) => void
+/** A registered section or slide. Registration is keyed by `id`, never by mount order. */
+interface Page {
+    id: string,
+    title: string,
+    element: HTMLElement
 }
 
-interface FullpageExternalControllerStore extends Readable<number> {
-    goto: (pageId: number) => void
-}
+type Axis = 'y' | 'x'
 
-type registerSection = (title?: string) => number
+/** Where the scrolling happens: the document itself (default) or the component's own box. */
+type Scroller = 'document' | 'self'
 
-type easingFunction = ((t: number) => number) | undefined
+type Snap = 'mandatory' | 'proximity' | 'none'
 
+type PageChangeHandler = (page: Page, index: number) => void
+
+/** Settings a `<Fullpage>` hands down to its sections. */
 interface FullpageConfig {
-    scrollDuration: number,
-    pageRoundingThresholdMultiplier: number,
-    disableDragNavigation: boolean,
-    disableArrowsNavigation: boolean,
-    easing: easingFunction
+    readonly drag: boolean
 }
 
-interface SectionContext {
-    registerSection: registerSection,
-    activeSectionStore: FullpageActivityStore,
-    config: FullpageConfig
+/** Section navigation, from `useFullpage()` or from `bind:this` on `<Fullpage>`. */
+interface FullpageApi {
+    readonly sections: readonly Page[],
+    readonly activeSection: Page | null,
+    readonly activeIndex: number,
+    goTo: (target: string | number) => void,
+    next: () => void,
+    previous: () => void
 }
 
-type registerSlide = (title?: string) => void
+/** Slide navigation, from `useFullpageSection()` or from `bind:this` on `<FullpageSection>`. */
+interface SectionApi {
+    readonly slides: readonly Page[],
+    readonly activeSlide: Page | null,
+    readonly activeIndex: number,
+    goTo: (target: string | number) => void,
+    next: () => void,
+    previous: () => void
+}
 
-interface SlideContext {
-    activeSlideStore: FullpageActivityStore,
-    registerSlide: registerSlide,
+interface FullpageProps extends HTMLAttributes<HTMLDivElement> {
+    scroller?: Scroller,
+    snap?: Snap,
+    /** CSS length kept clear at the top of every section, for a fixed site header. */
+    scrollPadding?: string,
+    /** Let a mouse drag scroll the sections, and the slides of every section. */
+    drag?: boolean,
+    indicators?: boolean,
+    indicatorLabel?: string,
+    /** Reflect the active section into `location.hash` and honour the hash on load. */
+    hash?: boolean,
+    /**
+     * Writes the hash in place of the built in `history.replaceState`. SvelteKit apps pass
+     * `replaceState` from `$app/navigation`, so the router keeps owning the history stack.
+     */
+    replaceHash?: (hash: string) => void,
+    onSectionChange?: PageChangeHandler,
+    children: Snippet
+}
+
+interface FullpageSectionProps extends HTMLAttributes<HTMLElement> {
+    id?: string,
+    title?: string,
+    /** Let a mouse drag scroll this section's slides. Inherited from `<Fullpage>`. */
+    drag?: boolean,
+    indicators?: boolean,
+    indicatorLabel?: string,
+    onSlideChange?: PageChangeHandler,
+    children: Snippet
+}
+
+interface FullpageSlideProps extends HTMLAttributes<HTMLDivElement> {
+    id?: string,
+    title?: string,
+    children: Snippet
 }
 
 export type {
-    navigationFunction,
-    FullpageActivityStore,
-    FullpageExternalControllerStore,
-    registerSection,
-    easingFunction,
-    SectionContext,
-    registerSlide,
-    SlideContext
+    Page,
+    FullpageConfig,
+    Axis,
+    Scroller,
+    Snap,
+    PageChangeHandler,
+    FullpageApi,
+    SectionApi,
+    FullpageProps,
+    FullpageSectionProps,
+    FullpageSlideProps
 }
